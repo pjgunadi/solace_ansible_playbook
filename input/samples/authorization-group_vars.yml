@@ -1,0 +1,8 @@
+---
+authorization_groups:
+- name: ou=groups,cn=mygroup
+  msg_vpn: paulus_vpn
+  enabled: true
+  aclProfileName: paulus_acl
+  clientProfileName: paulus_cp
+  # state: absent

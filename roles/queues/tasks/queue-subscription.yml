@@ -1,0 +1,14 @@
+---
+- name: Queue Subscription
+  solace_queue_subscription:
+    msg_vpn: "{{item.0.msg_vpn}}"
+    queue: "{{item.0.name}}"
+    topic: "{{item.1}}"
+  when: (item.0.state is undefined) or (item.0.state is defined and item.0.state != "absent")
+  loop: "{{queues|subelements('subscription_topics',skip_missing=true)}}"
+  register: qs_output
+
+- name: Queue Subscription Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ qs_output.results }}"

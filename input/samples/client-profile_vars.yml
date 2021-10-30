@@ -1,0 +1,10 @@
+---
+client_profiles:
+- name: test_cp1
+  msg_vpn: paulus_vpn
+  allowGuaranteedMsgSendEnabled: true
+  allowGuaranteedMsgReceiveEnabled: true
+  # allowGuaranteedEndpointCreateEnabled: false
+  # allowBridgeConnectionEnabled: false
+  # allowSharedSubscriptionsEnabled: false
+  # state: absent

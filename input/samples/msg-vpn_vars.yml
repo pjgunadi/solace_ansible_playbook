@@ -1,0 +1,10 @@
+---
+vpns:
+- msg_vpn: test_vpn
+  enabled: true
+  authenticationBasicType: internal
+  # serviceAmqpPlainTextEnabled: true
+  # serviceAmqpPlainTextListenPort: 5672
+  # serviceAmqpTlsEnabled: false
+  # serviceAmqpTlsListenPort: 5671
+  # state: absent

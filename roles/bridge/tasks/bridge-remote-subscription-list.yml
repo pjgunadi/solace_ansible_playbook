@@ -1,0 +1,19 @@
+---
+- name: Remote Subscription List
+  solace_bridge_remote_subscriptions:
+    bridge_name: "{{ item.0.name }}"
+    msg_vpn: "{{item.0.msg_vpn}}"
+    remote_subscription_topics: "{{ item.1.topics | default([]) }}"
+    settings:
+      deliverAlwaysEnabled: "{{ item.1.deliverAlwaysEnabled | default(false) }}"
+    state: "{% if idx == 0 %}exactly{%else%}{{item.1.state | default(omit)}}{%endif%}"
+  when: (item.0.state is undefined) or (item.0.state is defined and item.0.state != "absent")
+  loop: "{{bridges | subelements('remote_subscriptions',skip_missing=true)}}"
+  loop_control:
+    index_var: idx
+  register: rs_output
+
+- name: Remote Subscription List Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ rs_output.results }}"

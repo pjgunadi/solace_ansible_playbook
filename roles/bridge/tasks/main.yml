@@ -1,0 +1,11 @@
+---
+- name: Create, Update, Delete ACL Bridge
+  import_tasks: bridge.yml
+
+- name: Bridge Remote VPN
+  import_tasks: bridge-remote-vpn.yml
+
+- name: Bridge Remote Subscription List
+  import_tasks: bridge-remote-subscription-list.yml
+
+

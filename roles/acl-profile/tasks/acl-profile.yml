@@ -1,0 +1,18 @@
+---
+- name: Add ACL Profile
+  solace_acl_profile:
+    name: "{{item.name}}"
+    msg_vpn: "{{item.msg_vpn}}"
+    settings:
+      clientConnectDefaultAction: "{{item.clientConnectDefaultAction | default(omit)}}"
+      publishTopicDefaultAction: "{{item.publishTopicDefaultAction | default(omit)}}"
+      subscribeTopicDefaultAction: "{{item.subscribeTopicDefaultAction | default(omit)}}"
+      subscribeShareNameDefaultAction: "{{item.subscribeShareNameDefaultAction | default(omit)}}"
+    state: "{{item.state | default('present')}}"
+  loop: "{{acl_profiles}}"
+  register: acl_output
+
+- name: ACL Profile Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ acl_output.results }}"

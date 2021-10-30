@@ -1,0 +1,21 @@
+---
+- name: Queue
+  solace_queue:
+    name: "{{item.name}}"
+    msg_vpn: "{{item.msg_vpn}}"
+    settings:
+      accessType: "{{item.accessType | default(omit)}}"
+      egressEnabled: "{{item.egressEnabled | default(omit)}}"
+      ingressEnabled: "{{item.ingressEnabled | default(omit)}}"
+      maxMsgSpoolUsage: "{{item.maxMsgSpoolUsage | default(omit)}}"
+      owner: "{{item.owner | default(omit)}}"
+      permission: "{{item.permission | default(omit)}}"
+    state: "{{item.state | default('present')}}"
+  loop: "{{queues}}"
+  register: q_output
+
+- name: Queue Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ q_output.results }}"
+

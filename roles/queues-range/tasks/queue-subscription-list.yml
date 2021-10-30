@@ -1,0 +1,15 @@
+---
+- name: Queue Subscriptions List
+  solace_queue_subscriptions:
+    msg_vpn: "{{item.0.msg_vpn}}"
+    queue_name: "{{item.0.name+'%03d' | format(item.1) }}"
+    subscription_topics: "{{ item.0.subscription_topics | default([])}}"
+    state: exactly
+  when: (item.0.state is undefined) or (item.0.state is defined and item.0.state != "absent")
+  loop: "{{ queues | product(range(start_number, end_number + 1))|list }}"
+  register: qsl_output
+
+- name: Queue Subscription List Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ qsl_output.results }}"

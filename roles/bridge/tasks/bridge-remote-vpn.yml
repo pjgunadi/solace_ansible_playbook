@@ -1,0 +1,28 @@
+---
+- name: Remote Message VPN to Bridge
+  solace_bridge_remote_vpn:
+    msg_vpn: "{{item.0.msg_vpn}}"
+    bridge_name: "{{item.0.name}}"
+    bridge_virtual_router: "{{item.1.bridge_virtual_router | default(omit)}}"
+    remote_msg_vpn_name: "{{ item.1.remote_msg_vpn_name }}"
+    remote_vpn_location: "{{ item.1.remote_vpn_location }}"
+    settings:
+      enabled: "{{item.1.enabled | default(omit)}}"
+      clientUsername: "{{item.1.clientUsername | default(omit)}}"
+      password: "{{item.1.password | default(omit)}}"
+      compressedDataEnabled: "{{item.1.compressedDataEnabled | default(omit)}}"
+      tlsEnabled: "{{item.1.tlsEnabled | default(omit)}}"
+      connectOrder: "{{item.1.connectOrder | default(omit)}}"
+      queueBinding: "{{item.1.queueBinding | default(omit)}}"
+      egressFlowWindowSize: "{{item.1.egressFlowWindowSize | default(omit)}}"
+      unidirectionalClientProfile: "{{item.1.unidirectionalClientProfile | default(omit)}}"
+    state: "{{item.1.state | default('present')}}"
+  when: (item.0.state is undefined) or (item.0.state is defined and item.0.state != "absent")
+  loop: "{{bridges | subelements('remote_message_vpns',skip_missing=true)}}"
+  register: brvpn_output
+
+- name: Remote Message VPN Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ brvpn_output.results }}"
+

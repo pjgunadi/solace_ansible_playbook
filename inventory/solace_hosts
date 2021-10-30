@@ -1,0 +1,13 @@
+all:
+  children:
+    intranet:
+      hosts:
+        solace-c1:
+          broker_type: standalone
+          ansible_connection: local
+          sempv2_host: solace-c1
+          sempv2_port: 1943
+          sempv2_is_secure_connection: true
+          # sempv2_username: default
+          # sempv2_password: default
+          sempv2_timeout: '60'

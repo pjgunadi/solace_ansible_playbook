@@ -1,0 +1,18 @@
+---
+- name: Add Client Username
+  solace_client_username:
+    name: "{{item.name}}"
+    msg_vpn: "{{item.msg_vpn}}"
+    settings:
+      enabled: "{{item.enabled | default(omit)}}"
+      aclProfileName: "{{item.aclProfileName | default(omit)}}"
+      clientProfileName: "{{item.clientProfileName | default(omit)}}"
+      password: "{{item.password | default(omit)}}"
+    state: "{{item.state | default('present')}}"
+  loop: "{{client_usernames}}"
+  register: cu_output
+
+- name: Client Username Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ cu_output.results }}"

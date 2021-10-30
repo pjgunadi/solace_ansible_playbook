@@ -1,0 +1,39 @@
+---
+acl_profiles:
+- name: test_acl1
+  msg_vpn: paulus_vpn
+  clientConnectDefaultAction: disallow
+  publishTopicDefaultAction: disallow
+  subscribeTopicDefaultAction: disallow
+  # subscribeShareNameDefaultAction: allow
+  # state: absent
+  client_connect_exceptions:
+  # - addresses: []
+  - addresses:
+    - "192.168.100.0/24"
+    - "192.168.200.0/24"
+  publish_topic_exceptions:
+  # - topics: []
+  # - topics:
+  #   - "topicA"
+  #   - "topicB"
+  - topic_syntax: smf
+    # topics: []
+    topics:
+    - "topicA"
+    - "topicB"
+  - topic_syntax: mqtt
+    # topics: []
+    topics:
+    - "topic1"
+    - "topic2"
+  subscribe_topic_exceptions:
+  # - topics: []
+  - topics:
+    - "topicC"
+    - "topicD"
+  # subscribe_share_name_exceptions:
+  # # - topics: []
+  # - topics:
+  #   - "topicE"
+  #   - "topicF"

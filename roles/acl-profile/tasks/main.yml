@@ -1,0 +1,15 @@
+---
+- name: Create, Update, Delete ACL Profile
+  import_tasks: acl-profile.yml
+
+- name: ACL Client Connect Exception List
+  import_tasks: acl-client-connect-exception-list.yml
+
+- name: ACL Publish Topic Exception List
+  import_tasks: acl-publish-topic-exception-list.yml
+
+- name: ACL Subscribe Topic Exception List
+  import_tasks: acl-subscribe-topic-exception-list.yml
+
+- name: ACL Subscribe Share Name Exception List
+  import_tasks: acl-subscribe-share-name-exception-list.yml

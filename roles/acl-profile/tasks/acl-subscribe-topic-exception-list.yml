@@ -1,0 +1,18 @@
+---
+- name: Subscribe Topic Exceptions List to ACL Profile
+  solace_acl_subscribe_topic_exceptions:
+    acl_profile_name: "{{item.0.name}}"
+    msg_vpn: "{{item.0.msg_vpn}}"
+    topics: "{{item.1.topics | default([])}}"
+    topic_syntax: "{{item.1.topic_syntax | default('smf')}}"
+    state: "{% if idx == 0 %}exactly{%else%}{{item.1.state | default(omit)}}{%endif%}"
+  when: (item.0.state is undefined) or (item.0.state is defined and item.0.state != "absent")
+  loop: "{{acl_profiles | subelements('subscribe_topic_exceptions',skip_missing=true)}}"
+  loop_control:
+    index_var: idx
+  register: acl_output
+
+- name: Subscribe Topic Exceptions List Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ acl_output.results }}"

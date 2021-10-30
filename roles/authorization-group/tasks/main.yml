@@ -1,0 +1,17 @@
+---
+- name: Authorization Group
+  solace_authorization_group:
+    name: "{{item.name}}"
+    msg_vpn: "{{item.msg_vpn}}"
+    settings:
+      enabled: "{{item.enabled}}"
+      aclProfileName: "{{item.aclProfileName}}"
+      clientProfileName: "{{item.clientProfileName}}"
+    state: "{{item.state | default('present')}}"
+  loop: "{{authorization_groups}}"
+  register: ag_output
+
+- name: Authorization Group Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ ag_output.results }}"

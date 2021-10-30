@@ -1,0 +1,9 @@
+---
+- name: Create, Update, Delete Queue
+  import_tasks: queue.yml
+
+# - name: Queue Subscription List
+#   import_tasks: queue-subscription-list.yml
+
+- name: Queue Subscription
+  import_tasks: queue-subscription.yml

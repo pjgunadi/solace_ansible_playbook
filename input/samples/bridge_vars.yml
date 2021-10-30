@@ -1,0 +1,29 @@
+---
+bridges:
+- name: local_bridge1
+  msg_vpn: paulus_vpn
+  enabled: true
+  remoteAuthenticationScheme: basic
+  # remoteAuthenticationBasicClientUsername: default
+  # remoteAuthenticationBasicPassword: default
+  # remoteAuthenticationScheme: client-certificate
+  # remoteAuthenticationClientCertContent:
+  # remoteAuthenticationClientCertPassword:
+  # state: absent
+  remote_message_vpns:
+  - remote_msg_vpn_name: test_vpn
+    remote_vpn_location: v:solace_c1
+    enabled: true
+    # clientUsername: default
+    # password: default
+    compressedDataEnabled: false
+    tlsEnabled: false
+    queueBinding: remote_queue1
+    # state: absent
+  remote_subscriptions:
+  # - topics: []
+  - topics: 
+    - "remoteTopic1"
+    - "remoteTopic2"
+    # deliverAlwaysEnabled: true
+
