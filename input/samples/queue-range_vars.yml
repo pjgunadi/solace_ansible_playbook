@@ -1,6 +1,8 @@
 ---
 start_number: 0
 end_number: 10
+stride: 2
+padding: 0
 queues:
 - name: "test/sequence1/q"
   msg_vpn: "paulus_vpn"
@@ -8,10 +10,10 @@ queues:
   ingressEnabled: true
   maxMsgSpoolUsage: 10000
   subscription_topic_prefix: "topicA/sub*/s"
-  # state: absent
+  state: present
 - name: "test/sequence2/q"
   msg_vpn: "paulus_vpn"
   egressEnabled: true
   ingressEnabled: true
   maxMsgSpoolUsage: 10000
-  # state: absent
+  state: present

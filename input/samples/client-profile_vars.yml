@@ -5,6 +5,6 @@ client_profiles:
   allowGuaranteedMsgSendEnabled: true
   allowGuaranteedMsgReceiveEnabled: true
   # allowGuaranteedEndpointCreateEnabled: false
-  # allowBridgeConnectionEnabled: false
+  # allowBridgeConnectionsEnabled: false
   # allowSharedSubscriptionsEnabled: false
   # state: absent

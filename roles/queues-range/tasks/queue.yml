@@ -1,6 +1,23 @@
 ---
 - name: Queue Range
   solace_queue:
+    name: "{{item.0.name+'%d' | format(item.1) }}"
+    msg_vpn: "{{item.0.msg_vpn}}"
+    settings:
+      accessType: "{{item.0.accessType | default(omit)}}"
+      egressEnabled: "{{item.0.egressEnabled | default(omit)}}"
+      ingressEnabled: "{{item.0.ingressEnabled | default(omit)}}"
+      maxMsgSpoolUsage: "{{item.0.maxMsgSpoolUsage | default(omit)}}"
+      owner: "{{item.0.owner | default(omit)}}"
+      permission: "{{item.0.permission | default(omit)}}"
+    state: "{{item.0.state | default('present')}}"
+  when: padding == 0
+  loop: "{{ queues | product(range(start_number, end_number + 1, stride))|list }}"
+  # loop: "{{ queues | product(range(start_number, end_number + 1))|list }}"
+  register: q_output
+
+- name: Queue Range 3 Padding
+  solace_queue:
     name: "{{item.0.name+'%03d' | format(item.1) }}"
     msg_vpn: "{{item.0.msg_vpn}}"
     settings:
@@ -11,7 +28,9 @@
       owner: "{{item.0.owner | default(omit)}}"
       permission: "{{item.0.permission | default(omit)}}"
     state: "{{item.0.state | default('present')}}"
-  loop: "{{ queues | product(range(start_number, end_number + 1))|list }}"
+  when: padding == 3
+  loop: "{{ queues | product(range(start_number, end_number + 1, stride))|list }}"
+  # loop: "{{ queues | product(range(start_number, end_number + 1))|list }}"
   register: q_output
 
 - name: Queue Range Result

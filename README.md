@@ -31,7 +31,7 @@ Running this script requires understanding of Solace PubSub+ configuration and i
 ## Apply Playbook
 Use the provided apply-config.sh shell script:
 ```
-./apply-config.sh <broker-name> <run-book-name> <variable-file-name> <vault-password>
+./apply-config.sh <broker-name> <play-book-name> <variable-file-name> <vault-password>
 ```
 or run manually with ansible-playbook command:
 ```

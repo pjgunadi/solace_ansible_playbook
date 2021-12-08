@@ -2,7 +2,9 @@
 vpns:
 - msg_vpn: test_vpn
   enabled: true
-  authenticationBasicType: internal
+  authenticationBasicType: ldap
+  authenticationBasicProfileName: "myprofile"
+  authenticationClientCertEnabled: true
   # serviceAmqpPlainTextEnabled: true
   # serviceAmqpPlainTextListenPort: 5672
   # serviceAmqpTlsEnabled: false
