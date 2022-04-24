@@ -33,12 +33,13 @@ Use the provided apply-config.sh shell script:
 ```
 ./apply-config.sh <broker-name> <play-book-name> <input-file> <vault-password>
 ```
-**broker-name**: Solace broker name configured at [inventory/solace_hosts](./inventory/solace_hosts)
-**play-book-name**: playbook name at [playbooks](./playbooks) directory without prefix `_pb.yml`. Example: `msg-vpn` will obtain playbook file at `playbooks/msg-vpn_pb.yml`
-**input-file**: input file relative path from [input](./input) directory. Example: `yml/msg-vpn_vars.yml` will obtain input file at `input/yml/msg-vpn_vars.yml`
-**vault-password**: ansible vault password for decrypt encrypted configurations
+**Description**:
+- **broker-name**: Solace broker name configured at [inventory/solace_hosts](./inventory/solace_hosts)
+- **play-book-name**: playbook name at [playbooks](./playbooks) directory without prefix `_pb.yml`. Example: `msg-vpn` will obtain playbook file at `playbooks/msg-vpn_pb.yml`
+- **input-file**: input file relative path from [input](./input) directory. Example: `yml/msg-vpn_vars.yml` will obtain input file at `input/yml/msg-vpn_vars.yml`
+- **vault-password**: ansible vault password for decrypt encrypted configurations
 
-Message VPN and Queue playbooks contains tags to disable AMQP service and disable ingress required when changing AMQP port and queue permissions. To apply runbook without disabling AMQP and Queues apply runbook with `apply-config-untagged.sh`:
+Message VPN and Queue playbooks contains tasks for disabling AMQP service and egress Queue. The tasks are required when changing AMQP port and queue permissions. To apply runbook without disabling AMQP and egress Queues, apply runbook with `apply-config-untagged.sh`:
 ```
 ./apply-config-untagged.sh <broker-name> <play-book-name> <variable-file-name> <vault-password>
 ```
@@ -47,8 +48,9 @@ Playbook can also be called directly with `ansible-playbook` command:
 ```
 ansible-playbook -e input_file=<input-file-path> -e broker_host=<your-target-host> <playbook-file-path> <vault-password>
 ```
-**input-file-path**: path to input configuration file. Example: `input/yml/msg-vpn_vars.yml`
-**playbook-file-path**: path to playbook filename. Example: `playbooks/msg-vpn_pb.yml`
+**Description:**
+- **input-file-path**: path to input configuration file. Example: `input/yml/msg-vpn_vars.yml`
+- **playbook-file-path**: path to playbook filename. Example: `playbooks/msg-vpn_pb.yml`
 
 ## List of Playbooks
 The following playbooks are avaiable in [playbooks](./playbooks) directory:
