@@ -87,9 +87,10 @@ Use `import-csv.sh` file to convert CSV input format to YML:
 ```
 import-csv.sh <template-file> <csv-input-file-path> <yml-output-file-path>
 ```
-**template-file**: template filename in [templates](./templates) directory
-**csv-input-file-path**: path to csv file to be converted to yml
-**yml-output-file-path**: path to yml filename for saving converted yml file
+**Description:**
+- **template-file**: template filename in [templates](./templates) directory
+- **csv-input-file-path**: path to csv file to be converted to yml
+- **yml-output-file-path**: path to yml filename for saving converted yml file
 Example:
 ```
 import-csv.sh client-username.j2 ../input/csv/client-username.csv ../client-username-test.yml
