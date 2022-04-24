@@ -3,7 +3,7 @@
   solace_queue_subscription:
     msg_vpn: "{{item.0.msg_vpn}}"
     queue: "{{item.0.name+'%d' | format(item.1) }}"
-    topic: "{{item.0.subscription_topic_prefix+'%03d' | format(item.1) }}"
+    topic: "{{item.0.subscription_topic_prefix+'%d' | format(item.1) }}"
   when: padding == 0 and item.0.subscription_topic_prefix is defined and ((item.0.state is undefined) or (item.0.state is defined and item.0.state != "absent"))
   loop: "{{queues | product(range(start_number, end_number + 1, stride))|list }}"
   # loop: "{{queues | product(range(start_number, end_number + 1))|list }}"

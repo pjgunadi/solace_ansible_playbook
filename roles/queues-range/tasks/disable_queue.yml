@@ -1,12 +1,12 @@
 ---
-- name: Queue Range
+- name: Disable Queue Range
   solace_queue:
     name: "{{item.0.name+'%d' | format(item.1) }}"
     msg_vpn: "{{item.0.msg_vpn}}"
     settings:
       accessType: "{{item.0.accessType | default(omit)}}"
       deadMsgQueue: "{{item.0.deadMsgQueue | default(omit)}}"
-      egressEnabled: "{{item.0.egressEnabled | default(omit)}}"
+      egressEnabled: false
       ingressEnabled: "{{item.0.ingressEnabled | default(omit)}}"
       maxBindCount: "{{item.0.maxBindCount | default(omit)}}"
       maxMsgSize: "{{item.0.maxMsgSize | default(omit)}}"
@@ -20,16 +20,16 @@
   when: padding == 0
   loop: "{{ queues | product(range(start_number, end_number + 1, stride))|list }}"
   # loop: "{{ queues | product(range(start_number, end_number + 1))|list }}"
-  register: q_output
+  # register: q_output
 
-- name: Queue Range 3 Padding
+- name: Disable Queue Range 3 Padding
   solace_queue:
     name: "{{item.0.name+'%03d' | format(item.1) }}"
     msg_vpn: "{{item.0.msg_vpn}}"
     settings:
       accessType: "{{item.0.accessType | default(omit)}}"
       deadMsgQueue: "{{item.0.deadMsgQueue | default(omit)}}"
-      egressEnabled: "{{item.0.egressEnabled | default(omit)}}"
+      egressEnabled: false
       ingressEnabled: "{{item.0.ingressEnabled | default(omit)}}"
       maxBindCount: "{{item.0.maxBindCount | default(omit)}}"
       maxMsgSize: "{{item.0.maxMsgSize | default(omit)}}"
@@ -43,10 +43,9 @@
   when: padding == 3
   loop: "{{ queues | product(range(start_number, end_number + 1, stride))|list }}"
   # loop: "{{ queues | product(range(start_number, end_number + 1))|list }}"
-  register: q_output
+  # register: q_output
 
-- name: Queue Range Result
-  debug:
-    msg: "{{ item }}"
-  loop: "{{ q_output.results }}"
-
+# - name: Queue Range Result
+#   debug:
+#     msg: "{{ item }}"
+#   loop: "{{ q_output.results }}"

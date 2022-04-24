@@ -1,0 +1,15 @@
+---
+client_usernames:
+- name: testuser1
+  msg_vpn: paulus_vpn
+  enabled: true
+  aclProfileName: default
+  clientProfileName: default
+  state: yourpassword
+  state: absent
+- name: testuser2
+  msg_vpn: paulus_vpn
+  enabled: true
+  aclProfileName: default
+  clientProfileName: default
+  state: absent

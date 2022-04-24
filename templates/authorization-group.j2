@@ -1,0 +1,13 @@
+---
+authorization_groups:
+{% for item in csv_input.list %}
+- name: {{ item.name }}
+  msg_vpn: {{ item.msg_vpn }}
+  enabled: {{ item.enabled }}
+  aclProfileName: {{ item.aclProfileName }}
+  clientProfileName: {{ item.aclProfileName }}
+{# state #}
+{% if item.state != '' %}
+  state: {{item.state}}
+{% endif %}
+{% endfor %}

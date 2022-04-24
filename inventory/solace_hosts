@@ -11,3 +11,10 @@ all:
           # sempv2_username: default
           # sempv2_password: default
           sempv2_timeout: '60'
+        pgcloud:
+          broker_type: standalone
+          ansible_connection: local
+          sempv2_host: mrm5tl07w9uy6.messaging.solace.cloud
+          sempv2_port: 943
+          sempv2_is_secure_connection: true
+          sempv2_timeout: '60'

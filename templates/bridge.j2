@@ -1,0 +1,65 @@
+---
+bridges:
+{% for name, items in csv_input.list | groupby('name') %}
+- name: {{ items.0.name }}
+  msg_vpn: {{ items.0.msg_vpn }}
+  enabled: {{ items.0.enabled }}
+{# remoteAuthenticationScheme #}
+{% if items.0.remoteAuthenticationScheme != '' %}
+  remoteAuthenticationScheme: {{ items.0.remoteAuthenticationScheme }}
+{% endif %}
+{# remoteAuthenticationBasicClientUsername #}
+{% if items.0.remoteAuthenticationBasicClientUsername != '' %}
+  remoteAuthenticationBasicClientUsername: {{ items.0.remoteAuthenticationBasicClientUsername }}
+{% endif %}
+{# remoteAuthenticationBasicPassword #}
+{% if items.0.remoteAuthenticationBasicPassword != '' %}
+  remoteAuthenticationBasicPassword: {{ items.0.remoteAuthenticationBasicPassword }}
+{% endif %}
+{# remoteAuthenticationClientCertContent #}
+{% if items.0.remoteAuthenticationClientCertContent != '' %}
+  remoteAuthenticationClientCertContent: {{ items.0.remoteAuthenticationClientCertContent }}
+{% endif %}
+{# remoteAuthenticationClientCertPassword #}
+{% if items.0.remoteAuthenticationClientCertPassword != '' %}
+  remoteAuthenticationClientCertPassword: {{ items.0.remoteAuthenticationClientCertPassword }}
+{% endif %}
+{# state #}
+{% if items.0.state != '' %}
+  state: {{items.0.state}}
+{% endif %}
+{# remote_message_vpns #}
+{% if items.0.remote_msg_vpn_name != '' %}
+  remote_message_vpns:
+{% for remote in items %}
+  - remote_msg_vpn_name: {{remote.remote_msg_vpn_name}}
+    remote_vpn_location: {{remote.remote_vpn_location}}
+    enabled: {{remote.remote_vpn_enabled}}
+{# compressedDataEnabled #}
+{% if remote.compressedDataEnabled != '' %}
+    compressedDataEnabled: {{remote.compressedDataEnabled}}
+{% endif %}
+{# tlsEnabled #}
+{% if remote.tlsEnabled != '' %}
+    tlsEnabled: {{remote.tlsEnabled}}
+{% endif %}
+{# queueBinding #}
+{% if remote.queueBinding != '' %}
+    queueBinding: {{remote.queueBinding}}
+{% endif %}
+{# state #}
+{% if remote.remote_vpn_state != '' %}
+    state: {{remote.remote_vpn_state}}
+{% endif %}
+{% endfor %}
+{% endif %}
+{# remote_subscriptions #}
+{% if items.0.remote_subscriptions != '' %}
+  remote_subscriptions:
+  - topics:
+{% set topics = items.0.remote_subscriptions.split(',') %}
+{% for topic in topics %}
+    - "{{ topic }}"
+{% endfor %}
+{% endif %}
+{% endfor %}

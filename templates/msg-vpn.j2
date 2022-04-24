@@ -1,0 +1,52 @@
+---
+vpns:
+{% for item in csv_input.list %}
+- msg_vpn: {{item.msg_vpn}}
+  enabled: {{item.enabled}}
+  maxMsgSpoolUsage: {{item.maxMsgSpoolUsage}}
+  authenticationBasicType: {{item.authenticationBasicType}}
+{# authenticationBasicProfileName #}
+{% if item.authenticationBasicProfileName != '' %}
+  authenticationBasicProfileName: "{{item.authenticationBasicProfileName}}"
+{% endif %}
+{# authenticationClientCertEnabled #}
+{% if item.authenticationClientCertEnabled != '' %}
+  authenticationClientCertEnabled: {{item.authenticationClientCertEnabled}}
+{% endif %}
+{# jndiEnabled #}
+{% if item.jndiEnabled != '' %}
+  jndiEnabled: {{item.jndiEnabled}}
+{% endif %}
+{# serviceAmqpPlainTextEnabled #}
+{% if item.serviceAmqpPlainTextEnabled != '' %}
+  serviceAmqpPlainTextEnabled: {{item.serviceAmqpPlainTextEnabled}}
+{% endif %}
+{# serviceAmqpPlainTextListenPort #}
+{% if item.serviceAmqpPlainTextListenPort != '' %}
+  serviceAmqpPlainTextListenPort: {{item.serviceAmqpPlainTextListenPort}}
+{% endif %}
+{# serviceAmqpTlsEnabled #}
+{% if item.serviceAmqpTlsEnabled != '' %}
+  serviceAmqpTlsEnabled: {{item.serviceAmqpTlsEnabled}}
+{% endif %}
+{# serviceAmqpTlsListenPort #}
+{% if item.serviceAmqpTlsListenPort != '' %}
+  serviceAmqpTlsListenPort: {{item.serviceAmqpTlsListenPort}}
+{% endif %}
+{# serviceSmfPlainTextEnabled #}
+{% if item.serviceSmfPlainTextEnabled != '' %}
+  serviceSmfPlainTextEnabled: {{item.serviceSmfPlainTextEnabled}}
+{% endif %}
+{# serviceSmfTlsEnabled #}
+{% if item.serviceSmfTlsEnabled != '' %}
+  serviceSmfTlsEnabled: {{item.serviceSmfTlsEnabled}}
+{% endif %}
+{# tlsAllowDowngradeToPlainTextEnabled #}
+{% if item.tlsAllowDowngradeToPlainTextEnabled != '' %}
+  tlsAllowDowngradeToPlainTextEnabled: {{item.tlsAllowDowngradeToPlainTextEnabled}}
+{% endif %}
+{# state #}
+{% if item.state != '' %}
+  state: {{item.state}}
+{% endif %}
+{% endfor %}

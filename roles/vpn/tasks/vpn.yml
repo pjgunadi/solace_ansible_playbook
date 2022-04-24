@@ -1,0 +1,33 @@
+---
+- name: Create, Update, Delete VPN
+  solace_vpn:
+    name: "{{ item.msg_vpn }}"
+    settings:
+      authenticationBasicType: "{{ item.authenticationBasicType | default(omit) }}"
+      authenticationBasicProfileName: "{{ item.authenticationBasicProfileName | default(omit) }}"
+      authenticationClientCertEnabled: "{{ item.authenticationClientCertEnabled | default(omit) }}"
+      authorizationProfileName: "{{ item.authorizationProfileName | default(omit) }}"
+      authorizationType: "{{ item.authorizationType | default(omit) }}"
+      dmrEnabled: "{{ item.dmrEnabled | default(omit) }}"
+      enabled: "{{ item.enabled | default(omit) }}"
+      eventLargeMsgTreshold: "{{ item.eventLargeMsgTreshold | default(omit) }}"
+      eventLogTag: "{{ item.eventLogTag | default(omit) }}"
+      jndiEnabled: "{{ item.jndiEnabled | default(omit) }}"
+      maxConnectionCount: "{{ item.maxConnectionCount | default(omit) }}"
+      maxEndpointCount: "{{ item.maxEndpointCount | default(omit) }}"
+      maxMsgSpoolUsage: "{{ item.maxMsgSpoolUsage | default(omit) }}"
+      serviceAmqpPlainTextEnabled: "{{ item.serviceAmqpPlainTextEnabled | default(omit) }}"
+      serviceAmqpPlainTextListenPort: "{{ item.serviceAmqpPlainTextListenPort | default(omit) }}"
+      serviceAmqpTlsEnabled: "{{ item.serviceAmqpTlsEnabled | default(omit) }}"
+      serviceAmqpTlsListenPort: "{{ item.serviceAmqpTlsListenPort | default(omit) }}"
+      serviceSmfPlainTextEnabled: "{{ item.serviceSmfPlainTextEnabled | default(omit) }}"
+      serviceSmfTlsEnabled: "{{ item.serviceSmfTlsEnabled | default(omit) }}"
+      tlsAllowDowngradeToPlainTextEnabled: "{{ item.tlsAllowDowngradeToPlainTextEnabled | default(omit) }}"
+    state: "{{item.state | default('present')}}"
+  loop: "{{ vpns }}"
+  register: v_output
+
+- name: VPN Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ v_output.results }}"

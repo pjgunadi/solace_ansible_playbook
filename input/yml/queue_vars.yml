@@ -1,0 +1,31 @@
+---
+queues:
+- name: "paulus/queue/1"
+  msg_vpn: "pg-aws-sg"
+  egressEnabled: true
+  ingressEnabled: true
+  maxMsgSpoolUsage: 10000
+  subscription_topics:
+  - "topicA/>"
+  - "topicB/sub*/>"
+  - "topicC/sub*"
+  # state: absent
+# - name: "paulus/queue/2"
+#   msg_vpn: "paulus_vpn"
+#   egressEnabled: true
+#   ingressEnabled: true
+#   subscription_topics:
+#   - "topicA/>"
+#   - "topicB/sub*/>"
+#   - "topicC/sub*"
+#   # state: absent
+# - name: "paulus/queue/3"
+#   msg_vpn: "paulus_vpn"
+#   egressEnabled: true
+#   ingressEnabled: true
+#   state: present
+# - name: "paulus/queue/4"
+#   msg_vpn: "paulus_vpn"
+#   egressEnabled: true
+#   ingressEnabled: true
+#   # state: absent

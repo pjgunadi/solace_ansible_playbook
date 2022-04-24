@@ -1,0 +1,42 @@
+---
+client_profiles:
+{% for item in csv_input.list %}
+- name: {{item.name}}
+  msg_vpn: {{item.msg_vpn}}
+{# allowGuaranteedMsgSendEnabled #}
+{% if item.allowGuaranteedMsgSendEnabled != '' %}
+  allowGuaranteedMsgSendEnabled: {{item.allowGuaranteedMsgSendEnabled}}
+{% endif %}
+{# allowGuaranteedMsgReceiveEnabled #}
+{% if item.allowGuaranteedMsgReceiveEnabled != '' %}
+  allowGuaranteedMsgReceiveEnabled: {{item.allowGuaranteedMsgReceiveEnabled}}
+{% endif %}
+{# allowGuaranteedEndpointCreateEnabled #}
+{% if item.allowGuaranteedEndpointCreateEnabled != '' %}
+  allowGuaranteedEndpointCreateEnabled: {{item.allowGuaranteedEndpointCreateEnabled}}
+{% endif %}
+{# allowGuaranteedEndpointCreateDurability #}
+{% if item.allowGuaranteedEndpointCreateDurability != '' %}
+  allowGuaranteedEndpointCreateDurability: {{item.allowGuaranteedEndpointCreateDurability}}
+{% endif %}
+{# allowBridgeConnectionsEnabled #}
+{% if item.allowBridgeConnectionsEnabled != '' %}
+  allowBridgeConnectionsEnabled: {{item.allowBridgeConnectionsEnabled}}
+{% endif %}
+{# allowSharedSubscriptionsEnabled #}
+{% if item.allowSharedSubscriptionsEnabled != '' %}
+  allowSharedSubscriptionsEnabled: {{item.allowSharedSubscriptionsEnabled}}
+{% endif %}
+{# allowTransactedSessionsEnabled #}
+{% if item.allowTransactedSessionsEnabled != '' %}
+  allowTransactedSessionsEnabled: {{item.allowTransactedSessionsEnabled}}
+{% endif %}
+{# tlsAllowDowngradeToPlainTextEnabled #}
+{% if item.tlsAllowDowngradeToPlainTextEnabled != '' %}
+  tlsAllowDowngradeToPlainTextEnabled: {{item.tlsAllowDowngradeToPlainTextEnabled}}
+{% endif %}
+{# state #}
+{% if item.state != '' %}
+  state: {{item.state}}
+{% endif %}
+{% endfor %}

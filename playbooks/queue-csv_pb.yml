@@ -1,0 +1,44 @@
+---
+- name: Queue and Subscription Playbook
+  hosts: "{{ broker_host | default('all') }}"
+  gather_facts: no
+  any_errors_fatal: true
+  collections:
+    - solace.pubsub_plus
+  module_defaults:
+    solace_queue:
+      host: "{{ sempv2_host }}"
+      port: "{{ sempv2_port }}"
+      secure_connection: "{{ sempv2_is_secure_connection }}"
+      username: "{{ sempv2_username }}"
+      password: "{{ sempv2_password }}"
+      timeout: "{{ sempv2_timeout }}"
+    solace_queue_subscription:
+      host: "{{ sempv2_host }}"
+      port: "{{ sempv2_port }}"
+      secure_connection: "{{ sempv2_is_secure_connection }}"
+      username: "{{ sempv2_username }}"
+      password: "{{ sempv2_password }}"
+      timeout: "{{ sempv2_timeout }}"
+    solace_queue_subscriptions:
+      host: "{{ sempv2_host }}"
+      port: "{{ sempv2_port }}"
+      secure_connection: "{{ sempv2_is_secure_connection }}"
+      username: "{{ sempv2_username }}"
+      password: "{{ sempv2_password }}"
+      timeout: "{{ sempv2_timeout }}"
+  pre_tasks:
+    - set_fact:
+        csv_file: "{{ input_file }}"
+        template_file: "../templates/queue.j2"
+        output_file: "{{ output_file | default(input_file +'_tmp.yml' )}}"
+  post_tasks:
+    - file:
+        path: "{{ output_file }}"
+        state: absent
+  roles:
+  - role: import-csv
+  - role: import-yml
+  - role: queues
+
+

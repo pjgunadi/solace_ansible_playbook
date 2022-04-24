@@ -1,0 +1,56 @@
+---
+start_number: {{csv_input.list.0.start_number}}
+end_number: {{csv_input.list.0.end_number}}
+stride: {{csv_input.list.0.stride}}
+padding: {{csv_input.list.0.padding}}
+queues:
+{% for item in csv_input.list %}
+- name: "{{item.name}}"
+  msg_vpn: {{item.msg_vpn}}
+  egressEnabled: {{item.egressEnabled}}
+  ingressEnabled: {{item.ingressEnabled}}
+{# owner #}
+{% if item.owner != '' %}
+  owner: {{item.owner}}
+{% endif %}
+{# permission #}
+{% if item.permission != '' %}
+  permission: {{item.permission}}
+{% endif %}
+{# maxMsgSpoolUsage #}
+{% if item.maxMsgSpoolUsage != '' %}
+  maxMsgSpoolUsage: {{item.maxMsgSpoolUsage}}
+{% endif %}
+{# maxBindCount #}
+{% if item.maxBindCount != '' %}
+  maxBindCount: {{item.maxBindCount}}
+{% endif %}
+{# maxMsgSize #}
+{% if item.maxMsgSize != '' %}
+  maxMsgSize: {{item.maxMsgSize}}
+{% endif %}
+{# maxRedeliveryCount #}
+{% if item.maxRedeliveryCount != '' %}
+  maxRedeliveryCount: {{item.maxRedeliveryCount}}
+{% endif %}
+{# maxTtl #}
+{% if item.maxTtl != '' %}
+  maxTtl: {{item.maxTtl}}
+{% endif %}
+{# respectTtlEnabled #}
+{% if item.respectTtlEnabled != '' %}
+  respectTtlEnabled: {{item.respectTtlEnabled}}
+{% endif %}
+{# deadMsgQueue #}
+{% if item.deadMsgQueue != '' %}
+  deadMsgQueue: {{item.deadMsgQueue}}
+{% endif %}
+{# state #}
+{% if item.state != '' %}
+  state: {{item.state}}
+{% endif %}
+{# subscription_topic_prefix #}
+{% if item.subscription_topic_prefix != '' %}
+  subscription_topic_prefix: "{{item.subscription_topic_prefix}}"
+{% endif %}
+{% endfor %}

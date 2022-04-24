@@ -1,0 +1,18 @@
+---
+- name: Import CSV Task
+  read_csv:
+    path: "{{ csv_file }}"
+    delimiter: ","
+    # key: "name"
+  register: csv_input
+
+- name: Create yaml file
+  template:
+    src: "{{ template_file }}"
+    dest: "{{ output_file }}"
+  run_once: true
+  register: csv_result
+
+- name: Import CSV Result
+  debug:
+    msg: "{{ csv_result }}}}"

@@ -1,0 +1,4 @@
+---
+- name: Import Generated Yml as variable
+  include_vars:
+    file: "{{ output_file }}"

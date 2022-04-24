@@ -1,0 +1,16 @@
+---
+- name: Disable AMQP
+  solace_vpn:
+    name: "{{ item.msg_vpn }}"
+    settings:
+      serviceAmqpPlainTextEnabled: false
+      serviceAmqpPlainTextListenPort: "{{ item.serviceAmqpPlainTextListenPort | default(omit) }}"
+      serviceAmqpTlsEnabled: false
+      serviceAmqpTlsListenPort: "{{ item.serviceAmqpTlsListenPort | default(omit) }}"
+  loop: "{{ vpns }}"
+#   register: v_output
+
+# - name: VPN Result
+#   debug:
+#     msg: "{{ item }}"
+#   loop: "{{ v_output.results }}"

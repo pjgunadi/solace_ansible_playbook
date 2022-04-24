@@ -4,9 +4,14 @@ vpns:
   enabled: true
   authenticationBasicType: ldap
   authenticationBasicProfileName: "myprofile"
-  authenticationClientCertEnabled: true
+  authenticationClientCertEnabled: false
+  jndiEnabled: false
+  maxMsgSpoolUsage: 30000
   # serviceAmqpPlainTextEnabled: true
   # serviceAmqpPlainTextListenPort: 5672
   # serviceAmqpTlsEnabled: false
   # serviceAmqpTlsListenPort: 5671
+  # serviceSmfPlainTextEnabled: true
+  # serviceSmfTlsEnabled: true
+  # tlsAllowDowngradeToPlainTextEnabled: false
   # state: absent

@@ -1,0 +1,14 @@
+---
+jndi_cfs:
+{% for item in csv_input.list %}
+- name: {{item.name}}
+  msg_vpn: {{item.msg_vpn}}
+{# transportDirectTransportEnabled #}
+{% if item.transportDirectTransportEnabled != '' %}
+  transportDirectTransportEnabled: {{item.transportDirectTransportEnabled}}
+{% endif %}
+{# state #}
+{% if item.state != '' %}
+  state: {{item.state}}
+{% endif %}
+{% endfor %}

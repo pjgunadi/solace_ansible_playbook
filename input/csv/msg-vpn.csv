@@ -1,0 +1,2 @@
+msg_vpn,enabled,authenticationBasicType,authenticationBasicProfileName,authenticationClientCertEnabled,jndiEnabled,maxMsgSpoolUsage,serviceAmqpPlainTextEnabled,serviceAmqpPlainTextListenPort,serviceAmqpTlsEnabled,serviceAmqpTlsListenPort,serviceSmfPlainTextEnabled,serviceSmfTlsEnabled,tlsAllowDowngradeToPlainTextEnabled,state
+test_vpn,true,internal,,false,false,30000,false,5676,false,5675,true,true,false,present

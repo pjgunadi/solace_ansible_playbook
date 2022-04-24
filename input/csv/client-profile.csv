@@ -1,0 +1,3 @@
+name,msg_vpn,allowGuaranteedMsgSendEnabled,allowGuaranteedMsgReceiveEnabled,allowGuaranteedEndpointCreateEnabled,allowGuaranteedEndpointCreateDurability,allowBridgeConnectionsEnabled,allowSharedSubscriptionsEnabled,allowTransactedSessionsEnabled,tlsAllowDowngradeToPlainTextEnabled,state
+test_cp1,paulus_vpn,true,true,true,non-durable,false,false,false,false,absent
+test_cp2,paulus_vpn,true,true,,,true,true,true,true,absent

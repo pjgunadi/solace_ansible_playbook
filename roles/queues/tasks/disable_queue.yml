@@ -1,27 +1,27 @@
 ---
-- name: Queue
+- name: Disable Queue
   solace_queue:
     name: "{{item.name}}"
     msg_vpn: "{{item.msg_vpn}}"
     settings:
       accessType: "{{item.accessType | default(omit)}}"
       deadMsgQueue: "{{item.deadMsgQueue | default(omit)}}"
-      egressEnabled: "{{item.egressEnabled | default(omit)}}"
+      egressEnabled: false
       ingressEnabled: "{{item.ingressEnabled | default(omit)}}"
       maxBindCount: "{{item.maxBindCount | default(omit)}}"
       maxMsgSize: "{{item.maxMsgSize | default(omit)}}"
       maxMsgSpoolUsage: "{{item.maxMsgSpoolUsage | default(omit)}}"
       maxRedeliveryCount: "{{item.maxRedeliveryCount | default(omit)}}"
       maxTtl: "{{item.maxTtl | default(omit)}}"
-      owner: "{{item.owner | default('')}}"
+      owner: "{{item.owner | default(omit)}}"
       permission: "{{item.permission | default(omit)}}"
       respectTtlEnabled: "{{item.respectTtlEnabled | default(omit)}}"
     state: "{{item.state | default('present')}}"
   loop: "{{queues}}"
-  register: q_output
+#   register: q_output
 
-- name: Queue Result
-  debug:
-    msg: "{{ item }}"
-  loop: "{{ q_output.results }}"
+# - name: Queue Result
+#   debug:
+#     msg: "{{ item.result_list }}"
+#   loop: "{{ q_output.results }}"
 

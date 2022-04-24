@@ -1,0 +1,3 @@
+name,msg_vpn,clientConnectDefaultAction,publishTopicDefaultAction,subscribeTopicDefaultAction,state,client_connect_exceptions,publish_topic_exceptions_smf,publish_topic_exceptions_mqtt,subscribe_topic_exceptions_smf,subscribe_topic_exceptions_mqtt
+test_acl,test_vpn,disallow,disallow,disallow,absent,"192.168.100.0/24,192.168.200.0/24","topic/1,topic/2","topic/a,topic/b","topic/3,topic/4","topic/c,topic/d"
+paulus_acl,paulus_vpn,allow,allow,allow,absent,,,,,,

@@ -1,0 +1,6 @@
+---
+jndi_cfs:
+- name: "SOLACE_JMS_CF"
+  msg_vpn: "paulus_vpn"
+  transportDirectTransportEnabled: false
+  state: absent

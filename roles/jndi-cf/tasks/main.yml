@@ -1,0 +1,4 @@
+---
+- name: Create, Update, Delete JNDI Connection Factory
+  import_tasks: connection-factory.yml
+

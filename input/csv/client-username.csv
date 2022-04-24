@@ -1,0 +1,3 @@
+name,msg_vpn,enabled,aclProfileName,clientProfileName,password,state
+testuser1,paulus_vpn,true,default,default,yourpassword,absent
+testuser2,paulus_vpn,true,default,default,,absent

@@ -1,0 +1,6 @@
+---
+jndi_topics:
+- name: "topic/test/1"
+  msg_vpn: "paulus_vpn"
+  physicalName: "topic/test/1"
+  state: absent

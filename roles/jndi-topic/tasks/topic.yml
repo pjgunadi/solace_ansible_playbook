@@ -1,0 +1,15 @@
+---
+- name: JNDI Topic
+  solace_jndi_topic:
+    name: "{{item.name}}"
+    msg_vpn: "{{item.msg_vpn}}"
+    settings:
+      physicalName: "{{item.physicalName | default(omit)}}"
+    state: "{{item.state | default('present')}}"
+  loop: "{{jndi_topics}}"
+  register: jndi_topic_output
+
+- name: JNDI Topic Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ jndi_topic_output.results }}"

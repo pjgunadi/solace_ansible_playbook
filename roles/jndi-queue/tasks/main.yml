@@ -1,0 +1,4 @@
+---
+- name: Create, Update, Delete JNDI Queue
+  import_tasks: queue.yml
+

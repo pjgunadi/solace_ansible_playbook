@@ -1,0 +1,3 @@
+name,msg_vpn,physicalName,state
+queue/test/1,paulus_vpn,queue/test/1,absent
+queue/test/2,paulus_vpn,,absent

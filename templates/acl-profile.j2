@@ -1,0 +1,62 @@
+---
+acl_profiles:
+{% for item in csv_input.list %}
+- name: {{item.name}}
+  msg_vpn: {{item.msg_vpn}}
+  clientConnectDefaultAction: {{item.clientConnectDefaultAction}}
+  publishTopicDefaultAction: {{item.publishTopicDefaultAction}}
+  subscribeTopicDefaultAction: {{item.subscribeTopicDefaultAction}}
+{# state #}
+{% if item.state != '' %}
+  state: {{item.state}}
+{% endif %}
+{# client_connect_exceptions #}
+{% if item.client_connect_exceptions != '' %}
+{%   set client_exceptions = item.client_connect_exceptions.split(',') %}
+  client_connect_exceptions:
+  - addresses:
+{%   for ip in client_exceptions %}
+    - "{{ ip }}"
+{%   endfor %}
+{% endif %}
+{# publish_topic_exceptions #}
+{% if item.publish_topic_exceptions_smf != '' or item.publish_topic_exceptions_mqtt != '' %}
+  publish_topic_exceptions:
+{%   if item.publish_topic_exceptions_smf != '' %}
+  - topic_syntax: smf
+{%     set pub_excp_smf = item.publish_topic_exceptions_smf.split(',') %}
+    topics:
+{%     for topic in pub_excp_smf %}
+    - "{{ topic }}"
+{%     endfor %}
+{%   endif %}
+{%   if item.publish_topic_exceptions_mqtt != '' %}
+  - topic_syntax: mqtt
+{%     set pub_excp_mqtt = item.publish_topic_exceptions_mqtt.split(',') %}
+    topics:
+{%     for topic in pub_excp_mqtt %}
+    - "{{ topic }}"
+{%     endfor %}
+{%   endif %}
+{% endif %}
+{# subscribe_topic_exceptions #}
+{% if item.subscribe_topic_exceptions_smf != '' or item.subscribe_topic_exceptions_mqtt != '' %}
+  subscribe_topic_exceptions:
+{%   if item.subscribe_topic_exceptions_smf != '' %}
+  - topic_syntax: smf
+{%     set sub_excp_smf = item.subscribe_topic_exceptions_smf.split(',') %}
+    topics:
+{%     for topic in sub_excp_smf %}
+    - "{{ topic }}"
+{%     endfor %}
+{%   endif %}
+{%   if item.subscribe_topic_exceptions_mqtt != '' %}
+  - topic_syntax: mqtt
+{%     set sub_excp_mqtt = item.subscribe_topic_exceptions_mqtt.split(',') %}
+    topics:
+{%     for topic in sub_excp_mqtt %}
+    - "{{ topic }}"
+{%     endfor %}
+{%   endif %}
+{% endif %}
+{% endfor %}
