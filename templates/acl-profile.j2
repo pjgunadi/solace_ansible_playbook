@@ -1,14 +1,14 @@
 ---
 acl_profiles:
 {% for item in csv_input.list %}
-- name: {{item.name}}
-  msg_vpn: {{item.msg_vpn}}
-  clientConnectDefaultAction: {{item.clientConnectDefaultAction}}
-  publishTopicDefaultAction: {{item.publishTopicDefaultAction}}
-  subscribeTopicDefaultAction: {{item.subscribeTopicDefaultAction}}
+- name: "{{item.name}}"
+  msg_vpn: "{{item.msg_vpn}}"
+  clientConnectDefaultAction: "{{item.clientConnectDefaultAction}}"
+  publishTopicDefaultAction: "{{item.publishTopicDefaultAction}}"
+  subscribeTopicDefaultAction: "{{item.subscribeTopicDefaultAction}}"
 {# state #}
 {% if item.state is defined %}
-  state: {{item.state}}
+  state: "{{item.state}}"
 {% endif %}
 {# client_connect_exceptions #}
 {% if item.client_connect_exceptions is defined %}

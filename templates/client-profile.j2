@@ -1,8 +1,8 @@
 ---
 client_profiles:
 {% for item in csv_input.list %}
-- name: {{item.name}}
-  msg_vpn: {{item.msg_vpn}}
+- name: "{{item.name}}"
+  msg_vpn: "{{item.msg_vpn}}"
 {# allowGuaranteedMsgSendEnabled #}
 {% if item.allowGuaranteedMsgSendEnabled is defined %}
   allowGuaranteedMsgSendEnabled: {{item.allowGuaranteedMsgSendEnabled}}
@@ -17,7 +17,7 @@ client_profiles:
 {% endif %}
 {# allowGuaranteedEndpointCreateDurability #}
 {% if item.allowGuaranteedEndpointCreateDurability is defined %}
-  allowGuaranteedEndpointCreateDurability: {{item.allowGuaranteedEndpointCreateDurability}}
+  allowGuaranteedEndpointCreateDurability: "{{item.allowGuaranteedEndpointCreateDurability}}"
 {% endif %}
 {# allowBridgeConnectionsEnabled #}
 {% if item.allowBridgeConnectionsEnabled is defined %}
@@ -37,6 +37,6 @@ client_profiles:
 {% endif %}
 {# state #}
 {% if item.state is defined %}
-  state: {{item.state}}
+  state: "{{item.state}}"
 {% endif %}
 {% endfor %}

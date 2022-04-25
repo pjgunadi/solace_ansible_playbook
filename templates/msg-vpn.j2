@@ -1,18 +1,18 @@
 ---
 vpns:
 {% for item in csv_input.list %}
-- msg_vpn: {{item.msg_vpn}}
+- msg_vpn: "{{item.msg_vpn}}"
 {# enabled #}
 {% if item.enabled is defined %}
   enabled: {{item.enabled}}
 {% endif %}
 {# maxMsgSpoolUsage #}
 {% if item.maxMsgSpoolUsage is defined %}
-  maxMsgSpoolUsage: {{item.maxMsgSpoolUsage}}
+  maxMsgSpoolUsage: "{{item.maxMsgSpoolUsage}}"
 {% endif %}
 {# authenticationBasicType #}
 {% if item.authenticationBasicType is defined %}
-  authenticationBasicType: {{item.authenticationBasicType}}
+  authenticationBasicType: "{{item.authenticationBasicType}}"
 {% endif %}
 {# authenticationBasicProfileName #}
 {% if item.authenticationBasicProfileName is defined %}
@@ -28,23 +28,23 @@ vpns:
 {% endif %}
 {# replicationBridgeAuthenticationBasicClientUsername #}
 {% if item.replicationBridgeAuthenticationBasicClientUsername is defined %}
-  replicationBridgeAuthenticationBasicClientUsername: {{item.replicationBridgeAuthenticationBasicClientUsername}}
+  replicationBridgeAuthenticationBasicClientUsername: "{{item.replicationBridgeAuthenticationBasicClientUsername}}"
 {% endif %}
 {# replicationBridgeAuthenticationBasicPassword #}
 {% if item.replicationBridgeAuthenticationBasicPassword is defined %}
-  replicationBridgeAuthenticationBasicPassword: {{item.replicationBridgeAuthenticationBasicPassword}}
+  replicationBridgeAuthenticationBasicPassword: "{{item.replicationBridgeAuthenticationBasicPassword}}"
 {% endif %}
 {# replicationBridgeAuthenticationClientCertContent #}
 {% if item.replicationBridgeAuthenticationClientCertContent is defined %}
-  replicationBridgeAuthenticationClientCertContent: {{item.replicationBridgeAuthenticationClientCertContent}}
+  replicationBridgeAuthenticationClientCertContent: "{{item.replicationBridgeAuthenticationClientCertContent}}"
 {% endif %}
 {# replicationBridgeAuthenticationClientCertPassword #}
 {% if item.replicationBridgeAuthenticationClientCertPassword is defined %}
-  replicationBridgeAuthenticationClientCertPassword: {{item.replicationBridgeAuthenticationClientCertPassword}}
+  replicationBridgeAuthenticationClientCertPassword: "{{item.replicationBridgeAuthenticationClientCertPassword}}"
 {% endif %}
 {# replicationBridgeAuthenticationScheme #}
 {% if item.replicationBridgeAuthenticationScheme is defined %}
-  replicationBridgeAuthenticationScheme: {{item.replicationBridgeAuthenticationScheme}}
+  replicationBridgeAuthenticationScheme: "{{item.replicationBridgeAuthenticationScheme}}"
 {% endif %}
 {# replicationBridgeTlsEnabled #}
 {% if item.replicationBridgeTlsEnabled is defined %}
@@ -56,11 +56,11 @@ vpns:
 {% endif %}
 {# replicationRole #}
 {% if item.replicationRole is defined %}
-  replicationRole: {{item.replicationRole}}
+  replicationRole: "{{item.replicationRole}}"
 {% endif %}
 {# replicationTransactionMode #}
 {% if item.replicationTransactionMode is defined %}
-  replicationTransactionMode: {{item.replicationTransactionMode}}
+  replicationTransactionMode: "{{item.replicationTransactionMode}}"
 {% endif %}
 {# serviceAmqpPlainTextEnabled #}
 {% if item.serviceAmqpPlainTextEnabled is defined %}
@@ -68,7 +68,7 @@ vpns:
 {% endif %}
 {# serviceAmqpPlainTextListenPort #}
 {% if item.serviceAmqpPlainTextListenPort is defined %}
-  serviceAmqpPlainTextListenPort: {{item.serviceAmqpPlainTextListenPort}}
+  serviceAmqpPlainTextListenPort: "{{item.serviceAmqpPlainTextListenPort}}"
 {% endif %}
 {# serviceAmqpTlsEnabled #}
 {% if item.serviceAmqpTlsEnabled is defined %}
@@ -76,7 +76,7 @@ vpns:
 {% endif %}
 {# serviceAmqpTlsListenPort #}
 {% if item.serviceAmqpTlsListenPort is defined %}
-  serviceAmqpTlsListenPort: {{item.serviceAmqpTlsListenPort}}
+  serviceAmqpTlsListenPort: "{{item.serviceAmqpTlsListenPort}}"
 {% endif %}
 {# serviceSmfPlainTextEnabled #}
 {% if item.serviceSmfPlainTextEnabled is defined %}
@@ -92,6 +92,6 @@ vpns:
 {% endif %}
 {# state #}
 {% if item.state is defined %}
-  state: {{item.state}}
+  state: "{{item.state}}"
 {% endif %}
 {% endfor %}

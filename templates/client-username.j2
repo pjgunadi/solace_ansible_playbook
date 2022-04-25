@@ -1,17 +1,17 @@
 ---
 client_usernames:
 {% for item in csv_input.list %}
-- name: {{item.name}}
-  msg_vpn: {{item.msg_vpn}}
+- name: "{{item.name}}"
+  msg_vpn: "{{item.msg_vpn}}"
   enabled: {{item.enabled}}
-  aclProfileName: {{item.aclProfileName}}
-  clientProfileName: {{item.clientProfileName}}
+  aclProfileName: "{{item.aclProfileName}}"
+  clientProfileName: "{{item.clientProfileName}}"
 {# password #}
 {% if item.password is defined %}
-  password: {{item.password}}
+  password: "{{item.password}}"
 {% endif %}
 {# state #}
 {% if item.state is defined %}
-  state: {{item.state}}
+  state: "{{item.state}}"
 {% endif %}
 {% endfor %}

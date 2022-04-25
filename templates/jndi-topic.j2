@@ -1,14 +1,14 @@
 ---
 jndi_topics:
 {% for item in csv_input.list %}
-- name: {{item.name}}
-  msg_vpn: {{item.msg_vpn}}
+- name: "{{item.name}}"
+  msg_vpn: "{{item.msg_vpn}}"
 {# physicalName #}
 {% if item.physicalName is defined %}
-  physicalName: {{item.physicalName}}
+  physicalName: "{{item.physicalName}}"
 {% endif %}
 {# state #}
 {% if item.state is defined %}
-  state: {{item.state}}
+  state: "{{item.state}}"
 {% endif %}
 {% endfor %}
