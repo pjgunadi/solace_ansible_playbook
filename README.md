@@ -72,7 +72,7 @@ The following playbooks are avaiable in [playbooks](./playbooks) directory:
 | client-profile-csv | csv | apply-config.sh *appliance-ip* client-profile-csv csv/client-profile.csv | |
 | authorization-group-csv | csv | apply-config.sh *appliance-ip* authorization-group-csv csv/authorization-group.csv | |
 | queue-csv | csv | apply-config.sh *appliance-ip* queue-csv csv/queue.csv | |
-| queue-range-csv | csv | apply-config.sh *appliance-ip* queue-range-csv csv/queue-range.csv | Recursive Queues with prefix and range numbers |
+| queue-range-csv | csv | apply-config.sh *appliance-ip* queue-range-csv csv/queue-range.csv | Limitation: use one csv file per range number profile |
 | bridge-csv | csv | apply-config.sh *appliance-ip* bridge-csv csv/bridge.csv | |
 | jndi-cf-csv | csv | apply-config.sh *appliance-ip* jndi-cf-csv csv/jndi-cf.csv | |
 | jndi-topic=csv | csv | apply-config.sh *appliance-ip* jndi-topic-csv csv/jndi-topic.csv | |

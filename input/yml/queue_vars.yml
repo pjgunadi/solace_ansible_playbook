@@ -2,6 +2,7 @@
 queues:
 - name: "paulus/queue/1"
   msg_vpn: "pg-aws-sg"
+  accessType: "exclusive"
   egressEnabled: true
   ingressEnabled: true
   maxMsgSpoolUsage: 10000

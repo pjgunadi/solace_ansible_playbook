@@ -7,6 +7,7 @@ queues:
 {% for item in csv_input.list %}
 - name: "{{item.name}}"
   msg_vpn: {{item.msg_vpn}}
+  accessType: {{item.accessType}}
   egressEnabled: {{item.egressEnabled}}
   ingressEnabled: {{item.ingressEnabled}}
 {# owner #}
