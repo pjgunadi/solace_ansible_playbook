@@ -13,7 +13,7 @@
       maxMsgSpoolUsage: "{{item.maxMsgSpoolUsage | default(omit)}}"
       maxRedeliveryCount: "{{item.maxRedeliveryCount | default(omit)}}"
       maxTtl: "{{item.maxTtl | default(omit)}}"
-      owner: "{{item.owner | default('')}}"
+      owner: "{{item.owner | default(omit)}}"
       permission: "{{item.permission | default(omit)}}"
       respectTtlEnabled: "{{item.respectTtlEnabled | default(omit)}}"
     state: "{{item.state | default('present')}}"

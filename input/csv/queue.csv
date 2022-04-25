@@ -1,4 +1,4 @@
 name,msg_vpn,egressEnabled,ingressEnabled,owner,permission,maxMsgSpoolUsage,maxBindCount,maxMsgSize,maxRedeliveryCount,maxTtl,respectTtlEnabled,deadMsgQueue,subscription_topics,state
-paulus/queue/1,paulus_vpn,true,true,paulus,consume,10000,1000,1000000,5,30,true,mydmq,"topicA/>,topicB/sub*/>,topicC/sub*",absent
-paulus/queue/2,paulus_vpn,true,true,,consume,5000,,,,,,,"topic/a",absent
-paulus/queue/3,test_vpn,true,true,,,,,,,,,,,absent
+paulus/queue/1,paulus_vpn,true,true,,consume,10000,1000,1000000,5,30,true,mydmq,"topicA/>,topicB/sub*/>,topicC/sub*",absent
+paulus/queue/2,paulus_vpn,true,true,,consume,5000,1000,1000000,0,0,false,#DEAD_MSG_QUEUE,"topic/a",absent
+paulus/queue/3,test_vpn,true,true,paulus,no-access,1000,1000,1000000,0,0,false,#DEAD_MSG_QUEUE,,absent

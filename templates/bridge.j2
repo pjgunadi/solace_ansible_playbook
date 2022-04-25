@@ -5,56 +5,56 @@ bridges:
   msg_vpn: {{ items.0.msg_vpn }}
   enabled: {{ items.0.enabled }}
 {# remoteAuthenticationScheme #}
-{% if items.0.remoteAuthenticationScheme != '' %}
+{% if items.0.remoteAuthenticationScheme is defined %}
   remoteAuthenticationScheme: {{ items.0.remoteAuthenticationScheme }}
 {% endif %}
 {# remoteAuthenticationBasicClientUsername #}
-{% if items.0.remoteAuthenticationBasicClientUsername != '' %}
+{% if items.0.remoteAuthenticationBasicClientUsername is defined %}
   remoteAuthenticationBasicClientUsername: {{ items.0.remoteAuthenticationBasicClientUsername }}
 {% endif %}
 {# remoteAuthenticationBasicPassword #}
-{% if items.0.remoteAuthenticationBasicPassword != '' %}
+{% if items.0.remoteAuthenticationBasicPassword is defined %}
   remoteAuthenticationBasicPassword: {{ items.0.remoteAuthenticationBasicPassword }}
 {% endif %}
 {# remoteAuthenticationClientCertContent #}
-{% if items.0.remoteAuthenticationClientCertContent != '' %}
+{% if items.0.remoteAuthenticationClientCertContent is defined %}
   remoteAuthenticationClientCertContent: {{ items.0.remoteAuthenticationClientCertContent }}
 {% endif %}
 {# remoteAuthenticationClientCertPassword #}
-{% if items.0.remoteAuthenticationClientCertPassword != '' %}
+{% if items.0.remoteAuthenticationClientCertPassword is defined %}
   remoteAuthenticationClientCertPassword: {{ items.0.remoteAuthenticationClientCertPassword }}
 {% endif %}
 {# state #}
-{% if items.0.state != '' %}
+{% if items.0.state is defined %}
   state: {{items.0.state}}
 {% endif %}
 {# remote_message_vpns #}
-{% if items.0.remote_msg_vpn_name != '' %}
+{% if items.0.remote_msg_vpn_name is defined %}
   remote_message_vpns:
 {% for remote in items %}
   - remote_msg_vpn_name: {{remote.remote_msg_vpn_name}}
     remote_vpn_location: {{remote.remote_vpn_location}}
     enabled: {{remote.remote_vpn_enabled}}
 {# compressedDataEnabled #}
-{% if remote.compressedDataEnabled != '' %}
+{% if remote.compressedDataEnabled is defined %}
     compressedDataEnabled: {{remote.compressedDataEnabled}}
 {% endif %}
 {# tlsEnabled #}
-{% if remote.tlsEnabled != '' %}
+{% if remote.tlsEnabled is defined %}
     tlsEnabled: {{remote.tlsEnabled}}
 {% endif %}
 {# queueBinding #}
-{% if remote.queueBinding != '' %}
+{% if remote.queueBinding is defined %}
     queueBinding: {{remote.queueBinding}}
 {% endif %}
 {# state #}
-{% if remote.remote_vpn_state != '' %}
+{% if remote.remote_vpn_state is defined %}
     state: {{remote.remote_vpn_state}}
 {% endif %}
 {% endfor %}
 {% endif %}
 {# remote_subscriptions #}
-{% if items.0.remote_subscriptions != '' %}
+{% if items.0.remote_subscriptions is defined %}
   remote_subscriptions:
   - topics:
 {% set topics = items.0.remote_subscriptions.split(',') %}

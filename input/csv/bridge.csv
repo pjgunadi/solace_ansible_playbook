@@ -1,3 +1,3 @@
-name,msg_vpn,enabled,remoteAuthenticationScheme,remoteAuthenticationBasicClientUsername,remoteAuthenticationBasicPassword,remoteAuthenticationClientCertContent,remoteAuthenticationClientCertPassword,state,remote_msg_vpn_name,remote_vpn_location,remote_vpn_enabled,compressedDataEnabled,tlsEnabled,queueBinding,remote_vpn_state,remote_subscriptions
-local_bridge1,paulus_vpn,true,basic,,,,,absent,test_vpn,v:solace_c1,true,false,false,remote_queue1,present,"topic/remote1,topic/remote2"
-local_bridge1,paulus_vpn,true,basic,,,,,absent,test_vpn,v:solace_c2,true,false,false,remote_queue1,present,"topic/remote1,topic/remote2"
+name,msg_vpn,enabled,remoteAuthenticationScheme,remoteAuthenticationBasicClientUsername,remoteAuthenticationBasicPassword,state,remote_msg_vpn_name,remote_vpn_location,remote_vpn_enabled,compressedDataEnabled,tlsEnabled,queueBinding,remote_vpn_state,remote_subscriptions
+local_bridge1,paulus_vpn,true,basic,bridgeuser,bridgepassword,absent,test_vpn,v:solace_c1,true,false,false,remote_queue1,present,"topic/remote1,topic/remote2"
+local_bridge1,paulus_vpn,true,basic,,,absent,test_vpn,v:solace_c2,true,false,false,remote_queue1,present,"topic/remote1,topic/remote2"

@@ -1,0 +1,21 @@
+---
+- name: Add, Update, Remove Bridge
+  solace_bridge:
+    name: "{{item.name}}"
+    msg_vpn: "{{item.msg_vpn}}"
+    bridge_virtual_router: "{{item.bridge_virtual_router | default(omit)}}"
+    settings:
+      enabled: false
+      remoteAuthenticationBasicClientUsername: "{{item.remoteAuthenticationBasicClientUsername | default(omit)}}"
+      remoteAuthenticationBasicPassword: "{{item.remoteAuthenticationBasicPassword | default(omit)}}"
+      remoteAuthenticationScheme: "{{item.remoteAuthenticationScheme | default(omit)}}"
+      remoteAuthenticationClientCertContent: "{{item.remoteAuthenticationClientCertContent | default(omit)}}"
+      remoteAuthenticationClientCertPassword: "{{item.remoteAuthenticationClientCertPassword | default(omit)}}"
+    state: "{{item.state | default('present')}}"
+  loop: "{{bridges}}"
+  register: b_output
+
+- name: Bridge Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ b_output.results }}"

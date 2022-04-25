@@ -7,56 +7,71 @@ acl_profiles:
   publishTopicDefaultAction: {{item.publishTopicDefaultAction}}
   subscribeTopicDefaultAction: {{item.subscribeTopicDefaultAction}}
 {# state #}
-{% if item.state != '' %}
+{% if item.state is defined %}
   state: {{item.state}}
 {% endif %}
 {# client_connect_exceptions #}
-{% if item.client_connect_exceptions != '' %}
+{% if item.client_connect_exceptions is defined %}
 {%   set client_exceptions = item.client_connect_exceptions.split(',') %}
-  client_connect_exceptions:
+  client_connect_exceptions: 
   - addresses:
+{%- if client_exceptions.0 == '' %} []
+{%  else +%}
 {%   for ip in client_exceptions %}
     - "{{ ip }}"
 {%   endfor %}
+{%  endif %}
 {% endif %}
 {# publish_topic_exceptions #}
-{% if item.publish_topic_exceptions_smf != '' or item.publish_topic_exceptions_mqtt != '' %}
+{% if item.publish_topic_exceptions_smf is defined or item.publish_topic_exceptions_mqtt is defined %}
   publish_topic_exceptions:
-{%   if item.publish_topic_exceptions_smf != '' %}
+{%   if item.publish_topic_exceptions_smf is defined %}
   - topic_syntax: smf
 {%     set pub_excp_smf = item.publish_topic_exceptions_smf.split(',') %}
     topics:
+{%- if pub_excp_smf.0 == '' %} []
+{%  else +%}
 {%     for topic in pub_excp_smf %}
     - "{{ topic }}"
 {%     endfor %}
+{%  endif %}
 {%   endif %}
-{%   if item.publish_topic_exceptions_mqtt != '' %}
+{%   if item.publish_topic_exceptions_mqtt is defined %}
   - topic_syntax: mqtt
 {%     set pub_excp_mqtt = item.publish_topic_exceptions_mqtt.split(',') %}
     topics:
+{%- if pub_excp_mqtt.0 == '' %} []
+{%  else +%}
 {%     for topic in pub_excp_mqtt %}
     - "{{ topic }}"
 {%     endfor %}
+{%  endif %}
 {%   endif %}
 {% endif %}
 {# subscribe_topic_exceptions #}
-{% if item.subscribe_topic_exceptions_smf != '' or item.subscribe_topic_exceptions_mqtt != '' %}
+{% if item.subscribe_topic_exceptions_smf is defined or item.subscribe_topic_exceptions_mqtt is defined %}
   subscribe_topic_exceptions:
-{%   if item.subscribe_topic_exceptions_smf != '' %}
+{%   if item.subscribe_topic_exceptions_smf is defined %}
   - topic_syntax: smf
 {%     set sub_excp_smf = item.subscribe_topic_exceptions_smf.split(',') %}
     topics:
+{%- if sub_excp_smf.0 == '' %} []
+{%  else +%}
 {%     for topic in sub_excp_smf %}
     - "{{ topic }}"
 {%     endfor %}
+{%  endif %}
 {%   endif %}
-{%   if item.subscribe_topic_exceptions_mqtt != '' %}
+{%   if item.subscribe_topic_exceptions_mqtt is defined %}
   - topic_syntax: mqtt
 {%     set sub_excp_mqtt = item.subscribe_topic_exceptions_mqtt.split(',') %}
     topics:
+{%- if sub_excp_mqtt.0 == '' %} []
+{%  else +%}
 {%     for topic in sub_excp_mqtt %}
     - "{{ topic }}"
 {%     endfor %}
+{%  endif %}
 {%   endif %}
 {% endif %}
 {% endfor %}

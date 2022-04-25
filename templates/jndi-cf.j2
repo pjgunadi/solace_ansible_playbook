@@ -4,11 +4,11 @@ jndi_cfs:
 - name: {{item.name}}
   msg_vpn: {{item.msg_vpn}}
 {# transportDirectTransportEnabled #}
-{% if item.transportDirectTransportEnabled != '' %}
+{% if item.transportDirectTransportEnabled is defined %}
   transportDirectTransportEnabled: {{item.transportDirectTransportEnabled}}
 {% endif %}
 {# state #}
-{% if item.state != '' %}
+{% if item.state is defined %}
   state: {{item.state}}
 {% endif %}
 {% endfor %}

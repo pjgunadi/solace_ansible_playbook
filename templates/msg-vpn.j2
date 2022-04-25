@@ -2,51 +2,96 @@
 vpns:
 {% for item in csv_input.list %}
 - msg_vpn: {{item.msg_vpn}}
+{# enabled #}
+{% if item.enabled is defined %}
   enabled: {{item.enabled}}
+{% endif %}
+{# maxMsgSpoolUsage #}
+{% if item.maxMsgSpoolUsage is defined %}
   maxMsgSpoolUsage: {{item.maxMsgSpoolUsage}}
+{% endif %}
+{# authenticationBasicType #}
+{% if item.authenticationBasicType is defined %}
   authenticationBasicType: {{item.authenticationBasicType}}
+{% endif %}
 {# authenticationBasicProfileName #}
-{% if item.authenticationBasicProfileName != '' %}
+{% if item.authenticationBasicProfileName is defined %}
   authenticationBasicProfileName: "{{item.authenticationBasicProfileName}}"
 {% endif %}
 {# authenticationClientCertEnabled #}
-{% if item.authenticationClientCertEnabled != '' %}
+{% if item.authenticationClientCertEnabled is defined %}
   authenticationClientCertEnabled: {{item.authenticationClientCertEnabled}}
 {% endif %}
 {# jndiEnabled #}
-{% if item.jndiEnabled != '' %}
+{% if item.jndiEnabled is defined %}
   jndiEnabled: {{item.jndiEnabled}}
 {% endif %}
+{# replicationBridgeAuthenticationBasicClientUsername #}
+{% if item.replicationBridgeAuthenticationBasicClientUsername is defined %}
+  replicationBridgeAuthenticationBasicClientUsername: {{item.replicationBridgeAuthenticationBasicClientUsername}}
+{% endif %}
+{# replicationBridgeAuthenticationBasicPassword #}
+{% if item.replicationBridgeAuthenticationBasicPassword is defined %}
+  replicationBridgeAuthenticationBasicPassword: {{item.replicationBridgeAuthenticationBasicPassword}}
+{% endif %}
+{# replicationBridgeAuthenticationClientCertContent #}
+{% if item.replicationBridgeAuthenticationClientCertContent is defined %}
+  replicationBridgeAuthenticationClientCertContent: {{item.replicationBridgeAuthenticationClientCertContent}}
+{% endif %}
+{# replicationBridgeAuthenticationClientCertPassword #}
+{% if item.replicationBridgeAuthenticationClientCertPassword is defined %}
+  replicationBridgeAuthenticationClientCertPassword: {{item.replicationBridgeAuthenticationClientCertPassword}}
+{% endif %}
+{# replicationBridgeAuthenticationScheme #}
+{% if item.replicationBridgeAuthenticationScheme is defined %}
+  replicationBridgeAuthenticationScheme: {{item.replicationBridgeAuthenticationScheme}}
+{% endif %}
+{# replicationBridgeTlsEnabled #}
+{% if item.replicationBridgeTlsEnabled is defined %}
+  replicationBridgeTlsEnabled: {{item.replicationBridgeTlsEnabled}}
+{% endif %}
+{# replicationEnabled #}
+{% if item.replicationEnabled is defined %}
+  replicationEnabled: {{item.replicationEnabled}}
+{% endif %}
+{# replicationRole #}
+{% if item.replicationRole is defined %}
+  replicationRole: {{item.replicationRole}}
+{% endif %}
+{# replicationTransactionMode #}
+{% if item.replicationTransactionMode is defined %}
+  replicationTransactionMode: {{item.replicationTransactionMode}}
+{% endif %}
 {# serviceAmqpPlainTextEnabled #}
-{% if item.serviceAmqpPlainTextEnabled != '' %}
+{% if item.serviceAmqpPlainTextEnabled is defined %}
   serviceAmqpPlainTextEnabled: {{item.serviceAmqpPlainTextEnabled}}
 {% endif %}
 {# serviceAmqpPlainTextListenPort #}
-{% if item.serviceAmqpPlainTextListenPort != '' %}
+{% if item.serviceAmqpPlainTextListenPort is defined %}
   serviceAmqpPlainTextListenPort: {{item.serviceAmqpPlainTextListenPort}}
 {% endif %}
 {# serviceAmqpTlsEnabled #}
-{% if item.serviceAmqpTlsEnabled != '' %}
+{% if item.serviceAmqpTlsEnabled is defined %}
   serviceAmqpTlsEnabled: {{item.serviceAmqpTlsEnabled}}
 {% endif %}
 {# serviceAmqpTlsListenPort #}
-{% if item.serviceAmqpTlsListenPort != '' %}
+{% if item.serviceAmqpTlsListenPort is defined %}
   serviceAmqpTlsListenPort: {{item.serviceAmqpTlsListenPort}}
 {% endif %}
 {# serviceSmfPlainTextEnabled #}
-{% if item.serviceSmfPlainTextEnabled != '' %}
+{% if item.serviceSmfPlainTextEnabled is defined %}
   serviceSmfPlainTextEnabled: {{item.serviceSmfPlainTextEnabled}}
 {% endif %}
 {# serviceSmfTlsEnabled #}
-{% if item.serviceSmfTlsEnabled != '' %}
+{% if item.serviceSmfTlsEnabled is defined %}
   serviceSmfTlsEnabled: {{item.serviceSmfTlsEnabled}}
 {% endif %}
 {# tlsAllowDowngradeToPlainTextEnabled #}
-{% if item.tlsAllowDowngradeToPlainTextEnabled != '' %}
+{% if item.tlsAllowDowngradeToPlainTextEnabled is defined %}
   tlsAllowDowngradeToPlainTextEnabled: {{item.tlsAllowDowngradeToPlainTextEnabled}}
 {% endif %}
 {# state #}
-{% if item.state != '' %}
+{% if item.state is defined %}
   state: {{item.state}}
 {% endif %}
 {% endfor %}

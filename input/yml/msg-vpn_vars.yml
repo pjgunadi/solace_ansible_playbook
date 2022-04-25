@@ -14,4 +14,13 @@ vpns:
   # serviceSmfPlainTextEnabled: true
   # serviceSmfTlsEnabled: true
   # tlsAllowDowngradeToPlainTextEnabled: false
+  # replicationBridgeAuthenticationBasicClientUsername: myuser
+  # replicationBridgeAuthenticationBasicPassword: mypassword
+  # replicationBridgeAuthenticationClientCertContent: 
+  # replicationBridgeAuthenticationClientCertPassword: 
+  # replicationBridgeAuthenticationScheme: basic
+  # replicationBridgeTlsEnabled: true
+  # replicationEnabled: true
+  # replicationRole: active
+  # replicationTransactionMode: async
   # state: absent

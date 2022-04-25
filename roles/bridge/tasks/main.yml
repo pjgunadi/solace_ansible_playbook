@@ -1,5 +1,10 @@
 ---
-- name: Create, Update, Delete ACL Bridge
+- name: Disable Bridge
+  import_tasks: disable_bridge.yml
+  tags:
+  - change_authentication
+
+- name: Create, Update, Delete Bridge
   import_tasks: bridge.yml
 
 - name: Bridge Remote VPN

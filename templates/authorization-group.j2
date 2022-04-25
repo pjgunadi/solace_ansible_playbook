@@ -7,7 +7,7 @@ authorization_groups:
   aclProfileName: {{ item.aclProfileName }}
   clientProfileName: {{ item.aclProfileName }}
 {# state #}
-{% if item.state != '' %}
+{% if item.state is defined %}
   state: {{item.state}}
 {% endif %}
 {% endfor %}

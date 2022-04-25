@@ -4,39 +4,39 @@ client_profiles:
 - name: {{item.name}}
   msg_vpn: {{item.msg_vpn}}
 {# allowGuaranteedMsgSendEnabled #}
-{% if item.allowGuaranteedMsgSendEnabled != '' %}
+{% if item.allowGuaranteedMsgSendEnabled is defined %}
   allowGuaranteedMsgSendEnabled: {{item.allowGuaranteedMsgSendEnabled}}
 {% endif %}
 {# allowGuaranteedMsgReceiveEnabled #}
-{% if item.allowGuaranteedMsgReceiveEnabled != '' %}
+{% if item.allowGuaranteedMsgReceiveEnabled is defined %}
   allowGuaranteedMsgReceiveEnabled: {{item.allowGuaranteedMsgReceiveEnabled}}
 {% endif %}
 {# allowGuaranteedEndpointCreateEnabled #}
-{% if item.allowGuaranteedEndpointCreateEnabled != '' %}
+{% if item.allowGuaranteedEndpointCreateEnabled is defined %}
   allowGuaranteedEndpointCreateEnabled: {{item.allowGuaranteedEndpointCreateEnabled}}
 {% endif %}
 {# allowGuaranteedEndpointCreateDurability #}
-{% if item.allowGuaranteedEndpointCreateDurability != '' %}
+{% if item.allowGuaranteedEndpointCreateDurability is defined %}
   allowGuaranteedEndpointCreateDurability: {{item.allowGuaranteedEndpointCreateDurability}}
 {% endif %}
 {# allowBridgeConnectionsEnabled #}
-{% if item.allowBridgeConnectionsEnabled != '' %}
+{% if item.allowBridgeConnectionsEnabled is defined %}
   allowBridgeConnectionsEnabled: {{item.allowBridgeConnectionsEnabled}}
 {% endif %}
 {# allowSharedSubscriptionsEnabled #}
-{% if item.allowSharedSubscriptionsEnabled != '' %}
+{% if item.allowSharedSubscriptionsEnabled is defined %}
   allowSharedSubscriptionsEnabled: {{item.allowSharedSubscriptionsEnabled}}
 {% endif %}
 {# allowTransactedSessionsEnabled #}
-{% if item.allowTransactedSessionsEnabled != '' %}
+{% if item.allowTransactedSessionsEnabled is defined %}
   allowTransactedSessionsEnabled: {{item.allowTransactedSessionsEnabled}}
 {% endif %}
 {# tlsAllowDowngradeToPlainTextEnabled #}
-{% if item.tlsAllowDowngradeToPlainTextEnabled != '' %}
+{% if item.tlsAllowDowngradeToPlainTextEnabled is defined %}
   tlsAllowDowngradeToPlainTextEnabled: {{item.tlsAllowDowngradeToPlainTextEnabled}}
 {% endif %}
 {# state #}
-{% if item.state != '' %}
+{% if item.state is defined %}
   state: {{item.state}}
 {% endif %}
 {% endfor %}
