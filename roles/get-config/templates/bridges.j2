@@ -1,0 +1,62 @@
+---
+result_count: {{result.result_list_count}}
+{{output_object}}:
+{% for item in result.result_list -%}
+- msg_vpn: {{item.data.msgVpnName}}
+  name: {{item.data.bridgeName}}
+{% for k, v in item.data.items() %}
+{% if k in ["msgVpnName","bridgeName"] %}
+{# skip #}
+{% elif v == '' %}
+{# skip #}
+{% elif v is mapping %}
+  {{k}}: 
+{% for ck, cv in v.items() %}
+    {{ck}}: {{cv}}
+{% endfor %}
+{% else %}
+  {{k}}: {{v}}
+{% endif %}
+{% endfor %}
+{# Remote #}
+{% set bridge_ref = item.data.bridgeName %}
+{# Remote Message VPNs #}
+{% set remote_vpns = bridge_remote_vpns.results | selectattr("item.data.bridgeName","==",bridge_ref)%}
+{% set skey = True %}
+{% for sitem in remote_vpns %}
+{% if skey and sitem.result_list_count > 0 %}
+  remote_message_vpns:
+{% set skey = False %}
+{% endif %}
+{% for remote_vpn in sitem.result_list %}
+  - remote_msg_vpn_name: {{remote_vpn.data.remoteMsgVpnName}}
+    remote_vpn_location: {{remote_vpn.data.remoteMsgVpnLocation}}
+{% for rk,rv in remote_vpn.data.items() %}
+{% if rk in ["msgVpnName","bridgeName","remoteMsgVpnName","remoteMsgVpnLocation"] %}
+{# skip #}
+{% elif rv == '' %}
+{# skip #}
+{% else %}
+    {{rk}}: {{rv}}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endfor %}
+{# Remote Message Subscriptions #}
+{% set remote_scs = bridge_remote_subscriptions.results | selectattr("item.data.bridgeName","==",bridge_ref)%}
+{% set skey = True %}
+{% for sitem in remote_scs %}
+{% if skey and sitem.result_list_count > 0 %}
+  remote_subscriptions:
+{% set skey = False %}
+{% endif %}
+{% for dae, rtopics in sitem.result_list | groupby('data.deliverAlwaysEnabled') %}
+  - deliverAlwaysEnabled: {{ dae }}
+    topics:
+{% for rt in rtopics %}
+    - "{{ rt.data.remoteSubscriptionTopic }}"
+{% endfor %}
+{% endfor %}
+{% endfor %}
+{# End of Remote #}
+{% endfor %}

@@ -1,0 +1,27 @@
+---
+- name: Set Object Name
+  set_fact:
+    output_object: queues
+
+- name: "Get {{ output_object }}"
+  solace_get_queues:
+    msg_vpn: "{{msg_vpn}}"
+  register: result
+
+- name: "Get Queue Subscriptions"
+  solace_get_queue_subscriptions:
+    msg_vpn: "{{msg_vpn}}"
+    queue_name: "{{item.data.queueName}}"
+  loop: "{{ result.result_list }}"
+  register: queue_subscriptions
+
+- name: Export {{ output_object }}
+  template:
+    src: "queues.j2"
+    dest: "{{ result_output | default('../output/get-'+ output_object +'_result.yml' ) }}"
+  run_once: true
+  register: result_out
+
+- name: Export Result
+  debug:
+    msg: "{{ result_out }}}}"

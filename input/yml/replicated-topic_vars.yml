@@ -1,0 +1,25 @@
+---
+replicated_topics:
+  # - msg_vpn: "paulus_vpn"
+  #   topics: []
+  - msg_vpn: "paulus_vpn"
+    replicationMode: "async"
+    topics:
+    - "topicA/>"
+    - "topicB/sub*/>"
+    - "topicC/sub*"
+    state: "exactly"
+  - msg_vpn: "paulus_vpn"
+    replicationMode: "sync"
+    topics:
+    - "topic1/sync/1"
+    - "topic2/sync/2/>"
+    - "topic3/sync/3*"
+    - "topic3/sync/3*"
+    state: "present"
+  - msg_vpn: "paulus_vpn"
+    replicationMode: "async"
+    topics:
+    - "topicB/sub*/>"
+    - "topic2/sync/2/>"
+    state: "absent"

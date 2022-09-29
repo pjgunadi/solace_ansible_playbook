@@ -1,0 +1,34 @@
+---
+- name: Set Object Name
+  set_fact:
+    output_object: bridges
+
+- name: "Get {{ output_object }}"
+  solace_get_bridges:
+    msg_vpn: "{{msg_vpn}}"
+  register: result
+
+- name: "Get Remote Message VPNs"
+  solace_get_bridge_remote_vpns:
+    msg_vpn: "{{msg_vpn}}"
+    bridge_name: "{{item.data.bridgeName}}"
+  loop: "{{ result.result_list }}"
+  register: bridge_remote_vpns
+
+- name: "Get Remote Subscriptions"
+  solace_get_bridge_remote_subscriptions:
+    msg_vpn: "{{msg_vpn}}"
+    bridge_name: "{{item.data.bridgeName}}"
+  loop: "{{ result.result_list }}"
+  register: bridge_remote_subscriptions
+
+- name: Export {{ output_object }}
+  template:
+    src: "bridges.j2"
+    dest: "{{ result_output | default('../output/get-'+ output_object +'_result.yml' ) }}"
+  run_once: true
+  register: result_out
+
+- name: Export Result
+  debug:
+    msg: "{{ result_out }}}}"

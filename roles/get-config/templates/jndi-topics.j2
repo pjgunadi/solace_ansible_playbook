@@ -1,0 +1,21 @@
+---
+result_count: {{result.result_list_count}}
+{{output_object}}:
+{% for item in result.result_list -%}
+- msg_vpn: {{item.data.msgVpnName}}
+  name: {{item.data.topicName}}
+{% for k, v in item.data.items() %}
+{% if k in ["msgVpnName","topicName"] %}
+{# skip #}
+{% elif v == '' %}
+{# skip #}
+{% elif v is mapping %}
+  {{k}}: 
+{% for ck, cv in v.items() %}
+    {{ck}}: {{cv}}
+{% endfor %}
+{% else %}
+  {{k}}: {{v}}
+{% endif %}
+{% endfor %}
+{% endfor %}

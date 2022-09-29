@@ -1,0 +1,15 @@
+---
+- name: Replicated Topic
+  solace_replicated_topic:
+    msg_vpn: "{{item.0.msg_vpn}}"
+    topic: "{{item.1}}"
+    settings:
+      replicationMode: "{{item.0.replicationMode | default(omit)}}"
+    state: "{{item.0.state | default('present')}}"
+  loop: "{{replicated_topics|subelements('topics',skip_missing=true)}}"
+  register: rt_output
+
+- name: Replicated Topic Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ rt_output.results }}"

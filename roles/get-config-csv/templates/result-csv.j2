@@ -1,0 +1,18 @@
+result_count: {{result.result_list_count}}
+{% for k, _ in result.result_list.0.data.items() -%}
+{{k}}{{ "," if not loop.last }}
+{%- endfor %}
+
+{% for item in result.result_list -%}
+{% for _,v in item.data.items() %}
+{%- if v is mapping -%}
+"
+{%- for ck, cv in v.items() -%}
+{{ck}}: {{cv}}{{ "," if not loop.last }}
+{%- endfor -%}
+{{ "\"," if not loop.last else "\"" }}
+{%- else -%}
+{{v}}{{ "," if not loop.last }}
+{%- endif -%}
+{% endfor %}
+{% endfor %}

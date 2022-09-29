@@ -1,0 +1,56 @@
+---
+- name: Set Object Name
+  set_fact:
+    output_object: acl_profiles
+
+- name: "Get {{ output_object }}"
+  solace_get_acl_profiles:
+    msg_vpn: "{{msg_vpn}}"
+    query_params:
+        where:
+          - "aclProfileName!=#*"
+  register: result
+
+- name: "Get ACL Client Connect Exceptions"
+  solace_get_acl_client_connect_exceptions:
+    msg_vpn: "{{msg_vpn}}"
+    acl_profile_name: "{{item.data.aclProfileName}}"
+  loop: "{{ result.result_list }}"
+  register: client_connect_exceptions
+
+# - name: Client Connect Exceptions Result
+#   debug:
+#     msg: "{{ item }}"
+#   loop: "{{ client_connect_exceptions.results }}"
+
+- name: "Get Publish Topic Exceptions"
+  solace_get_acl_publish_topic_exceptions:
+    msg_vpn: "{{msg_vpn}}"
+    acl_profile_name: "{{item.data.aclProfileName}}"
+  loop: "{{ result.result_list }}"
+  register: publish_topic_exceptions
+
+- name: "Get Subscribe Topic Exceptions"
+  solace_get_acl_subscribe_topic_exceptions:
+    msg_vpn: "{{msg_vpn}}"
+    acl_profile_name: "{{item.data.aclProfileName}}"
+  loop: "{{ result.result_list }}"
+  register: subscribe_topic_exceptions
+
+- name: "Get Subscribe Share Name Exceptions"
+  solace_get_acl_subscribe_share_name_exceptions:
+    msg_vpn: "{{msg_vpn}}"
+    acl_profile_name: "{{item.data.aclProfileName}}"
+  loop: "{{ result.result_list }}"
+  register: subscribe_share_name_exceptions
+
+- name: Export {{ output_object }}
+  template:
+    src: "acl-profiles.j2"
+    dest: "{{ result_output | default('../output/get-'+ output_object +'_result.yml' ) }}"
+  run_once: true
+  register: result_out
+
+- name: Export Result
+  debug:
+    msg: "{{ result_out }}}}"

@@ -1,0 +1,85 @@
+---
+result_count: {{result.result_list_count}}
+{{output_object}}:
+{% for item in result.result_list -%}
+- msg_vpn: {{item.data.msgVpnName}}
+  name: {{item.data.aclProfileName}}
+{% for k, v in item.data.items() %}
+{% if k in ["msgVpnName","aclProfileName"] %}
+{# skip #}
+{% elif v == '' %}
+{# skip #}
+{% elif v is mapping %}
+  {{k}}: 
+{% for ck, cv in v.items() %}
+    {{ck}}: {{cv}}
+{% endfor %}
+{% else %}
+  {{k}}: {{v}}
+{% endif %}
+{% endfor %}
+{# Exceptions #}
+{% set acl_ref = item.data.aclProfileName %}
+{# Client Connect Exceptions #}
+{% set cc_exceptions = client_connect_exceptions.results | rejectattr("item.data", "==",{}) | selectattr("item.data.aclProfileName","==",acl_ref)%}
+{% set skey = True %}
+{% for sitem in cc_exceptions %}
+{% if skey and sitem.result_list_count > 0 %}
+  client_connect_exceptions:
+  - addresses:
+{% set skey = False %}
+{% endif %}
+{% for cc_item in sitem.result_list %}
+    - "{{ cc_item.data.clientConnectExceptionAddress}}"
+{% endfor %}
+{% endfor %}
+{# Publish Topic Exceptions #}
+{% set pub_exceptions = publish_topic_exceptions.results | rejectattr("item.data", "==",{}) | selectattr("item.data.aclProfileName","==",acl_ref)%}
+{% set skey = True %}
+{% for sitem in pub_exceptions %}
+{% if skey and sitem.result_list_count > 0 %}
+  publish_topic_exceptions:
+{% set skey = False %}
+{% endif %}
+{% for pub_syntax, pub_items in sitem.result_list | groupby('data.publishTopicExceptionSyntax') %}
+  - topic_syntax: {{ pub_syntax }}
+    topics:
+{% for pt in pub_items %}
+    - "{{ pt.data.publishTopicException }}"
+{% endfor %}
+{% endfor %}
+{% endfor %}
+{# Subscribe Topic Exceptions #}
+{% set sub_exceptions = subscribe_topic_exceptions.results | rejectattr("item.data", "==",{}) | selectattr("item.data.aclProfileName","==",acl_ref)%}
+{% set skey = True %}
+{% for sitem in sub_exceptions %}
+{% if skey and sitem.result_list_count > 0 %}
+  subscribe_topic_exceptions:
+{% set skey = False %}
+{% endif %}
+{% for sub_syntax, sub_items in sitem.result_list | groupby('data.subscribeTopicExceptionSyntax') %}
+  - topic_syntax: {{ sub_syntax }}
+    topics:
+{% for st in sub_items %}
+    - "{{ st.data.subscribeTopicException }}"
+{% endfor %}
+{% endfor %}
+{% endfor %}
+{# Subscribe Share Name Exceptions #}
+{% set sn_exceptions = subscribe_share_name_exceptions.results | rejectattr("item.data", "==",{}) | selectattr("item.data.aclProfileName","==",acl_ref)%}
+{% set skey = True %}
+{% for sitem in sn_exceptions %}
+{% if skey and sitem.result_list_count > 0 %}
+  subscribe_share_name_exceptions:
+{% set skey = False %}
+{% endif %}
+{% for sn_syntax, sn_items in sitem.result_list | groupby('data.subscribeShareNameExceptionSyntax') %}
+  - topic_syntax: {{ sn_syntax }}
+    topics:
+{% for sn in sn_items %}
+    - "{{ sn.data.subscribeShareNameException }}"
+{% endfor %}
+{% endfor %}
+{% endfor %}
+{# End of Exceptions #}
+{% endfor %}

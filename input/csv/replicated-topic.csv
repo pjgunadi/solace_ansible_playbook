@@ -1,0 +1,3 @@
+msg_vpn,replicationMode,topics,state
+paulus_vpn,async,"topicA/>,topicB/sub*/>,topicC/sub*",exactly
+paulus_vpn,sync,"topic/sync/1,topic/sync/2/>,topic/sync/3/*",present

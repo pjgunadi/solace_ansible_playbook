@@ -1,0 +1,20 @@
+---
+- name: Set Object Name
+  set_fact:
+    output_object: jndi_queues
+
+- name: "Get {{ output_object }}"
+  solace_get_jndi_queues:
+    msg_vpn: "{{msg_vpn}}"
+  register: result
+
+- name: Export {{ output_object }}
+  template:
+    src: "jndi-queues.j2"
+    dest: "{{ result_output | default('../output/get-'+ output_object +'_result.yml' ) }}"
+  run_once: true
+  register: result_out
+
+- name: Export Result
+  debug:
+    msg: "{{ result_out }}}}"

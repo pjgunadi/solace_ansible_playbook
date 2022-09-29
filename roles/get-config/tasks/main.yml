@@ -1,0 +1,55 @@
+---
+- name: VPNs
+  import_tasks: get-vpns.yml
+  tags:
+  - msg-vpn
+
+- name: ACL Profiles
+  import_tasks: get-acl-profiles.yml
+  tags:
+  - acl-profile
+
+- name: Authorization Groups
+  import_tasks: get-authorization-groups.yml
+  tags:
+  - authorization-group
+
+- name: Bridges
+  import_tasks: get-bridges.yml
+  tags:
+  - bridge
+
+- name: Client Profiles
+  import_tasks: get-client-profiles.yml
+  tags:
+  - client-profile
+
+- name: Client Usernames
+  import_tasks: get-client-usernames.yml
+  tags:
+  - client-username
+
+- name: JNDI CFs
+  import_tasks: get-jndi-cfs.yml
+  tags:
+  - jndi-cf
+
+- name: JNDI Queues
+  import_tasks: get-jndi-queues.yml
+  tags:
+  - jndi-queue
+
+- name: JNDI Topics
+  import_tasks: get-jndi-topics.yml
+  tags:
+  - jndi-topic
+
+- name: Queues
+  import_tasks: get-queues.yml
+  tags:
+  - queue
+
+- name: Replicated Topics
+  import_tasks: get-replicated-topics.yml
+  tags:
+  - replicated-topic

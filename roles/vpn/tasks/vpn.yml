@@ -21,6 +21,7 @@
       replicationBridgeAuthenticationClientCertContent: "{{ item.replicationBridgeAuthenticationClientCertContent | default(omit) }}"
       replicationBridgeAuthenticationClientCertPassword: "{{ item.replicationBridgeAuthenticationClientCertPassword | default(omit) }}"
       replicationBridgeAuthenticationScheme: "{{ item.replicationBridgeAuthenticationScheme | default(omit) }}"
+      replicationBridgeCompressedDataEnabled: "{{ item.replicationBridgeCompressedDataEnabled | default(omit) }}"
       replicationBridgeTlsEnabled: "{{ item.replicationBridgeTlsEnabled | default(omit) }}"
       replicationEnabled: "{{ item.replicationEnabled | default(omit) }}"
       replicationRole: "{{ item.replicationRole | default(omit) }}"

@@ -1,0 +1,6 @@
+---
+- name: Replicated Topic List
+  import_tasks: replicated-topic-list.yml
+
+# - name: Replicated Topic
+#   import_tasks: replicated-topic.yml

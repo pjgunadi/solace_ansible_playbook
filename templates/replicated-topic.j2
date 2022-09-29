@@ -1,0 +1,24 @@
+---
+replicated_topics:
+{% for item in csv_input.list %}
+- msg_vpn: "{{item.msg_vpn}}"
+{# replicationMode #}
+{% if item.replicationMode is defined %}
+  replicationMode: "{{item.replicationMode}}"
+{% endif %}
+{# state #}
+{% if item.state is defined %}
+  state: "{{item.state}}"
+{% endif %}
+{# subscription_topics #}
+{% if item.topics is defined %}
+  topics:
+{%- set topics = item.topics.split(',') %}
+{% if topics.0 == '' %} []
+{%  else +%}
+{% for topic in topics %}
+  - "{{ topic }}"
+{% endfor %}
+{%  endif %}
+{% endif %}
+{% endfor %}

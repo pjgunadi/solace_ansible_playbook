@@ -1,0 +1,36 @@
+---
+result_count: {{result.result_list_count}}
+{{output_object}}:
+{% for item in result.result_list -%}
+- msg_vpn: {{item.data.msgVpnName}}
+  name: {{item.data.queueName}}
+{% for k, v in item.data.items() %}
+{% if k in ["msgVpnName","queueName"] %}
+{# skip #}
+{% elif v == '' %}
+{# skip #}
+{% elif v is mapping %}
+  {{k}}: 
+{% for ck, cv in v.items() %}
+    {{ck}}: {{cv}}
+{% endfor %}
+{% else %}
+  {{k}}: {{v}}
+{% endif %}
+{% endfor %}
+{# Subscriptions #}
+{% set queue_ref = item.data.queueName %}
+{# Queue Subscriptions #}
+{% set q_scs = queue_subscriptions.results | selectattr("item.data.queueName","==",queue_ref)%}
+{% set skey = True %}
+{% for sitem in q_scs %}
+{% if skey and sitem.result_list_count > 0 %}
+  subscription_topics:
+{% set skey = False %}
+{% endif %}
+{% for st in sitem.result_list %}
+  - "{{ st.data.subscriptionTopic }}"
+{% endfor %}
+{% endfor %}
+{# End of Subscriptions #}
+{% endfor %}
