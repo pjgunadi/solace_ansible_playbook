@@ -1,8 +1,11 @@
 ---
-- name: Disable Queue
-  import_tasks: disable_queue.yml
-  tags:
-  - change_permission
+# - name: Disable Queue
+#   import_tasks: disable_queue.yml
+#   tags:
+#   - change_permission
+
+- name: Evaluate Queue
+  import_tasks: eval_queue.yml
 
 - name: Create, Update, Delete Queue
   import_tasks: queue.yml

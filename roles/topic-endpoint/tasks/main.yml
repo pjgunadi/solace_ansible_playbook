@@ -1,0 +1,6 @@
+---
+- name: Evaluate Topic Endpoint
+  import_tasks: eval_topic-endpoint.yml
+  
+- name: Create, Update, Delete Topic Endpoint
+  import_tasks: topic-endpoint.yml

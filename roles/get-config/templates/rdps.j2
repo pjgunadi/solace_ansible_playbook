@@ -1,0 +1,66 @@
+---
+result_count: {{result.result_list_count}}
+{{output_object}}:
+{% for item in result.result_list -%}
+- msg_vpn: {{item.data.msgVpnName}}
+  name: {{item.data.restDeliveryPointName}}
+{% for k, v in item.data.items() %}
+{% if k in ["msgVpnName","restDeliveryPointName"] %}
+{# skip #}
+{% elif v == '' %}
+{# skip #}
+{% elif v is mapping %}
+  {{k}}: 
+{% for ck, cv in v.items() %}
+    {{ck}}: {{cv}}
+{% endfor %}
+{% else %}
+  {{k}}: {{v}}
+{% endif %}
+{% endfor %}
+{# RDP Components #}
+{% set rdp_ref = item.data.restDeliveryPointName %}
+{# Queue Bindings #}
+{% set rdp_qbinds = rdp_queue_bindings.results | selectattr("item.data.restDeliveryPointName","==",rdp_ref)%}
+{% set skey = True %}
+{% for sitem in rdp_qbinds %}
+{% if skey and sitem.result_list_count > 0 %}
+  queue_bindings:
+{% set skey = False %}
+{% endif %}
+{% for qb in sitem.result_list %}
+  - queue_name: {{ qb.data.queueBindingName }}
+{% for rk,rv in qb.data.items() %}
+{% if rk in ["msgVpnName","restDeliveryPointName","queueBindingName"] %}
+{# skip #}
+{% elif rv == '' %}
+{# skip #}
+{% else %}
+    {{rk}}: {{rv}}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endfor %}
+{# REST Consumers #}
+{% set rdp_rcs = rdp_rest_consumers.results | selectattr("item.data.restDeliveryPointName","==",rdp_ref)%}
+{% set skey = True %}
+{% for sitem in rdp_rcs %}
+{% if skey and sitem.result_list_count > 0 %}
+  rest_consumers:
+{% set skey = False %}
+{% endif %}
+{% for rc in sitem.result_list %}
+  - consumer_name: {{ rc.data.restConsumerName }}
+{% for rk,rv in rc.data.items() %}
+{% if rk in ["msgVpnName","restDeliveryPointName","restConsumerName"] %}
+{# skip #}
+{% elif rv == '' %}
+{# skip #}
+{% else %}
+    {{rk}}: {{rv}}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endfor %}
+{# End of RDP Components #}
+{% endfor %}

@@ -1,0 +1,49 @@
+---
+topic_endpoints:
+{% for item in csv_input.list %}
+- name: "{{item.name}}"
+  msg_vpn: "{{item.msg_vpn}}"
+  accessType: "{{item.accessType}}"
+  egressEnabled: {{item.egressEnabled}}
+  ingressEnabled: {{item.ingressEnabled}}
+{# owner #}
+{% if item.owner is defined %}
+  owner: "{{item.owner}}"
+{% endif %}
+{# permission #}
+{% if item.permission is defined %}
+  permission: "{{item.permission}}"
+{% endif %}
+{# maxSpoolUsage #}
+{% if item.maxSpoolUsage is defined %}
+  maxSpoolUsage: "{{item.maxSpoolUsage}}"
+{% endif %}
+{# maxBindCount #}
+{% if item.maxBindCount is defined %}
+  maxBindCount: "{{item.maxBindCount}}"
+{% endif %}
+{# maxMsgSize #}
+{% if item.maxMsgSize is defined %}
+  maxMsgSize: "{{item.maxMsgSize}}"
+{% endif %}
+{# maxRedeliveryCount #}
+{% if item.maxRedeliveryCount is defined %}
+  maxRedeliveryCount: "{{item.maxRedeliveryCount}}"
+{% endif %}
+{# maxTtl #}
+{% if item.maxTtl is defined %}
+  maxTtl: "{{item.maxTtl}}"
+{% endif %}
+{# respectTtlEnabled #}
+{% if item.respectTtlEnabled is defined %}
+  respectTtlEnabled: {{item.respectTtlEnabled}}
+{% endif %}
+{# deadMsgQueue #}
+{% if item.deadMsgQueue is defined %}
+  deadMsgQueue: "{{item.deadMsgQueue}}"
+{% endif %}
+{# state #}
+{% if item.state is defined %}
+  state: "{{item.state}}"
+{% endif %}
+{% endfor %}

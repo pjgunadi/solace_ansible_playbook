@@ -1,0 +1,19 @@
+---
+- name: RDP
+  solace_rdp:
+    name: "{{item.name}}"
+    msg_vpn: "{{item.msg_vpn}}"
+    settings:
+      clientProfileName: "{{item.clientProfileName | default(omit)}}"
+      enabled: "{{item.enabled | default(omit)}}"
+      service: "{{item.service | default(omit)}}"
+      vendor: "{{item.vendor | default(omit)}}"
+    state: "{{item.state | default('present')}}"
+  loop: "{{rdps}}"
+  register: rdp_output
+
+- name: RDP Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ rdp_output.results }}"
+

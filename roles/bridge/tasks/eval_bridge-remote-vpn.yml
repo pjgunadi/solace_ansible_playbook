@@ -1,0 +1,49 @@
+---
+- name: Evaluate Bridge Remote VPN
+  solace_get_bridge_remote_vpns:
+    msg_vpn: "{{ item.0.msg_vpn }}"
+    bridge_name: "{{ item.0.name }}"
+    query_params:
+        where:
+        - "remoteMsgVpnName=={{ item.1.remote_msg_vpn_name }}"
+        - "remoteMsgVpnLocation=={{ item.1.remote_vpn_location }}"
+        - enabled==true
+        select:
+        - msgVpnName
+        - bridgeName
+        - bridgeVirtualRouter
+        - remoteMsgVpnInterface
+        - remoteMsgVpnLocation
+        - remoteMsgVpnName
+        - enabled
+        - clientUsername
+        - compressedDataEnabled
+        - tlsEnabled
+  when: (item.0.state is undefined or item.0.state != "absent")
+  loop: "{{bridges | subelements('remote_message_vpns',skip_missing=true)}}"
+  register: current_brvpns
+
+- name: Get Bridge Remote VPN Result
+  debug:
+    msg: "{{ current_brvpns }}"
+
+- name: Disable Bridge Remote VPN
+  solace_bridge_remote_vpn:
+    msg_vpn: "{{item.result_list.0.data.msgVpnName}}"
+    bridge_name: "{{item.result_list.0.data.bridgeName}}"
+    bridge_virtual_router: "{{item.result_list.0.data.bridgeVirtualRouter | default(omit)}}"
+    remote_msg_vpn_name: "{{ item.result_list.0.data.remoteMsgVpnName }}"
+    remote_vpn_location: "{{ item.result_list.0.data.remoteMsgVpnLocation }}"
+    settings:
+      enabled: false
+  when: >
+    (item.result_list_count is defined and item.result_list_count > 0) and 
+    ((item.item.1.clientUsername is defined and 
+      item.item.1.clientUsername != item.result_list.0.data.clientUsername) or
+     (item.item.1.password is defined) or
+     (item.item.1.compressedDataEnabled is defined and 
+      item.item.1.compressedDataEnabled != item.result_list.0.data.compressedDataEnabled) or
+     (item.item.1.tlsEnabled is defined and 
+      item.item.1.tlsEnabled != item.result_list.0.data.tlsEnabled)
+    )
+  loop: "{{ current_brvpns.results }}"

@@ -1,0 +1,31 @@
+---
+- name: Evaluate MQTT Session
+  solace_get_mqtt_sessions:
+    msg_vpn: "{{item.msg_vpn}}"
+    query_params:
+        where:
+        - "mqttSessionClientId=={{item.name}}"
+        - enabled==true
+        select:
+        - msgVpnName
+        - mqttSessionClientId
+        - enabled
+        - owner
+  when: (item.state is undefined or item.state != "absent")
+  loop: "{{mqtt_sessions}}"
+  register: current_ms
+
+# - name: Get MQTT Session Result
+#   debug:
+#     msg: "{{ current_ms }}"
+
+- name: Disable MQTT Session
+  solace_mqtt_session:
+    name: "{{item.result_list.0.data.mqttSessionClientId}}"
+    msg_vpn: "{{item.result_list.0.data.msgVpnName}}"
+    settings:
+      enabled: false
+  when: >
+    (item.result_list_count is defined and item.result_list_count > 0) and 
+    (item.item.owner is defined and item.item.owner != item.result_list.0.data.owner)
+  loop: "{{ current_ms.results }}"

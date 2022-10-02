@@ -1,0 +1,25 @@
+---
+rdps:
+- name: "myrdp1"
+  msg_vpn: "test_vpn"
+  enabled: true
+  clientProfileName: test_cp
+  # service: REST
+  # vendor: CUSTOM
+  # state: absent
+  queue_bindings:
+  - queue_name: "queue/test"
+    postRequestTarget: "/test"
+    # requestTargetEvaluation: "none"
+    # gatewayReplaceTargetAuthorityEnabled: false
+    # state: absent
+  rest_consumers:
+  - consumer_name: "test_consumer"
+    enabled: true
+    authenticationScheme: "http-basic"
+    httpMethod: "post"
+    remoteHost: "192.168.1.80"
+    remotePort: 8080
+    tlsEnabled: false
+    # authenticationHttpBasicUsername: "default"
+    # authenticationHttpBasicPassword: "default"

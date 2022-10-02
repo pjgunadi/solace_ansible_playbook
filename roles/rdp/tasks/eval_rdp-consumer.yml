@@ -1,0 +1,61 @@
+---
+- name: Evaluate RDP REST Consumer
+  solace_get_rdp_rest_consumers:
+    msg_vpn: "{{ item.0.msg_vpn }}"
+    rdp_name: "{{ item.0.name }}"
+    query_params:
+        where:
+        - "restConsumerName=={{ item.1.consumer_name }}"
+        - enabled==true
+        select:
+        - msgVpnName
+        - restDeliveryPointName
+        - restConsumerName
+        - enabled
+        - remoteHost
+        - remotePort
+        - tlsEnabled
+        - authenticationScheme
+        - authenticationAwsAccessKeyId
+        - authenticationAwsService
+        - authenticationHttpBasicUsername
+        - authenticationHttpHeaderName
+        - authenticationOauthClientId
+        - authenticationOauthClientScope
+        - authenticationOauthClientTokenEndpoint
+        - authenticationOauthJwtTokenEndpoint
+  when: (item.0.state is undefined or item.0.state != "absent")
+  loop: "{{rdps | subelements('rest_consumers',skip_missing=true)}}"
+  register: current_rdprcs
+
+# - name: Get RDP REST Consumer Result
+#   debug:
+#     msg: "{{ current_rdprcs }}"
+
+- name: Disable RDP REST Consumer
+  solace_rdp_rest_consumer:
+    msg_vpn: "{{item.result_list.0.data.msgVpnName}}"
+    rdp_name: "{{item.result_list.0.data.restDeliveryPointName}}"
+    name: "{{item.result_list.0.data.restConsumerName}}"
+    settings:
+      enabled: false
+  when: >
+    (item.result_list_count is defined and item.result_list_count > 0) and 
+    ((item.item.1.remoteHost is defined and 
+      item.item.1.remoteHost != item.result_list.0.data.remoteHost) or
+     (item.item.1.remotePort is defined and 
+      item.item.1.remotePort | int != item.result_list.0.data.remotePort) or
+     (item.item.1.tlsEnabled is defined and 
+      item.item.1.tlsEnabled != item.result_list.0.data.tlsEnabled) or
+     (item.item.1.authenticationScheme is defined and 
+      item.item.1.authenticationScheme != item.result_list.0.data.authenticationScheme) or
+     (item.item.1.authenticationAwsAccessKeyId is defined) or
+     (item.item.1.authenticationAwsService is defined) or
+     (item.item.1.authenticationHttpBasicUsername is defined) or
+     (item.item.1.authenticationHttpHeaderName is defined) or
+     (item.item.1.authenticationOauthClientId is defined) or
+     (item.item.1.authenticationOauthClientScope is defined) or
+     (item.item.1.authenticationOauthClientTokenEndpoint is defined) or
+     (item.item.1.authenticationOauthJwtTokenEndpoint is defined)
+    )
+  loop: "{{ current_rdprcs.results }}"

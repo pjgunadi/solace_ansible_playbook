@@ -1,0 +1,20 @@
+---
+- name: Set Object Name
+  set_fact:
+    output_object: topic_endpoints
+
+- name: "Get {{ output_object }}"
+  solace_get_topic_endpoints:
+    msg_vpn: "{{msg_vpn}}"
+  register: result
+
+- name: Export {{ output_object }}
+  template:
+    src: "topic-endpoints.j2"
+    dest: "{{ result_output | default('../output/get-'+ output_object +'_result.yml' ) }}"
+  run_once: true
+  register: result_out
+
+- name: Export Result
+  debug:
+    msg: "{{ result_out }}}}"

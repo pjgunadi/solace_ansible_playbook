@@ -44,12 +44,27 @@
   tags:
   - jndi-topic
 
+- name: MQTT Sessions
+  import_tasks: get-mqtt-sessions.yml
+  tags:
+  - mqtt-session
+
 - name: Queues
   import_tasks: get-queues.yml
   tags:
   - queue
 
+- name: RDPs
+  import_tasks: get-rdps.yml
+  tags:
+  - rdp
+
 - name: Replicated Topics
   import_tasks: get-replicated-topics.yml
   tags:
   - replicated-topic
+
+- name: Topic Endpoints
+  import_tasks: get-topic-endpoints.yml
+  tags:
+  - topic-endpoint

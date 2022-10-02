@@ -1,0 +1,15 @@
+---
+- name: Evaluate RDP
+  import_tasks: eval_rdp.yml
+  
+- name: Create, Update, Delete RDP
+  import_tasks: rdp.yml
+
+- name: RDP Queue Binding
+  import_tasks: rdp-queue-binding.yml
+
+- name: Evaluate RDP Consumer
+  import_tasks: eval_rdp-consumer.yml
+
+- name: RDP Consumer
+  import_tasks: rdp-consumer.yml

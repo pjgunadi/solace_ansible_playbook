@@ -1,8 +1,6 @@
 ---
-- name: Disable AMQP
-  import_tasks: disable_amqp.yml
-  tags:
-  - change_amqp_port
+- name: Evaluate VPN Services
+  import_tasks: eval_services.yml
 
 - name: Create, Update, Delete VPN
   import_tasks: vpn.yml

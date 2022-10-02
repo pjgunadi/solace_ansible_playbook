@@ -1,0 +1,39 @@
+---
+- name: Evaluate Bridge
+  solace_get_bridges:
+    msg_vpn: "{{item.msg_vpn}}"
+    query_params:
+        where:
+        - "bridgeName=={{item.name}}"
+        - enabled==true
+        select:
+        - msgVpnName
+        - bridgeName
+        - enabled
+        - remoteAuthenticationScheme
+        - remoteAuthenticationBasicClientUsername
+  when: (item.state is undefined or item.state != "absent")
+  loop: "{{bridges}}"
+  register: current_bridges
+
+# - name: Get Bridge Result
+#   debug:
+#     msg: "{{ current_bridges }}"
+
+- name: Disable Bridge
+  solace_bridge:
+    name: "{{item.result_list.0.data.bridgeName}}"
+    msg_vpn: "{{item.result_list.0.data.msgVpnName}}"
+    settings:
+      enabled: false
+  when: >
+    (item.result_list_count is defined and item.result_list_count > 0) and 
+    ((item.item.remoteAuthenticationScheme is defined and 
+      item.item.remoteAuthenticationScheme != item.result_list.0.data.remoteAuthenticationScheme) or
+     (item.item.remoteAuthenticationBasicClientUsername is defined and 
+      item.item.remoteAuthenticationBasicClientUsername != item.result_list.0.data.remoteAuthenticationBasicClientUsername) or
+     (item.item.remoteAuthenticationBasicPassword is defined) or
+     (item.item.remoteAuthenticationClientCertContent is defined) or
+     (item.item.remoteAuthenticationClientCertPassword is defined)
+    )
+  loop: "{{ current_bridges.results }}"

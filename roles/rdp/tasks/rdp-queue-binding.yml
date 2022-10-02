@@ -1,0 +1,18 @@
+---
+- name: RDP Queue Binding
+  solace_rdp_queue_binding:
+    msg_vpn: "{{item.0.msg_vpn}}"
+    rdp_name: "{{item.0.name}}"
+    queue_name: "{{item.1.queue_name}}"
+    settings:
+      gatewayReplaceTargetAuthorityEnabled: "{{ item.1.gatewayReplaceTargetAuthorityEnabled | default(omit) }}"
+      postRequestTarget: "{{ item.1.postRequestTarget | default(omit) }}"
+      requestTargetEvaluation: "{{ item.1.requestTargetEvaluation | default(omit) }}"
+    state: "{{item.1.state | default('present')}}"
+  when: (item.0.state is undefined or item.0.state != "absent")
+  loop: "{{rdps|subelements('queue_bindings',skip_missing=true)}}"
+  register: rdpqb_output
+
+# - name: RDP Queue Binding Result
+#   debug:
+#     msg: "{{ rdpqb_output }}"

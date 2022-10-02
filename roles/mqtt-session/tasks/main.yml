@@ -1,0 +1,10 @@
+---
+- name: Evaluate MQTT Session
+  import_tasks: eval_mqtt-session.yml
+  
+- name: Create, Update, Delete MQTT Session
+  import_tasks: mqtt-session.yml
+
+- name: MQTT Session Subscription
+  import_tasks: mqtt-session-subscription.yml
+

@@ -1,0 +1,70 @@
+---
+- name: Evaluate Queue Range
+  solace_get_queues:
+    msg_vpn: "{{item.0.msg_vpn}}"
+    query_params:
+        where:
+          - "queueName=={{item.0.name+'%d' | format(item.1) }}"
+          - egressEnabled==true
+        select:
+          - msgVpnName
+          - queueName
+          - egressEnabled
+          - accessType
+          - owner
+          - permission
+  when: padding == 0 and (item.0.state is undefined or item.0.state != "absent")
+  loop: "{{ queues | product(range(start_number, end_number + 1, stride))|list }}"
+  register: current_p0_queues
+
+# - name: Get Queue Range Result
+#   debug:
+#     msg: "{{ current_p0_queues }}"
+
+- name: Disable Queue Range
+  solace_queue:
+    name: "{{item.result_list.0.data.queueName}}"
+    msg_vpn: "{{item.result_list.0.data.msgVpnName}}"
+    settings:
+      egressEnabled: false
+  when: >
+    (item.result_list_count is defined and item.result_list_count > 0) and 
+    ((item.item.0.accessType is defined and item.item.0.accessType != item.result_list.0.data.accessType) or
+    (item.item.0.owner is defined and item.item.0.owner != item.result_list.0.data.owner) or
+    (item.item.0.permission is defined and item.item.0.permission != item.result_list.0.data.permission))
+  loop: "{{ current_p0_queues.results }}"
+
+- name: Evaluate Queue Range Padding 3
+  solace_get_queues:
+    msg_vpn: "{{item.0.msg_vpn}}"
+    query_params:
+        where:
+          - "queueName=={{item.0.name+'%03d' | format(item.1) }}"
+          - egressEnabled==true
+        select:
+          - msgVpnName
+          - queueName
+          - egressEnabled
+          - accessType
+          - owner
+          - permission
+  when: padding == 3 and (item.0.state is undefined or item.0.state != "absent")
+  loop: "{{ queues | product(range(start_number, end_number + 1, stride))|list }}"
+  register: current_p3_queues
+
+# - name: Get Queue Range Padding 3 Result
+#   debug:
+#     msg: "{{ current_p3_queues }}"
+
+- name: Disable Queue Range Padding 3
+  solace_queue:
+    name: "{{item.result_list.0.data.queueName}}"
+    msg_vpn: "{{item.result_list.0.data.msgVpnName}}"
+    settings:
+      egressEnabled: false
+  when: >
+    (item.result_list_count is defined and item.result_list_count > 0) and 
+    ((item.item.0.accessType is defined and item.item.0.accessType != item.result_list.0.data.accessType) or
+    (item.item.0.owner is defined and item.item.0.owner != item.result_list.0.data.owner) or
+    (item.item.0.permission is defined and item.item.0.permission != item.result_list.0.data.permission))
+  loop: "{{ current_p3_queues.results }}"

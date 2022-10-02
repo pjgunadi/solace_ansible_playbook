@@ -5,21 +5,29 @@
     msg_vpn: "{{item.0.msg_vpn}}"
     settings:
       accessType: "{{item.0.accessType | default(omit)}}"
+      consumerAckPropagationEnabled: "{{item.0.consumerAckPropagationEnabled | default(omit)}}"
       deadMsgQueue: "{{item.0.deadMsgQueue | default(omit)}}"
+      deliveryCountEnabled: "{{item.0.deliveryCountEnabled | default(omit)}}"
+      deliveryDelay: "{{item.0.deliveryDelay | default(omit)}}"
       egressEnabled: "{{item.0.egressEnabled | default(omit)}}"
       ingressEnabled: "{{item.0.ingressEnabled | default(omit)}}"
       maxBindCount: "{{item.0.maxBindCount | default(omit)}}"
+      maxDeliveredUnackedMsgsPerFlow: "{{item.0.maxDeliveredUnackedMsgsPerFlow | default(omit)}}"
       maxMsgSize: "{{item.0.maxMsgSize | default(omit)}}"
       maxMsgSpoolUsage: "{{item.0.maxMsgSpoolUsage | default(omit)}}"
       maxRedeliveryCount: "{{item.0.maxRedeliveryCount | default(omit)}}"
       maxTtl: "{{item.0.maxTtl | default(omit)}}"
-      owner: "{{item.0.owner | default('')}}"
+      owner: "{{item.0.owner | default(omit)}}"
       permission: "{{item.0.permission | default(omit)}}"
+      redeliveryEnabled: "{{item.0.redeliveryEnabled | default(omit)}}"
+      rejectLowPriorityMsgEnabled: "{{item.0.rejectLowPriorityMsgEnabled | default(omit)}}"
+      rejectLowPriorityMsgLimit: "{{item.0.rejectLowPriorityMsgLimit | default(omit)}}"
+      rejectMsgToSenderOnDiscardBehavior: "{{item.0.rejectMsgToSenderOnDiscardBehavior | default(omit)}}"
+      respectMsgPriorityEnabled: "{{item.0.respectMsgPriorityEnabled | default(omit)}}"
       respectTtlEnabled: "{{item.0.respectTtlEnabled | default(omit)}}"
     state: "{{item.0.state | default('present')}}"
   when: padding == 0
   loop: "{{ queues | product(range(start_number, end_number + 1, stride))|list }}"
-  # loop: "{{ queues | product(range(start_number, end_number + 1))|list }}"
   register: q_output
 
 - name: Queue Range 3 Padding
@@ -28,21 +36,29 @@
     msg_vpn: "{{item.0.msg_vpn}}"
     settings:
       accessType: "{{item.0.accessType | default(omit)}}"
+      consumerAckPropagationEnabled: "{{item.0.consumerAckPropagationEnabled | default(omit)}}"
       deadMsgQueue: "{{item.0.deadMsgQueue | default(omit)}}"
+      deliveryCountEnabled: "{{item.0.deliveryCountEnabled | default(omit)}}"
+      deliveryDelay: "{{item.0.deliveryDelay | default(omit)}}"
       egressEnabled: "{{item.0.egressEnabled | default(omit)}}"
       ingressEnabled: "{{item.0.ingressEnabled | default(omit)}}"
       maxBindCount: "{{item.0.maxBindCount | default(omit)}}"
+      maxDeliveredUnackedMsgsPerFlow: "{{item.0.maxDeliveredUnackedMsgsPerFlow | default(omit)}}"
       maxMsgSize: "{{item.0.maxMsgSize | default(omit)}}"
       maxMsgSpoolUsage: "{{item.0.maxMsgSpoolUsage | default(omit)}}"
       maxRedeliveryCount: "{{item.0.maxRedeliveryCount | default(omit)}}"
       maxTtl: "{{item.0.maxTtl | default(omit)}}"
       owner: "{{item.0.owner | default(omit)}}"
       permission: "{{item.0.permission | default(omit)}}"
+      redeliveryEnabled: "{{item.0.redeliveryEnabled | default(omit)}}"
+      rejectLowPriorityMsgEnabled: "{{item.0.rejectLowPriorityMsgEnabled | default(omit)}}"
+      rejectLowPriorityMsgLimit: "{{item.0.rejectLowPriorityMsgLimit | default(omit)}}"
+      rejectMsgToSenderOnDiscardBehavior: "{{item.0.rejectMsgToSenderOnDiscardBehavior | default(omit)}}"
+      respectMsgPriorityEnabled: "{{item.0.respectMsgPriorityEnabled | default(omit)}}"
       respectTtlEnabled: "{{item.0.respectTtlEnabled | default(omit)}}"
     state: "{{item.0.state | default('present')}}"
   when: padding == 3
   loop: "{{ queues | product(range(start_number, end_number + 1, stride))|list }}"
-  # loop: "{{ queues | product(range(start_number, end_number + 1))|list }}"
   register: q_output
 
 - name: Queue Range Result

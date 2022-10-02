@@ -1,0 +1,16 @@
+---
+- name: MQTT Session Subscription
+  solace_mqtt_session_subscription:
+    msg_vpn: "{{item.0.msg_vpn}}"
+    client_id: "{{item.0.name}}"
+    topic: "{{item.1.topic}}"
+    settings:
+      subscriptionQos: "{{item.1.qos}}"
+    state: "{{item.1.state | default('present')}}"
+  when: (item.0.state is undefined or item.0.state != "absent")
+  loop: "{{mqtt_sessions|subelements('subscription_topics',skip_missing=true)}}"
+  register: mss_output
+
+# - name: MQTT Session Subscription Result
+#   debug:
+#     msg: "{{ mss_output }}"

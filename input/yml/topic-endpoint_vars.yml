@@ -1,0 +1,9 @@
+---
+topic_endpoints:
+- name: "paulus/te/1"
+  msg_vpn: "test_vpn"
+  accessType: "exclusive"
+  egressEnabled: true
+  ingressEnabled: true
+  maxSpoolUsage: 10000
+  

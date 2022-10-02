@@ -1,0 +1,155 @@
+---
+- name: "Evaluate VPN"
+  solace_get_vpns:
+    query_params:
+        where:
+          - "msgVpnName=={{ item.msg_vpn }}"
+        select:
+          - msgVpnName
+          - enabled
+          - serviceAmqpPlainTextEnabled
+          - serviceAmqpPlainTextListenPort
+          - serviceAmqpTlsEnabled
+          - serviceAmqpTlsListenPort
+          - serviceMqttPlainTextEnabled
+          - serviceMqttPlainTextListenPort
+          - serviceMqttTlsEnabled
+          - serviceMqttTlsListenPort
+          - serviceMqttTlsWebSocketEnabled
+          - serviceMqttTlsWebSocketListenPort
+          - serviceMqttWebSocketEnabled
+          - serviceMqttWebSocketListenPort
+          - serviceRestIncomingPlainTextEnabled
+          - serviceRestIncomingPlainTextListenPort
+          - serviceRestIncomingTlsEnabled
+          - serviceRestIncomingTlsListenPort
+          - replicationEnabled
+          - replicationBridgeAuthenticationBasicClientUsername
+          - replicationBridgeAuthenticationScheme
+          - replicationBridgeCompressedDataEnabled
+          - replicationBridgeTlsEnabled
+  when: (item.state is undefined or item.state != "absent")
+  loop: "{{ vpns }}"
+  register: current_vpns
+
+# - name: Get VPN Result
+#   debug:
+#     msg: "{{ current_vpns }}"
+
+- name: Disable AMQP Plaintext
+  solace_vpn:
+    name: "{{ item.item.msg_vpn }}"
+    settings:
+      serviceAmqpPlainTextEnabled: false
+  when: >
+    item.result_list_count is defined and item.result_list_count > 0 and 
+    item.result_list.0.data.serviceAmqpPlainTextEnabled and 
+    item.item.serviceAmqpPlainTextListenPort is defined and
+    item.item.serviceAmqpPlainTextListenPort != item.result_list.0.data.serviceAmqpPlainTextListenPort
+  loop: "{{ current_vpns.results }}"
+
+- name: Disable AMQP TLS
+  solace_vpn:
+    name: "{{ item.item.msg_vpn }}"
+    settings:
+      serviceAmqpTlsEnabled: false
+  when: > 
+    item.result_list_count is defined and item.result_list_count > 0 and 
+    item.result_list.0.data.serviceAmqpTlsEnabled and 
+    item.item.serviceAmqpTlsListenPort is defined and
+    item.item.serviceAmqpTlsListenPort != item.result_list.0.data.serviceAmqpTlsListenPort
+  loop: "{{ current_vpns.results }}"
+
+- name: Disable MQTT Plaintext
+  solace_vpn:
+    name: "{{ item.item.msg_vpn }}"
+    settings:
+      serviceMqttPlainTextEnabled: false
+  when: >
+    item.result_list_count is defined and item.result_list_count > 0 and 
+    item.result_list.0.data.serviceMqttPlainTextEnabled and 
+    item.item.serviceMqttPlainTextListenPort is defined and
+    item.item.serviceMqttPlainTextListenPort != item.result_list.0.data.serviceMqttPlainTextListenPort
+  loop: "{{ current_vpns.results }}"
+
+- name: Disable MQTT TLS
+  solace_vpn:
+    name: "{{ item.item.msg_vpn }}"
+    settings:
+      serviceMqttTlsEnabled: false
+  when: >
+    item.result_list_count is defined and item.result_list_count > 0 and 
+    item.result_list.0.data.serviceMqttTlsEnabled and 
+    item.item.serviceMqttTlsListenPort is defined and 
+    item.item.serviceMqttTlsListenPort != item.result_list.0.data.serviceMqttTlsListenPort
+  loop: "{{ current_vpns.results }}"
+
+- name: Disable MQTT WebSocket Plaintext
+  solace_vpn:
+    name: "{{ item.item.msg_vpn }}"
+    settings:
+      serviceMqttWebSocketEnabled: false
+  when: >
+    item.result_list_count is defined and item.result_list_count > 0 and 
+    item.result_list.0.data.serviceMqttWebSocketEnabled and 
+    item.item.serviceMqttWebSocketListenPort is defined and
+    item.item.serviceMqttWebSocketListenPort != item.result_list.0.data.serviceMqttWebSocketListenPort
+  loop: "{{ current_vpns.results }}"
+
+- name: Disable MQTT WebSocket TLS
+  solace_vpn:
+    name: "{{ item.item.msg_vpn }}"
+    settings:
+      serviceMqttTlsWebSocketEnabled: false
+  when: >
+    item.result_list_count is defined and item.result_list_count > 0 and 
+    item.result_list.0.data.serviceMqttTlsWebSocketEnabled and 
+    item.item.serviceMqttTlsWebSocketListenPort is defined and 
+    item.item.serviceMqttTlsWebSocketListenPort != item.result_list.0.data.serviceMqttTlsWebSocketListenPort
+  loop: "{{ current_vpns.results }}"
+
+- name: Disable REST Incoming Plaintext
+  solace_vpn:
+    name: "{{ item.item.msg_vpn }}"
+    settings:
+      serviceRestIncomingPlainTextEnabled: false
+  when: >
+    item.result_list_count is defined and item.result_list_count > 0 and 
+    item.result_list.0.data.serviceRestIncomingPlainTextEnabled and 
+    item.item.serviceRestIncomingPlainTextListenPort is defined and
+    item.item.serviceRestIncomingPlainTextListenPort != item.result_list.0.data.serviceRestIncomingPlainTextListenPort
+  loop: "{{ current_vpns.results }}"
+
+- name: Disable REST Incoming TLS
+  solace_vpn:
+    name: "{{ item.item.msg_vpn }}"
+    settings:
+      serviceRestIncomingTlsEnabled: false
+  when: > 
+    item.result_list_count is defined and item.result_list_count > 0 and 
+    item.result_list.0.data.serviceRestIncomingTlsEnabled and 
+    item.item.serviceRestIncomingTlsListenPort is defined and
+    item.item.serviceRestIncomingTlsListenPort != item.result_list.0.data.serviceRestIncomingTlsListenPort
+  loop: "{{ current_vpns.results }}"
+
+- name: Disable Replication
+  solace_vpn:
+    name: "{{ item.item.msg_vpn }}"
+    settings:
+      replicationEnabled: false
+  when: > 
+    item.result_list_count is defined and item.result_list_count > 0 and 
+    item.result_list.0.data.replicationEnabled and
+    ((item.item.replicationBridgeAuthenticationBasicClientUsername is defined and
+      item.item.replicationBridgeAuthenticationBasicClientUsername != item.result_list.0.data.replicationBridgeAuthenticationBasicClientUsername) or
+     (item.item.replicationBridgeAuthenticationBasicPassword is defined) or
+     (item.item.replicationBridgeAuthenticationClientCertContent is defined) or
+     (item.item.replicationBridgeAuthenticationClientCertPassword is defined) or
+     (item.item.replicationBridgeAuthenticationScheme is defined and 
+      item.item.replicationBridgeAuthenticationScheme != item.result_list.0.data.replicationBridgeAuthenticationScheme) or
+     (item.item.replicationBridgeCompressedDataEnabled is defined and 
+      item.item.replicationBridgeCompressedDataEnabled != item.result_list.0.data.replicationBridgeCompressedDataEnabled) or
+     (item.item.replicationBridgeTlsEnabled is defined and 
+      item.item.replicationBridgeTlsEnabled != item.result_list.0.data.replicationBridgeTlsEnabled)
+    )
+  loop: "{{ current_vpns.results }}"

@@ -1,6 +1,6 @@
 ---
-- name: Queue
-  solace_queue:
+- name: Topic Endpoint
+  solace_topic_endpoint:
     name: "{{item.name}}"
     msg_vpn: "{{item.msg_vpn}}"
     settings:
@@ -14,7 +14,7 @@
       maxBindCount: "{{item.maxBindCount | default(omit)}}"
       maxDeliveredUnackedMsgsPerFlow: "{{item.maxDeliveredUnackedMsgsPerFlow | default(omit)}}"
       maxMsgSize: "{{item.maxMsgSize | default(omit)}}"
-      maxMsgSpoolUsage: "{{item.maxMsgSpoolUsage | default(omit)}}"
+      maxSpoolUsage: "{{item.maxSpoolUsage | default(omit)}}"
       maxRedeliveryCount: "{{item.maxRedeliveryCount | default(omit)}}"
       maxTtl: "{{item.maxTtl | default(omit)}}"
       owner: "{{item.owner | default(omit)}}"
@@ -26,11 +26,11 @@
       respectMsgPriorityEnabled: "{{item.respectMsgPriorityEnabled | default(omit)}}"
       respectTtlEnabled: "{{item.respectTtlEnabled | default(omit)}}"
     state: "{{item.state | default('present')}}"
-  loop: "{{queues}}"
-  register: q_output
+  loop: "{{topic_endpoints}}"
+  register: te_output
 
-- name: Queue Result
+- name: Topic Endpoint Result
   debug:
     msg: "{{ item }}"
-  loop: "{{ q_output.results }}"
+  loop: "{{ te_output.results }}"
 

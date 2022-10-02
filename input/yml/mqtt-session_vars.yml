@@ -1,0 +1,22 @@
+---
+mqtt_sessions:
+- name: "mymqttsession1"
+  msg_vpn: "test_vpn"
+  enabled: true
+  owner: paulus
+  queueMaxMsgSpoolUsage: 100
+  # state: absent
+  subscription_topics:
+  - topic: "topicA/#"
+    qos: 0
+    # state: absent
+  - topic: "topicB/+"
+    qos: 0
+    # state: absent
+  - topic: "topicC/1"
+    qos: 1
+    # state: absent
+  - topic: "topicD/+"
+    qos: 1
+    # state: absent
+

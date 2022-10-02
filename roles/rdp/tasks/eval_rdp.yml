@@ -1,0 +1,31 @@
+---
+- name: Evaluate RDP
+  solace_get_rdps:
+    msg_vpn: "{{item.msg_vpn}}"
+    query_params:
+        where:
+        - "restDeliveryPointName=={{item.name}}"
+        - enabled==true
+        select:
+        - msgVpnName
+        - restDeliveryPointName
+        - enabled
+        - clientProfileName
+  when: (item.state is undefined or item.state != "absent")
+  loop: "{{rdps}}"
+  register: current_rdps
+
+# - name: Get RDP Result
+#   debug:
+#     msg: "{{ current_rdps }}"
+
+- name: Disable RDP
+  solace_rdp:
+    name: "{{item.result_list.0.data.restDeliveryPointName}}"
+    msg_vpn: "{{item.result_list.0.data.msgVpnName}}"
+    settings:
+      enabled: false
+  when: >
+    (item.result_list_count is defined and item.result_list_count > 0) and 
+    (item.item.clientProfileName is defined and item.item.clientProfileName != item.result_list.0.data.clientProfileName)
+  loop: "{{ current_rdps.results }}"

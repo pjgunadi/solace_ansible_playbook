@@ -1,0 +1,35 @@
+---
+- name: Evaluate Topic Endpoint
+  solace_get_topic_endpoints:
+    msg_vpn: "{{item.msg_vpn}}"
+    query_params:
+        where:
+        - "topicEndpointName=={{item.name}}"
+        - egressEnabled==true
+        select:
+        - msgVpnName
+        - topicEndpointName
+        - egressEnabled
+        - accessType
+        - owner
+        - permission
+  when: (item.state is undefined or item.state != "absent")
+  loop: "{{topic_endpoints}}"
+  register: current_tes
+
+# - name: Get Topic Endpoint Result
+#   debug:
+#     msg: "{{ current_tes }}"
+
+- name: Disable Topic Endpoint
+  solace_topic_endpoint:
+    name: "{{item.result_list.0.data.topicEndpointName}}"
+    msg_vpn: "{{item.result_list.0.data.msgVpnName}}"
+    settings:
+      egressEnabled: false
+  when: >
+    (item.result_list_count is defined and item.result_list_count > 0) and 
+    ((item.item.accessType is defined and item.item.accessType != item.result_list.0.data.accessType) or
+    (item.item.owner is defined and item.item.owner != item.result_list.0.data.owner) or
+    (item.item.permission is defined and item.item.permission != item.result_list.0.data.permission))
+  loop: "{{ current_tes.results }}"

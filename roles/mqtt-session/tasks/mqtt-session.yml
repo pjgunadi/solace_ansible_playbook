@@ -1,0 +1,30 @@
+---
+- name: MQTT Session
+  solace_mqtt_session:
+    name: "{{item.name}}"
+    msg_vpn: "{{item.msg_vpn}}"
+    settings:
+      enabled: "{{item.enabled | default(omit)}}"
+      mqttSessionVirtualRouter: "{{item.mqttSessionVirtualRouter | default(omit)}}"
+      owner: "{{item.owner | default(omit)}}"
+      queueConsumerAckPropagationEnabled: "{{item.queueConsumerAckPropagationEnabled | default(omit)}}"
+      queueDeadMsgQueue: "{{item.queueDeadMsgQueue | default(omit)}}"
+      queueMaxBindCount: "{{item.queueMaxBindCount | default(omit)}}"
+      queueMaxDeliveredUnackedMsgsPerFlow: "{{item.queueMaxDeliveredUnackedMsgsPerFlow | default(omit)}}"
+      queueMaxMsgSize: "{{item.queueMaxMsgSize | default(omit)}}"
+      queueMaxMsgSpoolUsage: "{{item.queueMaxMsgSpoolUsage | default(omit)}}"
+      queueMaxRedeliveryCount: "{{item.queueMaxRedeliveryCount | default(omit)}}"
+      queueMaxTtl: "{{item.queueMaxTtl | default(omit)}}"
+      queueRejectLowPriorityMsgEnabled: "{{item.queueRejectLowPriorityMsgEnabled | default(omit)}}"
+      queueRejectLowPriorityMsgLimit: "{{item.queueRejectLowPriorityMsgLimit | default(omit)}}"
+      queueRejectMsgToSenderOnDiscardBehavior: "{{item.queueRejectMsgToSenderOnDiscardBehavior | default(omit)}}"
+      queueRespectTtlEnabled: "{{item.queueRespectTtlEnabled | default(omit)}}"
+    state: "{{item.state | default('present')}}"
+  loop: "{{mqtt_sessions}}"
+  register: ms_output
+
+- name: MQTT Session Result
+  debug:
+    msg: "{{ item }}"
+  loop: "{{ ms_output.results }}"
+

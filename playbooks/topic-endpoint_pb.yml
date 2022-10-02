@@ -1,19 +1,19 @@
 ---
-- name: Message VPN Playbook
+- name: Topic Endpoint Playbook
   hosts: "{{ broker_host | default('all') }}"
   gather_facts: no
   any_errors_fatal: true
   collections:
     - solace.pubsub_plus
   module_defaults:
-    solace_vpn:
+    solace_topic_endpoint:
       host: "{{ sempv2_host }}"
       port: "{{ sempv2_port }}"
       secure_connection: "{{ sempv2_is_secure_connection }}"
       username: "{{ sempv2_username }}"
       password: "{{ sempv2_password }}"
       timeout: "{{ sempv2_timeout }}"
-    solace_get_vpns:
+    solace_get_topic_endpoints:
       host: "{{ sempv2_host }}"
       port: "{{ sempv2_port }}"
       secure_connection: "{{ sempv2_is_secure_connection }}"
@@ -24,4 +24,4 @@
     - include_vars:
         file: "{{ input_file }}"
   roles:
-  - role: vpn
+  - role: topic-endpoint

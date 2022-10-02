@@ -1,0 +1,35 @@
+---
+- name: Evaluate Queue
+  solace_get_queues:
+    msg_vpn: "{{item.msg_vpn}}"
+    query_params:
+        where:
+        - "queueName=={{item.name}}"
+        - egressEnabled==true
+        select:
+        - msgVpnName
+        - queueName
+        - egressEnabled
+        - accessType
+        - owner
+        - permission
+  when: (item.state is undefined or item.state != "absent")
+  loop: "{{queues}}"
+  register: current_queues
+
+# - name: Get Queue Result
+#   debug:
+#     msg: "{{ current_queues }}"
+
+- name: Disable Queue
+  solace_queue:
+    name: "{{item.result_list.0.data.queueName}}"
+    msg_vpn: "{{item.result_list.0.data.msgVpnName}}"
+    settings:
+      egressEnabled: false
+  when: >
+    (item.result_list_count is defined and item.result_list_count > 0) and 
+    ((item.item.accessType is defined and item.item.accessType != item.result_list.0.data.accessType) or
+    (item.item.owner is defined and item.item.owner != item.result_list.0.data.owner) or
+    (item.item.permission is defined and item.item.permission != item.result_list.0.data.permission))
+  loop: "{{ current_queues.results }}"

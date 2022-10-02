@@ -39,11 +39,6 @@ Use the provided apply-config.sh shell script:
 - **input-file**: input file relative path from [input](./input) directory. Example: `yml/msg-vpn_vars.yml` will obtain input file at `input/yml/msg-vpn_vars.yml`
 - **vault-password**: ansible vault password for decrypt encrypted configurations
 
-Message VPN and Queue playbooks contains tasks for disabling AMQP service and egress Queue. The tasks are required when changing AMQP port and queue permissions. To apply runbook without disabling AMQP and egress Queues, apply runbook with `apply-config-untagged.sh`:
-```
-./apply-config-untagged.sh <broker-name> <play-book-name> <variable-file-name> <vault-password>
-```
-
 Playbook can also be called directly with `ansible-playbook` command:
 ```
 ansible-playbook -e input_file=<input-file-path> -e broker_host=<your-target-host> <playbook-file-path> <vault-password>
@@ -67,7 +62,9 @@ The following playbooks are avaiable in [playbooks](./playbooks) directory:
 | jndi-cf | yml | apply-config.sh *appliance-ip* jndi-cf yml/jndi-cf.yml | |
 | jndi-topic | yml | apply-config.sh *appliance-ip* jndi-topic yml/jndi-topic.yml | |
 | jndi-queue | yml | apply-config.sh *appliance-ip* jndi-queue yml/jndi-queue.yml | |
-| replicated-topic | yml | apply-config.sh *appliance-ip* replicated-topic yml/replicated-topic.yml | |
+| mqtt-session | yml | apply-config.sh *appliance-ip* mqtt-session yml/mqtt-session.yml | |
+| rdp | yml | apply-config.sh *appliance-ip* rdp yml/rdp.yml | |
+| replicated-topic | yml | apply-config.sh *appliance-ip* replicated-topic yml/replicated-topic.yml | Planned |
 | msg-vpn-csv  | csv | apply-config.sh *appliance-ip* msg-vpn-csv csv/msg-vpn.csv | |
 | acl-profile-csv | csv | apply-config.sh *appliance-ip* acl-profile-csv csv/acl-profile.csv | |
 | client-profile-csv | csv | apply-config.sh *appliance-ip* client-profile-csv csv/client-profile.csv | |
@@ -78,17 +75,16 @@ The following playbooks are avaiable in [playbooks](./playbooks) directory:
 | jndi-cf-csv | csv | apply-config.sh *appliance-ip* jndi-cf-csv csv/jndi-cf.csv | |
 | jndi-topic=csv | csv | apply-config.sh *appliance-ip* jndi-topic-csv csv/jndi-topic.csv | |
 | jndi-queue-csv | csv | apply-config.sh *appliance-ip* jndi-queue-csv csv/jndi-queue.csv | |
-| replicated-topic | csv | apply-config.sh *appliance-ip* replicated-topic-csv csv/replicated-topic.yml | |
 
 ## Get Config
 Use the provided get-config.sh shell script:
 ```
-./apply-config.sh <broker-name> <msg-vpn> <config-name> <output-file> <vault-password>
+./get-config.sh <broker-name> <msg-vpn> <config-name> <output-file> <vault-password>
 ```
 **Description**:
 - **broker-name**: Solace broker name configured at [inventory/solace_hosts](./inventory/solace_hosts)
 - **msg-vpn**: Message VPN name of Solace broker
-- **config-name**: Name of Solace Configurations: msg-vpn, acl-profile, authorization-group, bridge, client-profile, client-username, jndi-cf, jndi-queue, jndi-topic, queue, replicated-topic
+- **config-name**: Name of Solace Configurations: msg-vpn, acl-profile, authorization-group, bridge, client-profile, client-username, jndi-cf, jndi-queue, jndi-topic, mqtt-session, queue, rdp, replicated-topic
 - **output-file**: output file relative path from [output](./output) directory. Example: `msg-vpn_export.yml` will be saved at `output/msg-vpn_export.yml`
 - **vault-password**: ansible vault password for decrypt encrypted configurations
 

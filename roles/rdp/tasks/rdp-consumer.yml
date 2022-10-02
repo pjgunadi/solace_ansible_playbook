@@ -1,0 +1,44 @@
+---
+- name: RDP Consumer
+  solace_rdp_rest_consumer:
+    msg_vpn: "{{item.0.msg_vpn}}"
+    rdp_name: "{{item.0.name}}"
+    name: "{{item.1.consumer_name}}"
+    settings:
+      authenticationAwsAccessKeyId: "{{ item.1.authenticationAwsAccessKeyId | default(omit) }}"
+      authenticationAwsRegion: "{{ item.1.authenticationAwsRegion | default(omit) }}"
+      authenticationAwsSecretAccessKey: "{{ item.1.authenticationAwsSecretAccessKey | default(omit) }}"
+      authenticationAwsService: "{{ item.1.authenticationAwsService | default(omit) }}"
+      authenticationClientCertContent: "{{ item.1.authenticationClientCertContent | default(omit) }}"
+      authenticationClientCertPassword: "{{ item.1.authenticationClientCertPassword | default(omit) }}"
+      authenticationHttpBasicPassword: "{{ item.1.authenticationHttpBasicPassword | default(omit) }}"
+      authenticationHttpBasicUsername: "{{ item.1.authenticationHttpBasicUsername | default(omit) }}"
+      authenticationHttpHeaderName: "{{ item.1.authenticationHttpHeaderName | default(omit) }}"
+      authenticationHttpHeaderValue: "{{ item.1.authenticationHttpHeaderValue | default(omit) }}"
+      authenticationOauthClientId: "{{ item.1.authenticationOauthClientId | default(omit) }}"
+      authenticationOauthClientScope: "{{ item.1.authenticationOauthClientScope | default(omit) }}"
+      authenticationOauthClientSecret: "{{ item.1.authenticationOauthClientSecret | default(omit) }}"
+      authenticationOauthClientTokenEndpoint: "{{ item.1.authenticationOauthClientTokenEndpoint | default(omit) }}"
+      authenticationOauthClientTokenExpiryDefault: "{{ item.1.authenticationOauthClientTokenExpiryDefault | default(omit) }}"
+      authenticationOauthJwtSecretKey: "{{ item.1.authenticationOauthJwtSecretKey | default(omit) }}"
+      authenticationOauthJwtTokenEndpoint: "{{ item.1.authenticationOauthJwtTokenEndpoint | default(omit) }}"
+      authenticationOauthJwtTokenExpiryDefault: "{{ item.1.authenticationOauthJwtTokenExpiryDefault | default(omit) }}"
+      authenticationScheme: "{{ item.1.authenticationScheme | default(omit) }}"
+      enabled: "{{ item.1.enabled | default(omit) }}"
+      httpMethod: "{{ item.1.httpMethod | default(omit) }}"
+      localInterface: "{{ item.1.localInterface | default(omit) }}"
+      maxPostWaitTime: "{{ item.1.maxPostWaitTime | default(omit) }}"
+      outgoingConnectionCount: "{{ item.1.outgoingConnectionCount | default(omit) }}"
+      remoteHost: "{{ item.1.remoteHost | default(omit) }}"
+      remotePort: "{{ item.1.remotePort | default(omit) }}"
+      retryDelay: "{{ item.1.retryDelay | default(omit) }}"
+      tlsCipherSuiteList: "{{ item.1.tlsCipherSuiteList | default(omit) }}"
+      tlsEnabled: "{{ item.1.tlsEnabled | default(omit) }}"
+    state: "{{item.1.state | default('present')}}"
+  when: (item.0.state is undefined or item.0.state != "absent")
+  loop: "{{rdps|subelements('rest_consumers',skip_missing=true)}}"
+  register: rdprc_output
+
+# - name: RDP REST Consumer Result
+#   debug:
+#     msg: "{{ rdprc_output }}"

@@ -1,0 +1,27 @@
+---
+- name: Set Object Name
+  set_fact:
+    output_object: mqtt_sessions
+
+- name: "Get {{ output_object }}"
+  solace_get_mqtt_sessions:
+    msg_vpn: "{{msg_vpn}}"
+  register: result
+
+- name: "Get {{ output_object }} Subscriptions"
+  solace_get_mqtt_session_subscriptions:
+    msg_vpn: "{{msg_vpn}}"
+    client_id: "{{item.data.mqttSessionClientId}}"
+  loop: "{{ result.result_list }}"
+  register: mqtt_session_subscriptions
+
+- name: Export {{ output_object }}
+  template:
+    src: "mqtt-sessions.j2"
+    dest: "{{ result_output | default('../output/get-'+ output_object +'_result.yml' ) }}"
+  run_once: true
+  register: result_out
+
+- name: Export Result
+  debug:
+    msg: "{{ result_out }}}}"

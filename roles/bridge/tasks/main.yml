@@ -1,11 +1,17 @@
 ---
-- name: Disable Bridge
-  import_tasks: disable_bridge.yml
-  tags:
-  - change_authentication
+# - name: Disable Bridge
+#   import_tasks: disable_bridge.yml
+#   tags:
+#   - change_authentication
+
+- name: Evaluate Bridge
+  import_tasks: eval_bridge.yml
 
 - name: Create, Update, Delete Bridge
   import_tasks: bridge.yml
+
+- name: Evaluate Bridge Remove VPN
+  import_tasks: eval_bridge-remote-vpn.yml
 
 - name: Bridge Remote VPN
   import_tasks: bridge-remote-vpn.yml
