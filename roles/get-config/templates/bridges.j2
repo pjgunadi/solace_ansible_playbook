@@ -37,15 +37,19 @@ result_count: {{result.result_list_count}}
 {% set skey = False %}
 {% endif %}
 {% for remote_vpn in sitem.result_list %}
-  - remote_msg_vpn_name: {{remote_vpn.data.remoteMsgVpnName}}
-    remote_vpn_location: {{remote_vpn.data.remoteMsgVpnLocation}}
+  - remote_msg_vpn_name: "{{remote_vpn.data.remoteMsgVpnName}}"
+    remote_vpn_location: "{{remote_vpn.data.remoteMsgVpnLocation}}"
 {% for rk,rv in remote_vpn.data.items() %}
 {% if rk in ["msgVpnName","bridgeName","remoteMsgVpnName","remoteMsgVpnLocation"] %}
 {# skip #}
 {% elif rv == '' %}
 {# skip #}
 {% else %}
+{%if rv is number or rv is boolean %}
     {{rk}}: {{rv}}
+{% else %}
+    {{rk}}: "{{rv}}"
+{% endif %}
 {% endif %}
 {% endfor %}
 {% endfor %}
