@@ -6,6 +6,9 @@
 - name: "Get {{ output_object }}"
   solace_get_topic_endpoints:
     msg_vpn: "{{msg_vpn}}"
+    query_params:
+        where:
+          - "topicEndpointName!=#*"
   register: result
 
 - name: Export {{ output_object }}

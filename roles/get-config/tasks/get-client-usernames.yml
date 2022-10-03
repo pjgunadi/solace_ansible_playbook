@@ -6,6 +6,9 @@
 - name: "Get {{ output_object }}"
   solace_get_client_usernames:
     msg_vpn: "{{msg_vpn}}"
+    query_params:
+        where:
+          - "clientUsername!=#*"
   register: result
 
 - name: Export {{ output_object }}

@@ -3,9 +3,9 @@ result_count: {{result.result_list_count}}
 {{output_object}}:
 {% for item in result.result_list -%}
 - msg_vpn: "{{item.data.msgVpnName}}"
-  name: "{{item.data.authorizationGroupName}}"
+  name: "{{item.data.connectionFactoryName}}"
 {% for k, v in item.data.items() %}
-{% if k in ["msgVpnName","authorizationGroupName"] %}
+{% if k in ["msgVpnName","connectionFactoryName"] %}
 {# skip #}
 {% elif v == '' %}
 {# skip #}

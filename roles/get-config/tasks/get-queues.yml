@@ -6,6 +6,9 @@
 - name: "Get {{ output_object }}"
   solace_get_queues:
     msg_vpn: "{{msg_vpn}}"
+    query_params:
+        where:
+          - "queueName!=#*"
   register: result
 
 - name: "Get Queue Subscriptions"

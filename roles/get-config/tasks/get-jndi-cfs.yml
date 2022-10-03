@@ -10,7 +10,7 @@
 
 - name: Export {{ output_object }}
   template:
-    src: "result.j2"
+    src: "jndi-cfs.j2"
     dest: "{{ result_output | default('../output/get-'+ output_object +'_result.yml' ) }}"
   run_once: true
   register: result_out

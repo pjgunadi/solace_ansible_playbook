@@ -6,6 +6,9 @@
 - name: "Get {{ output_object }}"
   solace_get_bridges:
     msg_vpn: "{{msg_vpn}}"
+    query_params:
+        where:
+          - "bridgeName!=#*"
   register: result
 
 - name: "Get Remote Message VPNs"

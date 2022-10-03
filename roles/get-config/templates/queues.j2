@@ -2,8 +2,8 @@
 result_count: {{result.result_list_count}}
 {{output_object}}:
 {% for item in result.result_list -%}
-- msg_vpn: {{item.data.msgVpnName}}
-  name: {{item.data.queueName}}
+- msg_vpn: "{{item.data.msgVpnName}}"
+  name: "{{item.data.queueName}}"
 {% for k, v in item.data.items() %}
 {% if k in ["msgVpnName","queueName"] %}
 {# skip #}
@@ -12,10 +12,18 @@ result_count: {{result.result_list_count}}
 {% elif v is mapping %}
   {{k}}: 
 {% for ck, cv in v.items() %}
+{%if cv is number or cv is boolean %}
     {{ck}}: {{cv}}
+{%else %}
+    {{ck}}: "{{cv}}"
+{% endif %}
 {% endfor %}
 {% else %}
+{%if v is number or v is boolean %}
   {{k}}: {{v}}
+{% else %}
+  {{k}}: "{{v}}"
+{% endif %}
 {% endif %}
 {% endfor %}
 {# Subscriptions #}

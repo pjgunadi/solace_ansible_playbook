@@ -2,8 +2,8 @@
 result_count: {{result.result_list_count}}
 {{output_object}}:
 {% for item in result.result_list -%}
-- msg_vpn: {{item.data.msgVpnName}}
-  name: {{item.data.restDeliveryPointName}}
+- msg_vpn: "{{item.data.msgVpnName}}"
+  name: "{{item.data.restDeliveryPointName}}"
 {% for k, v in item.data.items() %}
 {% if k in ["msgVpnName","restDeliveryPointName"] %}
 {# skip #}
@@ -12,10 +12,18 @@ result_count: {{result.result_list_count}}
 {% elif v is mapping %}
   {{k}}: 
 {% for ck, cv in v.items() %}
+{%if cv is number or cv is boolean %}
     {{ck}}: {{cv}}
+{%else %}
+    {{ck}}: "{{cv}}"
+{% endif %}
 {% endfor %}
 {% else %}
+{%if v is number or v is boolean %}
   {{k}}: {{v}}
+{% else %}
+  {{k}}: "{{v}}"
+{% endif %}
 {% endif %}
 {% endfor %}
 {# RDP Components #}
@@ -29,14 +37,18 @@ result_count: {{result.result_list_count}}
 {% set skey = False %}
 {% endif %}
 {% for qb in sitem.result_list %}
-  - queue_name: {{ qb.data.queueBindingName }}
+  - queue_name: "{{ qb.data.queueBindingName }}"
 {% for rk,rv in qb.data.items() %}
 {% if rk in ["msgVpnName","restDeliveryPointName","queueBindingName"] %}
 {# skip #}
 {% elif rv == '' %}
 {# skip #}
 {% else %}
+{% if rv is number or rv is boolean %}
     {{rk}}: {{rv}}
+{% else %}
+    {{rk}}: "{{rv}}"
+{% endif %}
 {% endif %}
 {% endfor %}
 {% endfor %}
@@ -50,14 +62,18 @@ result_count: {{result.result_list_count}}
 {% set skey = False %}
 {% endif %}
 {% for rc in sitem.result_list %}
-  - consumer_name: {{ rc.data.restConsumerName }}
+  - consumer_name: "{{ rc.data.restConsumerName }}"
 {% for rk,rv in rc.data.items() %}
 {% if rk in ["msgVpnName","restDeliveryPointName","restConsumerName"] %}
 {# skip #}
 {% elif rv == '' %}
 {# skip #}
 {% else %}
+{% if rv is number or rv is boolean %}
     {{rk}}: {{rv}}
+{% else %}
+    {{rk}}: "{{rv}}"
+{% endif %}
 {% endif %}
 {% endfor %}
 {% endfor %}

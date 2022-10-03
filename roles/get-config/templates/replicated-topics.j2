@@ -2,8 +2,8 @@
 result_count: {{result.result_list_count}}
 {{output_object}}:
 {% for mode, items in result.result_list | groupby('data.replicationMode') -%}
-- msg_vpn: {{items.0.data.msgVpnName}}
-  replicationMode: {{mode}}
+- msg_vpn: "{{items.0.data.msgVpnName}}"
+  replicationMode: "{{mode}}"
   topics:
 {% for rt in items %}
   - "{{ rt.data.replicatedTopic }}"
