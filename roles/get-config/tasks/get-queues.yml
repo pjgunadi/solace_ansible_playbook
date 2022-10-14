@@ -15,16 +15,31 @@
   solace_get_queue_subscriptions:
     msg_vpn: "{{msg_vpn}}"
     queue_name: "{{item.data.queueName}}"
-  loop: "{{ result.result_list }}"
+  loop: "{{ result.result_list | rejectattr('data', '==',{}) }}"
   register: queue_subscriptions
+
+# - name: Debug Queue Subscriptions
+#   debug:
+#     msg: "{{ queue_subscriptions }}"
 
 - name: Export {{ output_object }}
   template:
     src: "queues.j2"
     dest: "{{ result_output | default('../output/get-'+ output_object +'_result.yml' ) }}"
-  run_once: true
+  when: not(result_output.endswith('.csv'))
   register: result_out
 
 - name: Export Result
   debug:
     msg: "{{ result_out }}}}"
+
+- name: CSV Export {{ output_object }}
+  template:
+    src: "queues-csv.j2"
+    dest: "{{ result_output | default('../output/get-'+ output_object +'_result.csv' ) }}"
+  when: result_output.endswith('.csv')
+  register: csv_result_out
+
+- name: CSV Export Result
+  debug:
+    msg: "{{ csv_result_out }}}}"

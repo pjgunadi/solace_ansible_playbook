@@ -1,0 +1,32 @@
+result_count: {{result.result_list_count}}
+{% set cs = result.result_list | rejectattr("data", "==",{}) %}
+{% for k, _ in cs.0.data.items() -%}
+{{k}}{{ "," if not loop.last else ",subscriptionTopic" }}
+{%- endfor %}
+
+{% for item in cs -%}
+{% for _,v in item.data.items() %}
+{%- if v is mapping -%}
+"
+{%- for ck, cv in v.items() -%}
+{{ck}}: {{cv}}{{ "," if not loop.last }}
+{%- endfor -%}
+{{ "\"," if not loop.last else "\"" }}
+{%- else -%}
+{{v}}{{ "," if not loop.last }}
+{%- endif -%}
+{% endfor %}
+{# Subscriptions #}
+{%- set queue_ref = item.data.queueName -%}
+{# Queue Subscriptions #}
+{%- set q_scs = queue_subscriptions.results | selectattr("item.data.queueName","==",queue_ref) -%}
+{%- if q_scs.0.result_list_count == 0 -%}
+{{",\n"}}
+{%- else -%}
+,"
+{%- for st in q_scs.0.result_list -%}
+{{st.data.subscriptionTopic}}{{ "," if not loop.last else "\"\n" }}
+{%- endfor -%}
+{%- endif -%}
+{# End of Subscriptions #}
+{% endfor %}

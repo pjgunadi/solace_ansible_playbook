@@ -13,6 +13,16 @@
       username: "{{ sempv2_username }}"
       password: "{{ sempv2_password }}"
       timeout: "{{ sempv2_timeout }}"
+    solace_cloud_client_profile:
+      host: "{{ sempv2_host }}"
+      port: "{{ sempv2_port }}"
+      secure_connection: "{{ sempv2_is_secure_connection }}"
+      username: "{{ sempv2_username }}"
+      password: "{{ sempv2_password }}"
+      timeout: "{{ sempv2_timeout }}"
+      solace_cloud_api_token: "{{ cloud_api_token | default(omit) }}"
+      solace_cloud_service_id: "{{ cloud_service_id | default(omit) }}"
+      solace_cloud_home: "{{ cloud_home | default('US') }}"
   pre_tasks:
     - include_vars:
         file: "{{ input_file }}"

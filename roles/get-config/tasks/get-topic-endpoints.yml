@@ -15,9 +15,20 @@
   template:
     src: "topic-endpoints.j2"
     dest: "{{ result_output | default('../output/get-'+ output_object +'_result.yml' ) }}"
-  run_once: true
+  when: not(result_output.endswith('.csv'))
   register: result_out
 
 - name: Export Result
   debug:
     msg: "{{ result_out }}}}"
+
+- name: CSV Export {{ output_object }}
+  template:
+    src: "result-csv.j2"
+    dest: "{{ result_output | default('../output/get-'+ output_object +'_result.csv' ) }}"
+  when: result_output.endswith('.csv')
+  register: csv_result_out
+
+- name: CSV Export Result
+  debug:
+    msg: "{{ csv_result_out }}}}"

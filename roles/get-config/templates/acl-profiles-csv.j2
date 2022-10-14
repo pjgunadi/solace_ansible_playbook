@@ -1,0 +1,61 @@
+result_count: {{result.result_list_count}}
+{% set cs = result.result_list | rejectattr("data", "==",{}) %}
+{% for k, _ in cs.0.data.items() -%}
+{{k}}{{ "," if not loop.last else ",client_connect_exceptions,publish_topic_exceptions,subscribe_topic_exceptions,subscribe_share_name_exceptions" }}
+{%- endfor %}
+
+{% for item in cs -%}
+{% for _,v in item.data.items() %}
+{%- if v is mapping -%}
+"
+{%- for ck, cv in v.items() -%}
+{{ck}}: {{cv}}{{ "," if not loop.last }}
+{%- endfor -%}
+{{ "\"," if not loop.last else "\"" }}
+{%- else -%}
+{{v}}{{ "," if not loop.last }}
+{%- endif -%}
+{% endfor %}
+{# Exceptions #}
+{% set acl_ref = item.data.aclProfileName %}
+{# Client Connect Exceptions #}
+{% set cc_exceptions = client_connect_exceptions.results | rejectattr("item.data", "==",{}) | selectattr("item.data.aclProfileName","==",acl_ref)%}
+{%- if cc_exceptions.0.result_list_count == 0 -%}
+,
+{%- else -%}
+,"
+{%- for cc_item in cc_exceptions.0.result_list -%}
+{{ cc_item.data.clientConnectExceptionAddress }}{{ "," if not loop.last else "\"" }}
+{%- endfor -%}
+{% endif %}
+{# Publish Topic Exceptions #}
+{% set pub_exceptions = publish_topic_exceptions.results | rejectattr("item.data", "==",{}) | selectattr("item.data.aclProfileName","==",acl_ref)%}
+{%- if pub_exceptions.0.result_list_count == 0 -%}
+,
+{%- else -%}
+,"
+{%- for pub_item in pub_exceptions.0.result_list -%}
+{{ pub_item.data.publishTopicException }}{{ "," if not loop.last else "\"" }}
+{%- endfor -%}
+{% endif %}
+{# Subscribe Topic Exceptions #}
+{% set sub_exceptions = subscribe_topic_exceptions.results | rejectattr("item.data", "==",{}) | selectattr("item.data.aclProfileName","==",acl_ref)%}
+{%- if sub_exceptions.0.result_list_count == 0 -%}
+,
+{%- else -%}
+,"
+{%- for sub_item in sub_exceptions.0.result_list -%}
+{{ sub_item.data.subscribeTopicException }}{{ "," if not loop.last else "\"" }}
+{%- endfor -%}
+{% endif %}
+{# Subscribe Share Name Exceptions #}
+{% set sn_exceptions = subscribe_share_name_exceptions.results | rejectattr("item.data", "==",{}) | selectattr("item.data.aclProfileName","==",acl_ref)%}
+{%- if sn_exceptions.0.result_list_count == 0 -%}
+{{",\n"}}
+{%- else -%}
+{%- for sn_item in sn_exceptions.0.result_list -%}
+{{ sn_item.data.subscribeShareNameException }}{{ "," if not loop.last else "\"\n" }}
+{%- endfor -%}
+{% endif %}
+{# End of Exceptions #}
+{% endfor %}

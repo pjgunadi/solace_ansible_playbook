@@ -12,9 +12,12 @@ all:
           # sempv2_password: default
           sempv2_timeout: '60'
         pgcloud:
-          broker_type: standalone
+          broker_type: solace_cloud
           ansible_connection: local
-          sempv2_host: mrm5tl07w9uy6.messaging.solace.cloud
+          sempv2_host: mr-connection-a1234567890.messaging.solace.cloud 
           sempv2_port: 943
           sempv2_is_secure_connection: true
-          sempv2_timeout: '60'
+          sempv2_timeout: 60
+          cloud_home: "US"
+          #cloud_service_id: "your-svc-id"
+          #cloud_api_token: "your-api-token"

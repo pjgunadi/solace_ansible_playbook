@@ -1,22 +1,8 @@
 ---
-- name: Add Client Profile
-  solace_client_profile:
-    name: "{{item.name}}"
-    msg_vpn: "{{item.msg_vpn}}"
-    settings:
-      allowGuaranteedEndpointCreateDurability: "{{item.allowGuaranteedEndpointCreateDurability | default(omit)}}"
-      allowGuaranteedEndpointCreateEnabled: "{{item.allowGuaranteedEndpointCreateEnabled | default(omit)}}"
-      allowGuaranteedMsgSendEnabled: "{{item.allowGuaranteedMsgSendEnabled | default(omit)}}"
-      allowGuaranteedMsgReceiveEnabled: "{{item.allowGuaranteedMsgReceiveEnabled | default(omit)}}"
-      allowBridgeConnectionsEnabled: "{{item.allowBridgeConnectionsEnabled | default(omit)}}"
-      allowSharedSubscriptionsEnabled: "{{item.allowSharedSubscriptionsEnabled | default(omit)}}"
-      allowTransactedSessionsEnabled: "{{item.allowTransactedSessionsEnabled | default(omit)}}"
-      tlsAllowDowngradeToPlainTextEnabled: "{{item.tlsAllowDowngradeToPlainTextEnabled | default(omit)}}"
-    state: "{{item.state | default('present')}}"
-  loop: "{{client_profiles}}"
-  register: cp_output
+- name: Create, Update, Delete Client Profile
+  import_tasks: client-profile.yml
+  when: broker_type != "solace_cloud"
 
-- name: Client Profile Result
-  debug:
-    msg: "{{ item }}"
-  loop: "{{ cp_output.results }}"
+- name: Create, Update, Delete Cloud Client Profile
+  import_tasks: cloud-client-profile.yml
+  when: broker_type == "solace_cloud"

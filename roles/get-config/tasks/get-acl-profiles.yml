@@ -15,7 +15,7 @@
   solace_get_acl_client_connect_exceptions:
     msg_vpn: "{{msg_vpn}}"
     acl_profile_name: "{{item.data.aclProfileName}}"
-  loop: "{{ result.result_list }}"
+  loop: "{{ result.result_list | rejectattr('data', '==',{}) }}"
   register: client_connect_exceptions
 
 # - name: Client Connect Exceptions Result
@@ -27,30 +27,41 @@
   solace_get_acl_publish_topic_exceptions:
     msg_vpn: "{{msg_vpn}}"
     acl_profile_name: "{{item.data.aclProfileName}}"
-  loop: "{{ result.result_list }}"
+  loop: "{{ result.result_list | rejectattr('data', '==',{}) }}"
   register: publish_topic_exceptions
 
 - name: "Get Subscribe Topic Exceptions"
   solace_get_acl_subscribe_topic_exceptions:
     msg_vpn: "{{msg_vpn}}"
     acl_profile_name: "{{item.data.aclProfileName}}"
-  loop: "{{ result.result_list }}"
+  loop: "{{ result.result_list | rejectattr('data', '==',{}) }}"
   register: subscribe_topic_exceptions
 
 - name: "Get Subscribe Share Name Exceptions"
   solace_get_acl_subscribe_share_name_exceptions:
     msg_vpn: "{{msg_vpn}}"
     acl_profile_name: "{{item.data.aclProfileName}}"
-  loop: "{{ result.result_list }}"
+  loop: "{{ result.result_list | rejectattr('data', '==',{}) }}"
   register: subscribe_share_name_exceptions
 
 - name: Export {{ output_object }}
   template:
     src: "acl-profiles.j2"
     dest: "{{ result_output | default('../output/get-'+ output_object +'_result.yml' ) }}"
-  run_once: true
+  when: not(result_output.endswith('.csv'))
   register: result_out
 
 - name: Export Result
   debug:
     msg: "{{ result_out }}}}"
+
+- name: CSV Export {{ output_object }}
+  template:
+    src: "acl-profiles-csv.j2"
+    dest: "{{ result_output | default('../output/get-'+ output_object +'_result.csv' ) }}"
+  when: result_output.endswith('.csv')
+  register: csv_result_out
+
+- name: CSV Export Result
+  debug:
+    msg: "{{ csv_result_out }}}}"

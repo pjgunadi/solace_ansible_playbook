@@ -1,9 +1,10 @@
 result_count: {{result.result_list_count}}
-{% for k, _ in result.result_list.0.data.items() -%}
+{% set cs = result.result_list | rejectattr("data", "==",{}) %}
+{% for k, _ in cs.0.data.items() -%}
 {{k}}{{ "," if not loop.last }}
 {%- endfor %}
 
-{% for item in result.result_list -%}
+{% for item in cs -%}
 {% for _,v in item.data.items() %}
 {%- if v is mapping -%}
 "
@@ -12,7 +13,7 @@ result_count: {{result.result_list_count}}
 {%- endfor -%}
 {{ "\"," if not loop.last else "\"" }}
 {%- else -%}
-{{v}}{{ "," if not loop.last }}
+{{v}}{{ "," if not loop.last else "\n" }}
 {%- endif -%}
 {% endfor %}
 {% endfor %}

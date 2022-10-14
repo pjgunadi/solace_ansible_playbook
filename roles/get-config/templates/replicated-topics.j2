@@ -1,7 +1,8 @@
 ---
 result_count: {{result.result_list_count}}
 {{output_object}}:
-{% for mode, items in result.result_list | groupby('data.replicationMode') -%}
+{% set ps = result.result_list | rejectattr("data", "==",{}) %}
+{% for mode, items in ps | groupby('data.replicationMode') -%}
 - msg_vpn: "{{items.0.data.msgVpnName}}"
   replicationMode: "{{mode}}"
   topics:

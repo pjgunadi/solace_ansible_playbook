@@ -1,7 +1,8 @@
 ---
 result_count: {{result.result_list_count}}
 {{output_object}}:
-{% for item in result.result_list -%}
+{% set items = result.result_list | rejectattr("data", "==",{}) %}
+{% for item in items -%}
 - msg_vpn: "{{item.data.msgVpnName}}"
   name: "{{item.data.topicEndpointName}}"
 {% for k, v in item.data.items() %}
@@ -12,14 +13,14 @@ result_count: {{result.result_list_count}}
 {% elif v is mapping %}
   {{k}}: 
 {% for ck, cv in v.items() %}
-{%if cv is number or cv is boolean %}
+{%if cv is number %}
     {{ck}}: {{cv}}
 {%else %}
     {{ck}}: "{{cv}}"
 {% endif %}
 {% endfor %}
 {% else %}
-{%if v is number or v is boolean %}
+{%if v is number %}
   {{k}}: {{v}}
 {% else %}
   {{k}}: "{{v}}"

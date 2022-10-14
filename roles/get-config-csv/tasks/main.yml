@@ -1,5 +1,0 @@
----
-- name: VPNs
-  import_tasks: get-vpns-csv.yml
-  tags:
-  - msg-vpn-csv
