@@ -8,6 +8,8 @@
       aclProfileName: "{{item.aclProfileName | default(omit)}}"
       clientProfileName: "{{item.clientProfileName | default(omit)}}"
       password: "{{item.password | default(omit)}}"
+      guaranteedEndpointPermissionOverrideEnabled: "{{item.guaranteedEndpointPermissionOverrideEnabled | default(omit)}}"
+      subscriptionManagerEnabled: "{{item.subscriptionManagerEnabled | default(omit)}}"
     state: "{{item.state | default('present')}}"
   loop: "{{client_usernames}}"
   register: cu_output

@@ -7,6 +7,8 @@
       enabled: "{{item.enabled}}"
       aclProfileName: "{{item.aclProfileName}}"
       clientProfileName: "{{item.clientProfileName}}"
+      orderAfterAuthorizationGroupName: "{{item.orderAfterAuthorizationGroupNam | default(omit) }}"
+      orderBeforeAuthorizationGroupName: "{{item.orderBeforeAuthorizationGroupName | default(omit) }}"
     state: "{{item.state | default('present')}}"
   loop: "{{authorization_groups}}"
   register: ag_output
