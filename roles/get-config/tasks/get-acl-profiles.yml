@@ -15,7 +15,7 @@
   solace_get_acl_client_connect_exceptions:
     msg_vpn: "{{msg_vpn}}"
     acl_profile_name: "{{item.data.aclProfileName}}"
-  loop: "{{ result.result_list | rejectattr('data', '==',{}) }}"
+  loop: "{{ result.result_list | rejectattr('data', '==',{}) | list }}"
   register: client_connect_exceptions
 
 # - name: Client Connect Exceptions Result
@@ -27,21 +27,21 @@
   solace_get_acl_publish_topic_exceptions:
     msg_vpn: "{{msg_vpn}}"
     acl_profile_name: "{{item.data.aclProfileName}}"
-  loop: "{{ result.result_list | rejectattr('data', '==',{}) }}"
+  loop: "{{ result.result_list | rejectattr('data', '==',{}) | list }}"
   register: publish_topic_exceptions
 
 - name: "Get Subscribe Topic Exceptions"
   solace_get_acl_subscribe_topic_exceptions:
     msg_vpn: "{{msg_vpn}}"
     acl_profile_name: "{{item.data.aclProfileName}}"
-  loop: "{{ result.result_list | rejectattr('data', '==',{}) }}"
+  loop: "{{ result.result_list | rejectattr('data', '==',{}) | list }}"
   register: subscribe_topic_exceptions
 
 - name: "Get Subscribe Share Name Exceptions"
   solace_get_acl_subscribe_share_name_exceptions:
     msg_vpn: "{{msg_vpn}}"
     acl_profile_name: "{{item.data.aclProfileName}}"
-  loop: "{{ result.result_list | rejectattr('data', '==',{}) }}"
+  loop: "{{ result.result_list | rejectattr('data', '==',{}) | list }}"
   register: subscribe_share_name_exceptions
 
 - name: Export {{ output_object }}

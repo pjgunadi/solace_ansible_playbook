@@ -1,40 +1,40 @@
 result_count: {{result.result_list_count}}
-{% set cs = result.result_list | rejectattr("data", "==",{}) %}
-{% for k, _ in cs.0.data.items() -%}
-{{k}}{{ "," if not loop.last else ",remoteMsgVpnName|remoteMsgVpnLocation|queueBinding,remoteSubscriptionTopic" }}
+{% set cs_first = result.result_list | rejectattr("data", "==",{}) | first %}
+{% for k, _ in cs_first.data.items() -%}
+{{k}}{{ "," if not loop.last else ",remoteMsgVpnName|remoteMsgVpnLocation|queueBinding,remoteSubscriptionTopic\n" }}
 {%- endfor %}
-
+{% set cs = result.result_list | rejectattr("data", "==",{}) %}
 {% for item in cs -%}
 {% for _,v in item.data.items() %}
 {%- if v is mapping -%}
 "
 {%- for ck, cv in v.items() -%}
-{{ck}}: {{cv}}{{ "," if not loop.last }}
+{{ck}}: {{cv}}{{ "," if not loop.last else "\"" }}
 {%- endfor -%}
-{{ "\"," if not loop.last else "\"" }}
+{{ "," if not loop.last else "" }}
 {%- else -%}
-{{v}}{{ "," if not loop.last }}
+{{v}}{{ "," if not loop.last else "" }}
 {%- endif -%}
 {% endfor %}
 {# Remote #}
 {% set bridge_ref = item.data.bridgeName %}
 {# Remote Message VPNs #}
-{% set remote_vpns = bridge_remote_vpns.results | selectattr("item.data.bridgeName","==",bridge_ref)%}
-{%- if remote_vpns.0.result_list_count == 0 -%}
+{% set remote_vpns = bridge_remote_vpns.results | selectattr("item.data.bridgeName","==",bridge_ref) | first %}
+{%- if remote_vpns.result_list_count == 0 -%}
 ,
 {%- else -%}
 ,"
-{%- for remote_vpn in remote_vpns.0.result_list -%}
+{%- for remote_vpn in remote_vpns.result_list -%}
 {{remote_vpn.data.remoteMsgVpnName}}|{{remote_vpn.data.remoteMsgVpnLocation}}|{{remote_vpn.data.queueBinding}}{{ "," if not loop.last else "\"" }}
 {%- endfor -%}
 {% endif %}
 {# Remote Message Subscriptions #}
-{% set remote_scs = bridge_remote_subscriptions.results | selectattr("item.data.bridgeName","==",bridge_ref)%}
-{%- if remote_scs.0.result_list_count == 0 -%}
+{% set remote_scs = bridge_remote_subscriptions.results | selectattr("item.data.bridgeName","==",bridge_ref) | first %}
+{%- if remote_scs.result_list_count == 0 -%}
 {{",\n"}}
 {%- else -%}
 ,"
-{%- for rtopic in remote_scs.0.result_list -%}
+{%- for rtopic in remote_scs.result_list -%}
 {{ rtopic.data.remoteSubscriptionTopic }}{{ "," if not loop.last else "\"\n" }}
 {%- endfor -%}
 {% endif %}

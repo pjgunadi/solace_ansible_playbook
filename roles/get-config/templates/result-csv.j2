@@ -1,17 +1,17 @@
 result_count: {{result.result_list_count}}
-{% set cs = result.result_list | rejectattr("data", "==",{}) %}
-{% for k, _ in cs.0.data.items() -%}
-{{k}}{{ "," if not loop.last }}
+{% set cs_first = result.result_list | rejectattr("data", "==",{}) | first %}
+{% for k, _ in cs_first.data.items() -%}
+{{k}}{{ "," if not loop.last else "\n" }}
 {%- endfor %}
-
+{% set cs = result.result_list | rejectattr("data", "==",{}) %}
 {% for item in cs -%}
 {% for _,v in item.data.items() %}
 {%- if v is mapping -%}
 "
 {%- for ck, cv in v.items() -%}
-{{ck}}: {{cv}}{{ "," if not loop.last }}
+{{ck}}: {{cv}}{{ "," if not loop.last else "\"" }}
 {%- endfor -%}
-{{ "\"," if not loop.last else "\"" }}
+{{ "," if not loop.last else "" }}
 {%- else -%}
 {{v}}{{ "," if not loop.last else "\n" }}
 {%- endif -%}

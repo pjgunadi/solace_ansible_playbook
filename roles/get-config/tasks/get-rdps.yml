@@ -12,14 +12,14 @@
   solace_get_rdp_queue_bindings:
     msg_vpn: "{{msg_vpn}}"
     rdp_name: "{{item.data.restDeliveryPointName}}"
-  loop: "{{ result.result_list | rejectattr('data', '==',{}) }}"
+  loop: "{{ result.result_list | rejectattr('data', '==',{}) | list }}"
   register: rdp_queue_bindings
 
 - name: "Get REST Consumers"
   solace_get_rdp_rest_consumers:
     msg_vpn: "{{msg_vpn}}"
     rdp_name: "{{item.data.restDeliveryPointName}}"
-  loop: "{{ result.result_list | rejectattr('data', '==',{}) }}"
+  loop: "{{ result.result_list | rejectattr('data', '==',{}) | list }}"
   register: rdp_rest_consumers
 
 - name: Export {{ output_object }}

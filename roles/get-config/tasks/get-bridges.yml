@@ -22,7 +22,7 @@
   solace_get_bridge_remote_subscriptions:
     msg_vpn: "{{msg_vpn}}"
     bridge_name: "{{item.data.bridgeName}}"
-  loop: "{{ result.result_list | rejectattr('data', '==',{}) }}"
+  loop: "{{ result.result_list | rejectattr('data', '==',{}) | list }}"
   register: bridge_remote_subscriptions
 
 - name: Export {{ output_object }}

@@ -1,40 +1,40 @@
 result_count: {{result.result_list_count}}
-{% set cs = result.result_list | rejectattr("data", "==",{}) %}
-{% for k, _ in cs.0.data.items() -%}
-{{k}}{{ "," if not loop.last else ",queueBindingName|postRequestTarget,restConsumerName|remoteHost:remotePort" }}
+{% set cs_first = result.result_list | rejectattr("data", "==",{}) | first %}
+{% for k, _ in cs_first.data.items() -%}
+{{k}}{{ "," if not loop.last else ",queueBindingName|postRequestTarget,restConsumerName|remoteHost:remotePort\n" }}
 {%- endfor %}
-
+{% set cs = result.result_list | rejectattr("data", "==",{}) %}
 {% for item in cs -%}
 {% for _,v in item.data.items() %}
 {%- if v is mapping -%}
 "
 {%- for ck, cv in v.items() -%}
-{{ck}}: {{cv}}{{ "," if not loop.last }}
+{{ck}}: {{cv}}{{ "," if not loop.last else "\"" }}
 {%- endfor -%}
-{{ "\"," if not loop.last else "\"" }}
+{{ "," if not loop.last else "" }}
 {%- else -%}
-{{v}}{{ "," if not loop.last }}
+{{v}}{{ "," if not loop.last else "" }}
 {%- endif -%}
 {% endfor %}
 {# RDP Components #}
 {% set rdp_ref = item.data.restDeliveryPointName %}
 {# Queue Bindings #}
-{% set rdp_qbinds = rdp_queue_bindings.results | selectattr("item.data.restDeliveryPointName","==",rdp_ref)%}
-{%- if rdp_qbinds.0.result_list_count == 0 -%}
+{% set rdp_qbinds = rdp_queue_bindings.results | selectattr("item.data.restDeliveryPointName","==",rdp_ref) | first %}
+{%- if rdp_qbinds.result_list_count == 0 -%}
 ,
 {%- else -%}
 ,"
-{%- for qb in rdp_qbinds.0.result_list -%}
+{%- for qb in rdp_qbinds.result_list -%}
 {{qb.data.queueBindingName}}|{{qb.data.postRequestTarget}}{{ "," if not loop.last else "\"" }}
 {%- endfor -%}
 {% endif %}
 {# REST Consumers #}
-{% set rdp_rcs = rdp_rest_consumers.results | selectattr("item.data.restDeliveryPointName","==",rdp_ref)%}
-{%- if rdp_rcs.0.result_list_count == 0 -%}
+{% set rdp_rcs = rdp_rest_consumers.results | selectattr("item.data.restDeliveryPointName","==",rdp_ref) | first %}
+{%- if rdp_rcs.result_list_count == 0 -%}
 {{",\n"}}
 {%- else -%}
 ,"
-{%- for rc in rdp_rcs.0.result_list -%}
+{%- for rc in rdp_rcs.result_list -%}
 {{ rc.data.restConsumerName }}|{{ rc.data.remoteHost }}:{{ rc.data.remotePort }}{{ "," if not loop.last else "\"\n" }}
 {%- endfor -%}
 {% endif %}
