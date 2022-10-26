@@ -1,0 +1,18 @@
+---
+- name: Evaluate DMR Cluster Link
+  solace_get_dmr_cluster_links:
+    dmr_cluster_name: "{{ current_dmr.result_list.0.data.dmrClusterName }}"
+    query_params:
+      where:
+      - remoteNodeName!=#*
+      select:
+      - dmrClusterName
+      - initiator
+      - remoteNodeName
+      - span
+  when: current_dmr.result_list_count > 0
+  register: current_dmr_links
+
+# - name: Get DMR Cluster Link Result
+#   debug:
+#     msg: "{{ current_dmr_links }}"

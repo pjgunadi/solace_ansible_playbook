@@ -1,0 +1,93 @@
+---
+- name: Create, Update External Link at Local Broker
+  block:
+  - name: Create/Update External Link (Local)
+    solace_dmr_cluster_link:
+      dmr_cluster_name: "{{ current_dmr.result_list.0.data.dmrClusterName }}"
+      remote_node_name: "{{ hostvars[item].current_dmr.result_list.0.data.nodeName }}"
+      settings:
+        authenticationBasicPassword: "{{ hostvars[item].cluster_password | default(omit) }}"
+        authenticationScheme: "{{ cluster_link_authenticationScheme | default(omit) }}"
+        enabled: false
+        initiator: "{{ cluster_link_initiator | default(omit) }}"
+        span: external
+        transportCompressedEnabled: "{{ cluster_link_transportCompressedEnabled | default(omit) }}"
+        transportTlsEnabled: "{{ cluster_link_transportTlsEnabled | default(omit) }}"
+    loop: "{{ groups['external_link'] }}"
+  - name: Add External Link Remote Address (Local)
+    solace_dmr_cluster_link_remote_address:
+      dmr_cluster_name: "{{ current_dmr.result_list.0.data.dmrClusterName }}"
+      remote_node_name: "{{ hostvars[item].current_dmr.result_list.0.data.nodeName }}"
+      remote_address: "{{ hostvars[item].cluster_link_service_address }}:{{ hostvars[item].cluster_link_service_port }}"
+    loop: "{{ groups['external_link'] }}"
+  - name: Enable External Link (Local)
+    solace_dmr_cluster_link:
+      dmr_cluster_name: "{{ current_dmr.result_list.0.data.dmrClusterName }}"
+      remote_node_name: "{{ hostvars[item].current_dmr.result_list.0.data.nodeName }}"
+      settings:
+        enabled: true
+    loop: "{{ groups['external_link'] }}"
+  - name: Create/Update DMR Bridge (Local)
+    solace_dmr_bridge:
+      msg_vpn: "{{cluster_link_msg_vpn}}"
+      remote_node_name: "{{ hostvars[item].current_dmr.result_list.0.data.nodeName }}"
+      settings:
+        remoteMsgVpnName: "{{hostvars[item].cluster_link_msg_vpn}}"
+    loop: "{{ groups['external_link'] }}"
+  when: ("local" in group_names and (cluster_link_state is not defined or cluster_link_state != "absent"))
+
+- name: Create, Update External Link at Remote Broker
+  block: 
+  - name: Create/Update External Link (Remote)
+    solace_dmr_cluster_link:
+      dmr_cluster_name: "{{ current_dmr.result_list.0.data.dmrClusterName }}"
+      remote_node_name: "{{ hostvars[item].current_dmr.result_list.0.data.nodeName }}"
+      settings:
+        authenticationBasicPassword: "{{ hostvars[item].cluster_password | default(omit) }}"
+        authenticationScheme: "{{ hostvars[item].cluster_link_authenticationScheme | default(omit) }}"
+        enabled: "{{ hostvars[item].cluster_link_enabled | default(omit) }}"
+        initiator: "{{ 'remote' if hostvars[item].cluster_link_initiator=='local' else 'local' if hostvars[item].cluster_link_initiator=='remote' else 'lexical' }}"
+        span: external
+        transportCompressedEnabled: "{{ hostvars[item].cluster_link_transportCompressedEnabled | default(omit) }}"
+        transportTlsEnabled: "{{ hostvars[item].cluster_link_transportTlsEnabled | default(omit) }}"
+    loop: "{{ groups['local'] }}"
+  - name: Create/Update DMR Bridge (Remote)
+    solace_dmr_bridge:
+      msg_vpn: "{{ cluster_link_msg_vpn }}"
+      remote_node_name: "{{ hostvars[item].current_dmr.result_list.0.data.nodeName }}"
+      settings:
+        remoteMsgVpnName: "{{hostvars[item].cluster_link_msg_vpn}}"
+    loop: "{{ groups['local'] }}"
+  when: ("external_link" in group_names and (hostvars[item].cluster_link_state is not defined or hostvars[item].cluster_link_state != "absent"))
+
+- name: Delete External Link at Local Broker
+  block:
+  - name: Delete External Link (Local)
+    solace_dmr_cluster_link:
+      dmr_cluster_name: "{{ current_dmr.result_list.0.data.dmrClusterName }}"
+      remote_node_name: "{{ hostvars[item].current_dmr.result_list.0.data.nodeName }}"
+      state: "{{ cluster_link_state }}"
+    loop: "{{ groups['external_link'] }}"
+  - name: Delete DMR Bridge (Local)
+    solace_dmr_bridge:
+      msg_vpn: "{{cluster_link_msg_vpn}}"
+      remote_node_name: "{{ hostvars[item].current_dmr.result_list.0.data.nodeName }}"
+      state: "{{ cluster_link_state }}"
+    loop: "{{ groups['external_link'] }}"
+  when: ("local" in group_names and cluster_link_state is defined and cluster_link_state == "absent")
+
+- name: Delete External Link at Remote Broker
+  block:
+  - name: Delete External Link (Local)
+    solace_dmr_cluster_link:
+      dmr_cluster_name: "{{ current_dmr.result_list.0.data.dmrClusterName }}"
+      remote_node_name: "{{ hostvars[item].current_dmr.result_list.0.data.nodeName }}"
+      state: "{{ hostvars[item].cluster_link_state }}"
+    loop: "{{ groups['local'] }}"
+  - name: Delete DMR Bridge (Remote)
+    solace_dmr_bridge:
+      msg_vpn: "{{ cluster_link_msg_vpn }}"
+      remote_node_name: "{{ hostvars[item].current_dmr.result_list.0.data.nodeName }}"
+      state: "{{ hostvars[item].cluster_link_state }}"
+    loop: "{{ groups['local'] }}"
+  when: ("external_link" in group_names and hostvars[item].cluster_link_state is defined and hostvars[item].cluster_link_state == "absent")

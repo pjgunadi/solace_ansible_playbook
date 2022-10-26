@@ -1,0 +1,6 @@
+---
+dmr_cluster:
+#  name: "pg-cluster"
+#  enabled: true
+#  authenticationBasicPassword: yourpassword
+#  state: absent

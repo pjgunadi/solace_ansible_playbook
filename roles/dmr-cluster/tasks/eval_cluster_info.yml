@@ -1,0 +1,29 @@
+---
+- name: Get Cloud Cluster Info
+  block:
+  - name: Get Cloud Services
+    solace_cloud_get_service:
+    register: cloud_svc
+  # - name: debug
+  #   debug:
+  #     msg: "{{ cloud_svc }}"
+  - name: Set Cluster Facts
+    set_fact:
+      cluster_password: "{{cloud_svc.service.cluster.password}}"
+      cluster_link_service_address: "{{cloud_svc.service.cluster.remoteAddress}}"
+      cluster_link_service_port: "{{cloud_svc.service.serviceConnectionEndpoints.0.ports.serviceSmfTlsListenPort}}"
+      cluster_link_msg_vpn: "{{cloud_svc.service.msgVpnName}}"
+  when: (broker_type == "solace_cloud")
+
+- name: Get Cluster Info
+  set_fact:
+    cluster_password: "{{dmr_cluster.authenticationBasicPassword | default(omit) }}"
+  when: (cluster_password is not defined and broker_type != "solace_cloud")
+
+- name: debug
+  debug:
+    msg: 
+    - "{{ cluster_password }}"
+    - "{{ cluster_link_service_address }}"
+    - "{{ cluster_link_service_port }}"
+    - "{{ cluster_link_msg_vpn }}"

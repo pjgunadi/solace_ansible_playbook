@@ -1,0 +1,25 @@
+---
+- name: Check existing DMR Cluster
+  import_tasks: eval_dmr-cluster.yml
+
+- name: Check existing DMR Links
+  import_tasks: eval_dmr-cluster-link.yml
+
+- name: Create, Update, Delete DMR Cluster
+  solace_dmr_cluster:
+    name: "{{ dmr_cluster.name | default(cluster_name) }}"
+    settings:
+      authenticationBasicEnabled: "{{dmr_cluster.authenticationBasicEnabled | default(omit)}}"
+      authenticationBasicPassword: "{{dmr_cluster.authenticationBasicPassword | default(omit) }}"
+      authenticationBasicType: "{{dmr_cluster.authenticationBasicType | default(omit)}}"
+      authenticationClientCertContent: "{{dmr_cluster.authenticationClientCertContent | default(omit)}}"
+      authenticationClientCertEnabled: "{{dmr_cluster.authenticationClientCertEnabled | default(omit)}}"
+      authenticationClientCertPassword: "{{dmr_cluster.authenticationClientCertPassword | default(omit)}}"
+      directOnlyEnabled: "{{dmr_cluster.directOnlyEnabled | default(omit)}}"
+      enabled: "{{dmr_cluster.enabled | default(cluster_enabled) | default(omit) }}"
+      tlsServerCertEnforceTrustedCommonNameEnabled: "{{dmr_cluster.tlsServerCertEnforceTrustedCommonNameEnabled | default(omit)}}"
+      tlsServerCertMaxChainDepth: "{{dmr_cluster.tlsServerCertMaxChainDepth | default(omit)}}"
+      tlsServerCertValidateDateEnabled: "{{dmr_cluster.tlsServerCertValidateDateEnabled | default(omit)}}"
+      tlsServerCertValidateNameEnabled: "{{dmr_cluster.tlsServerCertValidateNameEnabled | default(omit)}}"
+    state: "{{dmr_cluster.state | default('present')}}"
+  when: (dmr_cluster.state is not defined or dmr_cluster.state != "absent" or current_dmr_links.result_list_count == 0)

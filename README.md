@@ -20,11 +20,14 @@ Running this script requires understanding of Solace PubSub+ configuration and i
       ---
       sempv2_username: admin
       sempv2_password: yourpassword
+      cluster_password: your_dmr_cluster_password
+      cloud_service_id: your_cloud_service_id
+      cloud_api_token: your_cloud_service_api_token
       ```
-   - Encrypt the password in credential file with [ansible-vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html):
+   - Encrypt the password in credential file with [ansible-vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html). Example:
      `ansible-vault encrypt_string yourpassword --name sempv2_password`
      Type the _New Value password_ and _Confirm New Vault password_
-   - Copy the output and replace the sempv2_password parameter in credentials file
+   - Update encrypted variables in inventory/host_vars/<broker-host>/credentials file
 
 3. Configure playbook input file. Samples are available at [input](./input) sub-directory
 
@@ -52,29 +55,30 @@ The following playbooks are avaiable in [playbooks](./playbooks) directory:
 
 | Playbook | Input Type | Sample usage | Notes |
 |----------|------------|--------------|-------|
-| msg-vpn  | yml | apply-config.sh *appliance-ip* msg-vpn yml/msg-vpn.yml | |
-| acl-profile | yml | apply-config.sh *appliance-ip* acl-profile yml/acl-profile.yml | |
-| client-profile | yml | apply-config.sh *appliance-ip* client-profile yml/client-profile.yml | |
-| authorization-group | yml | apply-config.sh *appliance-ip* authorization-group yml/authorization-group.yml | |
-| queue | yml | apply-config.sh *appliance-ip* queue yml/queue.yml | |
-| queue-range | yml | apply-config.sh *appliance-ip* queue-range yml/queue-range.yml | Recursive Queues with prefix and range numbers |
-| bridge | yml | apply-config.sh *appliance-ip* bridge yml/bridge.yml | |
-| jndi-cf | yml | apply-config.sh *appliance-ip* jndi-cf yml/jndi-cf.yml | |
-| jndi-topic | yml | apply-config.sh *appliance-ip* jndi-topic yml/jndi-topic.yml | |
-| jndi-queue | yml | apply-config.sh *appliance-ip* jndi-queue yml/jndi-queue.yml | |
-| mqtt-session | yml | apply-config.sh *appliance-ip* mqtt-session yml/mqtt-session.yml | |
-| rdp | yml | apply-config.sh *appliance-ip* rdp yml/rdp.yml | |
-| replicated-topic | yml | apply-config.sh *appliance-ip* replicated-topic yml/replicated-topic.yml | Planned |
-| msg-vpn-csv  | csv | apply-config.sh *appliance-ip* msg-vpn-csv csv/msg-vpn.csv | |
-| acl-profile-csv | csv | apply-config.sh *appliance-ip* acl-profile-csv csv/acl-profile.csv | |
-| client-profile-csv | csv | apply-config.sh *appliance-ip* client-profile-csv csv/client-profile.csv | |
-| authorization-group-csv | csv | apply-config.sh *appliance-ip* authorization-group-csv csv/authorization-group.csv | |
-| queue-csv | csv | apply-config.sh *appliance-ip* queue-csv csv/queue.csv | |
-| queue-range-csv | csv | apply-config.sh *appliance-ip* queue-range-csv csv/queue-range.csv | Limitation: use one csv file per range number profile |
-| bridge-csv | csv | apply-config.sh *appliance-ip* bridge-csv csv/bridge.csv | |
-| jndi-cf-csv | csv | apply-config.sh *appliance-ip* jndi-cf-csv csv/jndi-cf.csv | |
-| jndi-topic=csv | csv | apply-config.sh *appliance-ip* jndi-topic-csv csv/jndi-topic.csv | |
-| jndi-queue-csv | csv | apply-config.sh *appliance-ip* jndi-queue-csv csv/jndi-queue.csv | |
+| msg-vpn  | yml | apply-config.sh *host_or_group_name* msg-vpn yml/msg-vpn.yml | |
+| acl-profile | yml | apply-config.sh *host_or_group_name* acl-profile yml/acl-profile.yml | |
+| client-profile | yml | apply-config.sh *host_or_group_name* client-profile yml/client-profile.yml | |
+| authorization-group | yml | apply-config.sh *host_or_group_name* authorization-group yml/authorization-group.yml | |
+| queue | yml | apply-config.sh *host_or_group_name* queue yml/queue.yml | |
+| queue-range | yml | apply-config.sh *host_or_group_name* queue-range yml/queue-range.yml | Recursive Queues with prefix and range numbers |
+| bridge | yml | apply-config.sh *host_or_group_name* bridge yml/bridge.yml | |
+| jndi-cf | yml | apply-config.sh *host_or_group_name* jndi-cf yml/jndi-cf.yml | |
+| jndi-topic | yml | apply-config.sh *host_or_group_name* jndi-topic yml/jndi-topic.yml | |
+| jndi-queue | yml | apply-config.sh *host_or_group_name* jndi-queue yml/jndi-queue.yml | |
+| mqtt-session | yml | apply-config.sh *host_or_group_name* mqtt-session yml/mqtt-session.yml | |
+| rdp | yml | apply-config.sh *host_or_group_name* rdp yml/rdp.yml | |
+| dmr-cluster | yml | apply-config.sh *host_or_group_name* dmr-cluster | |
+| replicated-topic | yml | apply-config.sh *host_or_group_name* replicated-topic yml/replicated-topic.yml | Planned |
+| msg-vpn-csv  | csv | apply-config.sh *host_or_group_name* msg-vpn-csv csv/msg-vpn.csv | |
+| acl-profile-csv | csv | apply-config.sh *host_or_group_name* acl-profile-csv csv/acl-profile.csv | |
+| client-profile-csv | csv | apply-config.sh *host_or_group_name* client-profile-csv csv/client-profile.csv | |
+| authorization-group-csv | csv | apply-config.sh *host_or_group_name* authorization-group-csv csv/authorization-group.csv | |
+| queue-csv | csv | apply-config.sh *host_or_group_name* queue-csv csv/queue.csv | |
+| queue-range-csv | csv | apply-config.sh *host_or_group_name* queue-range-csv csv/queue-range.csv | Limitation: use one csv file per range number profile |
+| bridge-csv | csv | apply-config.sh *host_or_group_name* bridge-csv csv/bridge.csv | |
+| jndi-cf-csv | csv | apply-config.sh *host_or_group_name* jndi-cf-csv csv/jndi-cf.csv | |
+| jndi-topic=csv | csv | apply-config.sh *host_or_group_name* jndi-topic-csv csv/jndi-topic.csv | |
+| jndi-queue-csv | csv | apply-config.sh *host_or_group_name* jndi-queue-csv csv/jndi-queue.csv | |
 
 ## Get Config
 Use the provided get-config.sh shell script:
@@ -84,8 +88,8 @@ Use the provided get-config.sh shell script:
 **Description**:
 - **broker-name**: Solace broker name configured at [inventory/solace_hosts](./inventory/solace_hosts)
 - **msg-vpn**: Message VPN name of Solace broker
-- **config-name**: Name of Solace Configurations: msg-vpn, acl-profile, authorization-group, bridge, client-profile, client-username, jndi-cf, jndi-queue, jndi-topic, mqtt-session, queue, rdp, replicated-topic
-- **output-file**: output file relative path from [output](./output) directory. Example: `msg-vpn_export.yml` will be saved at `output/msg-vpn_export.yml`
+- **config-name**: Name of Solace Configurations: msg-vpn, acl-profile, authorization-group, bridge, client-profile, client-username, jndi-cf, jndi-queue, jndi-topic, mqtt-session, queue, rdp, dmr-cluster, replicated-topic
+- **output-file**: output file relative path from [output](./output) directory. When output file extension is `.csv` the output will be saved as `csv` format, otherwise the default format is `yml`. Example: `msg-vpn_export.yml` will be saved at `output/msg-vpn_export.yml`.
 - **vault-password**: ansible vault password for decrypt encrypted configurations
 
 ## Maintaining Input Configuration File
@@ -105,3 +109,6 @@ Example:
 ```
 import-csv.sh client-username.j2 ../input/csv/client-username.csv ../client-username-test.yml
 ```
+
+## Author
+[Paulus Gunadi](paulus.gunadi@solace.com)

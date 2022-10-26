@@ -1,0 +1,13 @@
+---
+- name: Evaluate DMR Cluster
+  solace_get_dmr_clusters:
+    query_params:
+      select:
+      - dmrClusterName
+      - nodeName
+  register: current_dmr
+
+# - name: Get DMR Cluster Result
+#   debug:
+#     msg: "{{ current_dmr }}"
+

@@ -1,0 +1,16 @@
+---  
+- name: Create, Update, Delete DMR Cluster
+  import_tasks: dmr-cluster.yml
+  when: (broker_type != "solace_cloud" and "local" in group_names)
+
+- name: Evaluate DMR Cluster
+  import_tasks: eval_dmr-cluster.yml
+
+- name: Get Cluster Info
+  import_tasks: eval_cluster_info.yml
+
+- name: External Link
+  import_tasks: dmr-external-link.yml
+
+- name: Internal Link
+  import_tasks: dmr-internal-link.yml
