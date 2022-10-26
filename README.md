@@ -13,8 +13,11 @@ Running this script requires understanding of Solace PubSub+ configuration and i
      `INTERPRETER_PYTHON=<path-to-your-python>`
    - When using ansible-vault for encryption add `vault_password_file`:
      `vault_password_file=./.vault_pass`
+   - Define path to inventory file:
+     `inventory=inventory/solace_hosts`
+
 2. Configure Broker Connection:
-   - Configure broker information at [inventory/solace_hosts](./inventory/solace_hosts)
+   - Configure broker information at inventory file [inventory/solace_hosts](./inventory/solace_hosts) or as defined in ansible.cfg
    - Configure broker username and password variables for each host at inventory/host_vars/<broker-host>/credentials
       ```
       ---
@@ -109,6 +112,49 @@ Example:
 ```
 import-csv.sh client-username.j2 ../input/csv/client-username.csv ../client-username-test.yml
 ```
+## Dynamic Message Routing (DMR) Variables
+When using this playbook for configuring DMR, the hosts in inventory file should be configured with the following group pattern:
+```
+dmr_group_name:
+  children:
+    local:
+      hosts:
+        broker_name:
+          ...
+    external_link:
+      hosts:
+        broker_name:
+          ...
+    internal_link:
+```
+The hosts in the inventory files should have these additional variables:
+| Group | Variable Name | Required at | Description |
+|-------|---------------|-------------|-------------|
+| local | cluster_name | appliance,software | DMR Cluster name |
+| local | cluster_enabled | appliance,software | true or false |
+| local | cluster_password | appliance,software | DMR Cluster password |
+| local | cluster_link_msg_vpn | appliance,software | Message VPN for DMR Cluster Link |
+| local | cluster_link_service_address | appliance,software | Solace SMF service IP/Hostname |
+| local | cluster_link_service_port | appliance,software | Solace SMF service port (Secure) |
+| local | cluster_link_authenticationScheme | appliance,software,cloud (all) | basic or client-certificate |
+| local | cluster_link_enabled | all | true or false |
+| local | cluster_link_initiator | all | local / remote / lexical |
+| local | cluster_link_transportCompressedEnabled | all | true or false |
+| local | cluster_link_transportTlsEnabled | all | true |
+| local | cluster_link_state | all | present or absent |
+| external_link | cluster_name | appliance,software | DMR Cluster name |
+| external_link | cluster_enabled | appliance,software | true or false |
+| external_link | cluster_password | appliance,software | DMR Cluster password |
+| external_link | cluster_link_msg_vpn | appliance,software | Message VPN for DMR Cluster Link |
+| external_link | cluster_link_service_address | appliance,software | Solace SMF service IP/Hostname |
+| external_link | cluster_link_service_port | appliance,software | Solace SMF service port (Secure) |
+| internal_link | not applicable for cloud | appliance and software only | Internal Link is not applicable for Solace Cloud broker |
+| internal_link | cluster_name | appliance,software | DMR Cluster name |
+| internal_link | cluster_enabled | appliance,software | true or false |
+| internal_link | cluster_password | appliance,software | DMR Cluster password |
+| internal_link | cluster_link_msg_vpn | appliance,software | Message VPN for DMR Cluster Link |
+| internal_link | cluster_link_service_address | appliance,software | Solace SMF service IP/Hostname |
+| internal_link | cluster_link_service_port | appliance,software | Solace SMF service port (Secure) |
 
 ## Author
-[Paulus Gunadi](paulus.gunadi@solace.com)
+Paulus Gunadi
