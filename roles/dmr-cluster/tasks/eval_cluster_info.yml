@@ -15,15 +15,15 @@
       cluster_link_msg_vpn: "{{cloud_svc.service.msgVpnName}}"
   when: (broker_type == "solace_cloud")
 
-- name: Get Cluster Info
+- name: Get Cluster Password
   set_fact:
     cluster_password: "{{dmr_cluster.authenticationBasicPassword | default(omit) }}"
   when: (cluster_password is not defined and broker_type != "solace_cloud")
 
-- name: debug
-  debug:
-    msg: 
-    - "{{ cluster_password }}"
-    - "{{ cluster_link_service_address }}"
-    - "{{ cluster_link_service_port }}"
-    - "{{ cluster_link_msg_vpn }}"
+# - name: debug
+#   debug:
+#     msg: 
+#     - "{{ cluster_password }}"
+#     - "{{ cluster_link_service_address }}"
+#     - "{{ cluster_link_service_port }}"
+#     - "{{ cluster_link_msg_vpn }}"

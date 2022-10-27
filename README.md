@@ -127,6 +127,9 @@ dmr_group_name:
           ...
     internal_link:
 ```
+**Limitation:**
+One inventory file can have only one DMR group.
+
 The hosts in the inventory files should have these additional variables:
 | Group | Variable Name | Required at | Description |
 |-------|---------------|-------------|-------------|
