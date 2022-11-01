@@ -34,6 +34,19 @@ Running this script requires understanding of Solace PubSub+ configuration and i
 
 3. Configure playbook input file. Samples are available at [input](./input) sub-directory
 
+## Inventory File Parameters
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| broker_type | standalone or solace_cloud | |
+| ansible_connection | local | |
+| sempv2_host | | broker management hostname or ip address |
+| sempv2_port | | broker management port |
+| sempv2_is_secure_connection | true or false | |
+| sempv2_username | | broker management user |
+| sempv2_password | | broker management password |
+| sempv2_timeout | | maximum REST call before timeout |
+| (dmr parameters) | | see DMR variables |
+
 ## Apply Playbook
 Use the provided apply-config.sh shell script:
 ```
