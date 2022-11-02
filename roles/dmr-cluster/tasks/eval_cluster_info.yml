@@ -11,7 +11,7 @@
     set_fact:
       cluster_password: "{{cloud_svc.service.cluster.password}}"
       cluster_link_service_address: "{{cloud_svc.service.cluster.remoteAddress | default(sempv2_host) }}"
-      cluster_link_service_port: "{{cloud_svc.service.serviceConnectionEndpoints.0.ports.serviceSmfTlsListenPort | default(sempv2_port)}}"
+      cluster_link_service_port: "{{cloud_svc.service.attributes.customizedMessagingPorts.serviceSmfTlsListenPort | default('55443')}}"
       cluster_link_msg_vpn: "{{cloud_svc.service.msgVpnName}}"
   when: (broker_type == "solace_cloud")
 
