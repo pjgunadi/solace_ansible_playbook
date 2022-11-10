@@ -45,11 +45,18 @@
       settings:
         authenticationBasicPassword: "{{ hostvars[item].cluster_password | default(omit) }}"
         authenticationScheme: "{{ hostvars[item].cluster_link_authenticationScheme | default(omit) }}"
-        enabled: "{{ hostvars[item].cluster_link_enabled | default(omit) }}"
+        enabled: false
         initiator: "{{ 'remote' if hostvars[item].cluster_link_initiator=='local' else 'local' if hostvars[item].cluster_link_initiator=='remote' else 'lexical' }}"
         span: internal
         transportCompressedEnabled: "{{ hostvars[item].cluster_link_transportCompressedEnabled | default(omit) }}"
         transportTlsEnabled: "{{ hostvars[item].cluster_link_transportTlsEnabled | default(omit) }}"
+    loop: "{{ groups['local'] }}"
+  - name: Enable Internal Link (Remote)
+    solace_dmr_cluster_link:
+      dmr_cluster_name: "{{ current_dmr.result_list.0.data.dmrClusterName }}"
+      remote_node_name: "{{ hostvars[item].current_dmr.result_list.0.data.nodeName }}"
+      settings:
+        enabled: "{{ hostvars[item].cluster_link_enabled | default(omit) }}"
     loop: "{{ groups['local'] }}"
   - name: Create/Update DMR Bridge (Remote)
     solace_dmr_bridge:
