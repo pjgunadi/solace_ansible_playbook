@@ -27,13 +27,13 @@
       username: "{{ sempv2_username }}"
       password: "{{ sempv2_password }}"
       timeout: "{{ sempv2_timeout }}"
-    solace_dmr_cluster_link_trusted_cn:
-      host: "{{ sempv2_host }}"
-      port: "{{ sempv2_port }}"
-      secure_connection: "{{ sempv2_is_secure_connection }}"
-      username: "{{ sempv2_username }}"
-      password: "{{ sempv2_password }}"
-      timeout: "{{ sempv2_timeout }}"
+    # solace_dmr_cluster_link_trusted_cn:
+    #   host: "{{ sempv2_host }}"
+    #   port: "{{ sempv2_port }}"
+    #   secure_connection: "{{ sempv2_is_secure_connection }}"
+    #   username: "{{ sempv2_username }}"
+    #   password: "{{ sempv2_password }}"
+    #   timeout: "{{ sempv2_timeout }}"
     solace_dmr_bridge:
       host: "{{ sempv2_host }}"
       port: "{{ sempv2_port }}"
@@ -62,13 +62,13 @@
       username: "{{ sempv2_username }}"
       password: "{{ sempv2_password }}"
       timeout: "{{ sempv2_timeout }}"
-    solace_get_dmr_cluster_link_trusted_cns:
-      host: "{{ sempv2_host }}"
-      port: "{{ sempv2_port }}"
-      secure_connection: "{{ sempv2_is_secure_connection }}"
-      username: "{{ sempv2_username }}"
-      password: "{{ sempv2_password }}"
-      timeout: "{{ sempv2_timeout }}"
+    # solace_get_dmr_cluster_link_trusted_cns:
+    #   host: "{{ sempv2_host }}"
+    #   port: "{{ sempv2_port }}"
+    #   secure_connection: "{{ sempv2_is_secure_connection }}"
+    #   username: "{{ sempv2_username }}"
+    #   password: "{{ sempv2_password }}"
+    #   timeout: "{{ sempv2_timeout }}"
     solace_cloud_get_service:
       solace_cloud_api_token: "{{ cloud_api_token | default(omit) }}"
       solace_cloud_service_id: "{{ cloud_service_id | default(omit) }}"
