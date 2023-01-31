@@ -59,10 +59,10 @@
   tags:
   - rdp
 
-# - name: Replicated Topics
-#   import_tasks: get-replicated-topics.yml
-#   tags:
-#   - replicated-topic
+- name: Replicated Topics
+  import_tasks: get-replicated-topics.yml
+  tags:
+  - replicated-topic
 
 - name: Topic Endpoints
   import_tasks: get-topic-endpoints.yml

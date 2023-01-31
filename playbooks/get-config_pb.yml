@@ -167,13 +167,13 @@
     #   username: "{{ sempv2_username }}"
     #   password: "{{ sempv2_password }}"
     #   timeout: "{{ sempv2_timeout }}"
-    # solace_get_replicated_topics:
-    #   host: "{{ sempv2_host }}"
-    #   port: "{{ sempv2_port }}"
-    #   secure_connection: "{{ sempv2_is_secure_connection }}"
-    #   username: "{{ sempv2_username }}"
-    #   password: "{{ sempv2_password }}"
-    #   timeout: "{{ sempv2_timeout }}"
+    solace_get_replicated_topics:
+      host: "{{ sempv2_host }}"
+      port: "{{ sempv2_port }}"
+      secure_connection: "{{ sempv2_is_secure_connection }}"
+      username: "{{ sempv2_username }}"
+      password: "{{ sempv2_password }}"
+      timeout: "{{ sempv2_timeout }}"
     solace_get_topic_endpoints:
       host: "{{ sempv2_host }}"
       port: "{{ sempv2_port }}"
