@@ -5,7 +5,7 @@
     queue_name: "{{item.name}}"
     subscription_topics: "{{ item.subscription_topics | default([])}}"
     state: exactly
-  when: (item.state is undefined) or (item.state is defined and item.state != "absent")
+  when: ((item.state is undefined) or (item.state is defined and item.state != "absent")) and item.subscription_topics is defined
   loop: "{{queues}}"
   register: qsl_output
 
