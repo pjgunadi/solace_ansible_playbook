@@ -1,0 +1,14 @@
+---
+- name: Set VPN Replication Active
+  solace_vpn:
+    name: "{{ item.data.msgVpnName }}"
+    settings:
+      replicationRole: "active"
+  loop: "{{ target_vpns }}"
+  # loop: "{{ hostvars[standby_host].target_vpns }}"
+  register: v_output
+
+# - name: Set VPN Replication Standby Result
+#   debug:
+#     msg: "{{ item }}"
+#   loop: "{{ v_output.results }}"

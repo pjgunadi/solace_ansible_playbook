@@ -18,4 +18,4 @@
 
 - name: Export Result
   debug:
-    msg: "{{ result_out }}}}"
+    msg: "{{ result_out }}"

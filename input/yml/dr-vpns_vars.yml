@@ -1,0 +1,4 @@
+---
+vpns:
+- msg_vpn: test_vpn
+- msg_vpn: another_vpn

@@ -1,0 +1,32 @@
+---
+- name: Get Standby VPNs
+  solace_get_vpns:
+    query_params:
+      where:
+      - "msgVpnName!=#*"
+      - "msgVpnName=={{ item.msg_vpn }}"
+      - "enabled==true"
+      - "replicationEnabled==true"
+      - "replicationRole==standby"
+      select:
+      - "msgVpnName"
+  ignore_errors: yes
+  loop: "{{ vpns }}"
+  register: standby_vpns
+
+# - name: Get Standby VPNs Result
+#   debug:
+#     msg: "{{ standby_vpns }}"
+
+- name: Set Standby VPNs Variable
+  vars:
+    target_vpns: []
+  set_fact: 
+    target_vpns: "{{ [target_vpns, item.result_list] | select() | flatten }}"
+  when: item.result_list_count > 0
+  loop: "{{ standby_vpns.results }}"
+
+- name: Get Target VPNs Result
+  ignore_errors: yes
+  debug:
+    msg: "{{ target_vpns }}"

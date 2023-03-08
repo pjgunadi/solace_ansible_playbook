@@ -1,0 +1,17 @@
+---
+- name: Get VPNs
+  import_tasks: get-vpns.yml
+  tags:
+  - apply
+  - check
+  
+- name: Set VPNs Standby
+  import_tasks: set-vpns-standby.yml
+  tags:
+  - apply
+
+- name: Monitor Replication Queue
+  import_tasks: monitor-repl-queue.yml
+  tags:
+  - apply
+  - check

@@ -84,7 +84,10 @@ The following playbooks are avaiable in [playbooks](./playbooks) directory:
 | mqtt-session | yml | apply-config.sh *host_or_group_name* mqtt-session yml/mqtt-session.yml | |
 | rdp | yml | apply-config.sh *host_or_group_name* rdp yml/rdp.yml | |
 | dmr-cluster | yml | apply-config.sh *host_or_group_name* dmr-cluster | |
-| replicated-topic | yml | apply-config.sh *host_or_group_name* replicated-topic yml/replicated-topic.yml | Planned |
+| dr-switch | yml | dr-switch.sh *active_host* *standby_host* yml/dr-vpns.yml apply | |
+| dr-switch-to-standby | yml | dr-active-to-standby.sh *active_host* yml/dr-vpns.yml apply | |
+| dr-switch-to-active | yml | dr-standby-to-active.sh *standby_host* yml/dr-vpns.yml apply | |
+| replicated-topic | yml | apply-config.sh *host_or_group_name* replicated-topic yml/replicated-topic.yml | |
 | msg-vpn-csv  | csv | apply-config.sh *host_or_group_name* msg-vpn-csv csv/msg-vpn.csv | |
 | acl-profile-csv | csv | apply-config.sh *host_or_group_name* acl-profile-csv csv/acl-profile.csv | |
 | client-profile-csv | csv | apply-config.sh *host_or_group_name* client-profile-csv csv/client-profile.csv | |
@@ -171,6 +174,27 @@ The hosts in the inventory files should have these additional variables:
 | internal_link | cluster_link_msg_vpn | appliance,software | Message VPN for DMR Cluster Link |
 | internal_link | cluster_link_service_address | appliance,software | Solace SMF service IP/Hostname |
 | internal_link | cluster_link_service_port | appliance,software | Solace SMF service port (Secure) |
+
+## Switching VPNs Between Replicating Brokers
+Use one of the shell scripts:
+1. Complete steps for switching VPNs between replicating brokers:
+```
+./dr-switch.sh <active-host> <standby-host> <input-file> <apply|check> [vault password]
+```
+2. Set active VPNs to standby:
+```
+./dr-active-to-standby.sh <active-host> <input-file> <apply|check> [vault password]
+```
+3. Set standby VPNs to active:
+```
+./dr-standby-to-active.sh <standby-host> <input-file> <apply|check> [vault password]
+```
+**Description**:
+- **active-host**: Solace broker with active VPNs. Broker name must be configured at [inventory/solace_hosts](./inventory/solace_hosts)
+- **standby-host**: Solace broker with standby VPNs. Broker name must be configured at [inventory/solace_hosts](./inventory/solace_hosts)
+- **input-file**: input file relative path from [input](./input) directory. Example: `yml/dr-vpn_vars.yml` will obtain input file at `input/yml/dr-vpn_vars.yml`
+- **apply|check**: instruction type for the script. Type `check` to search VPNs in broker without executing the tasks, or type `apply` to execute the tasks
+- **vault-password**: ansible vault password for decrypt encrypted configurations
 
 ## Author
 Paulus Gunadi

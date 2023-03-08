@@ -1,0 +1,32 @@
+---
+- name: Get Active VPNs
+  solace_get_vpns:
+    query_params:
+      where:
+      - "msgVpnName!=#*"
+      - "msgVpnName=={{ item.msg_vpn }}"
+      - "enabled==true"
+      - "replicationEnabled==true"
+      - "replicationRole==active"
+      select:
+      - "msgVpnName"
+  ignore_errors: yes
+  loop: "{{ vpns }}"
+  register: active_vpns
+
+# - name: Get Active VPNs Result
+#   debug:
+#     msg: "{{ active_vpns }}"
+  
+- name: Set Active VPNs Variable
+  vars:
+    target_vpns: []
+  set_fact: 
+    target_vpns: "{{ [target_vpns, item.result_list] | select() | flatten }}"
+  when: item.result_list_count > 0
+  loop: "{{ active_vpns.results }}"
+
+- name: Get Target VPNs Result
+  ignore_errors: yes
+  debug:
+    msg: "{{ target_vpns }}"

@@ -1,0 +1,10 @@
+---
+- name: Get VPNs
+  import_tasks: get-vpns.yml
+  tags:
+  - apply
+  - check
+- name: Set VPNs Active
+  import_tasks: set-vpns-active.yml
+  tags:
+  - apply

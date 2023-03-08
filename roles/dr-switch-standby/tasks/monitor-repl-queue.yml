@@ -1,0 +1,22 @@
+---
+- name: "Monitor Replication Queue"
+  solace_get_queues:
+    api: monitor
+    msg_vpn: "{{item.data.msgVpnName}}"
+    query_params:
+        where:
+        - "queueName==#MSGVPN_REPLICATION_DATA_QUEUE"
+        - "txMsgRate>0"
+        select:
+        - msgVpnName
+        - txMsgRate
+  until: "pending_repl_queues.result_list_count == 0"
+  retries: 12
+  delay: 5
+  ignore_errors: yes
+  loop: "{{ target_vpns }}"
+  register: pending_repl_queues
+
+# - name: Monitor Replication Queue Result
+#   debug:
+#     msg: "{{ pending_repl_queues }}"

@@ -5,7 +5,7 @@
     queue_name: "{{item.0.name+'%03d' | format(item.1) }}"
     subscription_topics: "{{ item.0.subscription_topics | default([])}}"
     state: exactly
-  when: (item.0.state is undefined) or (item.0.state is defined and item.0.state != "absent")
+  when: ((item.0.state is undefined) or (item.0.state is defined and item.0.state != "absent")) and item.0.subscription_topics is defined
   loop: "{{ queues | product(range(start_number, end_number + 1))|list }}"
   register: qsl_output
 
