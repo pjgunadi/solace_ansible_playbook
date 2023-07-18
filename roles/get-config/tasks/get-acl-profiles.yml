@@ -9,6 +9,7 @@
     query_params:
         where:
           - "aclProfileName!=#*"
+          - "aclProfileName=={{ search_filter | default('*')}}"
   register: result
 
 - name: "Get ACL Client Connect Exceptions"

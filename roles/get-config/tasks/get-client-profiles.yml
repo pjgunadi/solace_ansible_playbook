@@ -9,6 +9,7 @@
     query_params:
         where:
           - "clientProfileName!=#*"
+          - "clientProfileName=={{ search_filter | default('*')}}"
   register: result
 
 # - name: Debug Result

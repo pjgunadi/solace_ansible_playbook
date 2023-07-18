@@ -6,6 +6,9 @@
 - name: "Get {{ output_object }}"
   solace_get_rdps:
     msg_vpn: "{{msg_vpn}}"
+    query_params:
+      where:
+      - "restDeliveryPointName=={{ search_filter | default('*')}}"
   register: result
 
 - name: "Get Queue Bindings"

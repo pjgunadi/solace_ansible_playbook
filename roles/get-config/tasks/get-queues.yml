@@ -9,6 +9,7 @@
     query_params:
         where:
           - "queueName!=#*"
+          - "queueName=={{ search_filter | default('*')}}"
   register: result
 
 - name: "Get Queue Subscriptions"

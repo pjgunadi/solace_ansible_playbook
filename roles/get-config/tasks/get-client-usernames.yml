@@ -9,6 +9,7 @@
     query_params:
         where:
           - "clientUsername!=#*"
+          - "clientUsername=={{ search_filter | default('*')}}"
   register: result
 
 - name: Export {{ output_object }}

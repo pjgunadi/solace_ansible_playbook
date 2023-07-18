@@ -9,6 +9,7 @@
     query_params:
         where:
           - "bridgeName!=#*"
+          - "bridgeName=={{ search_filter | default('*')}}"
   register: result
 
 - name: "Get Remote Message VPNs"

@@ -6,6 +6,9 @@
 - name: "Get {{ output_object }}"
   solace_get_mqtt_sessions:
     msg_vpn: "{{msg_vpn}}"
+    query_params:
+      where:
+      - "mqttSessionClientId=={{ search_filter | default('*')}}"
   register: result
 
 - name: "Get {{ output_object }} Subscriptions"

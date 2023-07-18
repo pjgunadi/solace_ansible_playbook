@@ -9,6 +9,7 @@
     query_params:
         where:
           - "topicEndpointName!=#*"
+          - "topicEndpointName=={{ search_filter | default('*')}}"
   register: result
 
 - name: Export {{ output_object }}
